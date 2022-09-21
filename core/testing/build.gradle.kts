@@ -3,7 +3,6 @@ plugins {
   id(BuildPlugins.KOTLIN_ANDROID_PLUGIN)
   id(BuildPlugins.KOTLIN_PARCELABLE_PLUGIN)
   id(BuildPlugins.KOTLIN_KAPT)
-  id(BuildPlugins.DAGGER_HILT)
 }
 
 android {
@@ -18,8 +17,8 @@ android {
     getByName("release") {
       isMinifyEnabled = false
       proguardFiles(
-          getDefaultProguardFile("proguard-android.txt"), "proguard-common.txt",
-          "proguard-specific.txt"
+        getDefaultProguardFile("proguard-android.txt"), "proguard-common.txt",
+        "proguard-specific.txt"
       )
     }
   }
@@ -59,21 +58,8 @@ kapt {
 }
 
 dependencies {
-
-  implementation(project(":core:domain"))
-
   /* Android Designing and layout */
   implementation(Lib.Android.MATERIAL_DESIGN)
-
-  /* Room */
-  implementation(Lib.Room.roomRuntime)
-  kapt(Lib.Room.roomCompiler)
-  implementation(Lib.Room.roomKtx)
-  implementation(Lib.Room.roomPaging)
-
-  /* Dependency Injection */
-  api(Lib.Di.hiltAndroid)
-  kapt(Lib.Di.hiltAndroidCompiler)
 
   /* Testing */
   testImplementation(TestLib.JUNIT)

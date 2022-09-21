@@ -61,6 +61,8 @@ kapt {
 
 dependencies {
 
+  //implementation(project(":core:data"))
+  implementation(project(":core:domain"))
   implementation(project(":core:navigation"))
 
   /* Android Designing and layout */

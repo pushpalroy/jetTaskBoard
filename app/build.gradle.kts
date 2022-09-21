@@ -68,16 +68,15 @@ kapt {
 
 dependencies {
   implementation(project(":feature:dashboard"))
-  //implementation(project(":feature:taskboard"))
-  //implementation(project(":feature:card"))
-  //implementation(project(":feature:settings"))
+  implementation(project(":feature:card"))
 
-  //implementation(project(":core:ui"))
+  implementation(project(":core:data"))
+  implementation(project(":core:domain"))
   implementation(project(":core:designsystem"))
   implementation(project(":core:navigation"))
 
   implementation("androidx.tracing:tracing-ktx:1.1.0")
-  
+
   /* Android Designing and layout */
   implementation(Lib.Android.COMPOSE_LIVEDATA)
   implementation(Lib.Android.COMPOSE_NAVIGATION)

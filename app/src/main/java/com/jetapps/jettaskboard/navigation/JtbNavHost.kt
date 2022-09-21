@@ -43,5 +43,6 @@ fun JtbNavHost(
     modifier = modifier,
   ) {
     dashboardGraph()
+    cardGraph()
   }
 }
