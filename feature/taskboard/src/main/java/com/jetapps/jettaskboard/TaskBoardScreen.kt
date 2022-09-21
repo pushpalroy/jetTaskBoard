@@ -1,5 +1,6 @@
 package com.jetapps.jettaskboard
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
@@ -21,11 +22,13 @@ fun TaskBoardRoute(
     modifier = modifier.fillMaxSize(),
     color = MaterialTheme.colors.background
   ) {
-    Button(
-      modifier = Modifier.padding(16.dp),
-      onClick = onBackClick
-    ) {
-      Text(text = "Go to back to dash board")
+    Box {
+      Button(
+        modifier = Modifier.padding(16.dp),
+        onClick = onBackClick
+      ) {
+        Text(text = "Go to back to dash board")
+      }
     }
   }
 }
