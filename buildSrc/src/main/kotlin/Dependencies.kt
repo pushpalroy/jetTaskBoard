@@ -27,7 +27,6 @@ object Lib {
     private const val KTX_CORE_VERSION = "1.7.0"
     const val KT_STD = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${KOTLIN_VERSION}"
     const val KTX_CORE = "androidx.core:core-ktx:${KTX_CORE_VERSION}"
-    const val DATE_TIME = "org.jetbrains.kotlinx:kotlinx-datetime:0.3.2"
   }
 
   object Android {
@@ -38,7 +37,6 @@ object Lib {
     private const val COMPOSE_NAVIGATION_VERSION = "2.5.0-alpha01"
     private const val COMPOSE_COIL_VERSION = "2.1.0"
     private const val ACCOMPANIST_VERSION = "0.24.13-rc"
-    private const val MATERIAL_EXTENDED_ICONS_VERSION = COMPOSE_VERSION
 
     const val APP_COMPAT = "androidx.appcompat:appcompat:1.4.1"
 
@@ -56,7 +54,6 @@ object Lib {
     const val ACCOMPANIST_INSETS = "com.google.accompanist:accompanist-insets:${ACCOMPANIST_VERSION}"
     const val ACCOMPANIST_INSETS_UI = "com.google.accompanist:accompanist-insets-ui:${ACCOMPANIST_VERSION}"
     const val ACCOMPANIST_COIL = "com.google.accompanist:accompanist-coil:0.14.0"
-    const val MATERIAL_EXTENDED_ICONS = "androidx.compose.material:material-icons-extended:$COMPOSE_VERSION"
     const val COMPOSE_JUNIT = "androidx.compose.ui:ui-test-junit4:$COMPOSE_VERSION"
     const val COMPOSE_TEST_MANIFEST = "androidx.compose.ui:ui-test-manifest:$COMPOSE_VERSION"
 
@@ -71,17 +68,6 @@ object Lib {
     const val hiltCompiler = "androidx.hilt:hilt-compiler:1.0.0"
     const val hiltNavigationCompose = "androidx.hilt:hilt-navigation-compose:1.0.0"
     const val hiltCore = "com.google.dagger:hilt-core:$DAGGER_VERSION"
-  }
-
-  object Paging {
-    private const val PAGING_VERSION = "3.1.0"
-    const val PAGING_3 = "androidx.paging:paging-runtime:${PAGING_VERSION}"
-    const val PAGING_COMPOSE = "androidx.paging:paging-compose:1.0.0-alpha14"
-  }
-
-  object Jsoup {
-    private const val JSOUP_VERSION = "1.13.1"
-    const val JSOUP = "org.jsoup:jsoup:${JSOUP_VERSION}"
   }
 
   object Room {
@@ -121,11 +107,6 @@ object Lib {
     private const val TIMBER_VERSION = "5.0.1"
     const val TIMBER = "com.jakewharton.timber:timber:${TIMBER_VERSION}"
   }
-
-  object Lottie {
-    private const val LOTTIE_VERSION = "5.2.0"
-    const val lottieCompose = "com.airbnb.android:lottie-compose:${LOTTIE_VERSION}"
-  }
 }
 
 object TestLib {
@@ -145,11 +126,4 @@ object TestLib {
   const val ANDROID_JUNIT = "androidx.test.ext:junit:${ANDROID_JUNIT_VERSION}"
   const val ARCH_CORE = "androidx.arch.core:core-testing:${ARCH_CORE_VERSION}"
   const val MOCKK = "io.mockk:mockk:1.10.5"
-  const val NAVIGATION_TESTING = "androidx.navigation:navigation-testing:$nav_version"
-  const val TURBINE = "app.cash.turbine:turbine:0.7.0"
-}
-
-object DebugLib {
-  private const val LEAK_CANARY_VERSION = "2.3"
-  const val LEAK_CANARY = "com.squareup.leakcanary:leakcanary-android:${LEAK_CANARY_VERSION}"
 }

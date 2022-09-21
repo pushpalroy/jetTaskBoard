@@ -104,8 +104,6 @@ dependencies {
   implementation(Lib.Room.roomKtx)
   implementation(Lib.Room.roomPaging)
 
-  implementation(Lib.Lottie.lottieCompose)
-
   /*Testing*/
   testImplementation(TestLib.JUNIT)
   testImplementation(TestLib.CORE_TEST)
