@@ -18,7 +18,7 @@ package com.jetapps.jettaskboard.navigation
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.jetapps.jettaskboard.DashboardRoute
+import com.jetapps.jettaskboard.presentation.DashboardRoute
 import com.jetapps.jettaskboard.JtbNavigationDestination
 
 object DashboardDestination : JtbNavigationDestination {
