@@ -69,6 +69,7 @@ kapt {
 dependencies {
   implementation(project(":feature:dashboard"))
   implementation(project(":feature:card"))
+  implementation(project(":feature:taskboard"))
 
   implementation(project(":core:data"))
   implementation(project(":core:domain"))

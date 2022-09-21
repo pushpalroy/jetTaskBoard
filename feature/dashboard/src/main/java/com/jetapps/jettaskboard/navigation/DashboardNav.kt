@@ -18,16 +18,32 @@ package com.jetapps.jettaskboard.navigation
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import androidx.navigation.navigation
 import com.jetapps.jettaskboard.DashboardRoute
-import com.jetapps.jettaskboard.JtbNavigationDestination
+import com.jetapps.jettaskboard.JtbNavDestination
 
-object DashboardDestination : JtbNavigationDestination {
+object DashboardDestination : JtbNavDestination {
   override val route = "dashboard_route"
   override val destination = "dashboard_destination"
 }
 
-fun NavGraphBuilder.dashboardGraph() {
-  composable(route = DashboardDestination.route) {
-    DashboardRoute()
+fun NavGraphBuilder.dashboardGraph(
+  navigateToTaskBoard: (String) -> Unit,
+  navigateToCreateCard: (String) -> Unit,
+  navigateToCreateBoard: (String) -> Unit,
+  nestedGraphs: NavGraphBuilder.() -> Unit
+) {
+  navigation(
+    route = DashboardDestination.route,
+    startDestination = DashboardDestination.destination
+  ) {
+    composable(route = DashboardDestination.destination) {
+      DashboardRoute(
+        navigateToTaskBoard = navigateToTaskBoard,
+        navigateToCreateCard = navigateToCreateCard,
+        navigateToCreateBoard = navigateToCreateBoard
+      )
+    }
+    nestedGraphs()
   }
 }

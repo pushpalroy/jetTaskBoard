@@ -20,19 +20,19 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.jetapps.jettaskboard.CardDetailsRoute
 import com.jetapps.jettaskboard.CreateCardRoute
-import com.jetapps.jettaskboard.JtbNavigationDestination
+import com.jetapps.jettaskboard.JtbNavDestination
 
-object CreateCardDestination : JtbNavigationDestination {
+object CreateCardDestination : JtbNavDestination {
   override val route = "create_card_route"
   override val destination = "create_card_destination"
 }
 
-object CardDetailsDestination : JtbNavigationDestination {
+object CardDetailsDestination : JtbNavDestination {
   override val route = "card_details_route"
   override val destination = "card_details_destination"
 }
 
-fun NavGraphBuilder.cardGraph() {
+fun NavGraphBuilder.cardGraph(onBackClick: () -> Unit) {
   composable(route = CreateCardDestination.route) {
     CreateCardRoute()
   }

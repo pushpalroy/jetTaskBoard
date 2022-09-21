@@ -20,7 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.jetapps.jettaskboard.JtbNavigationDestination
+import com.jetapps.jettaskboard.JtbNavDestination
 
 /**
  * Top-level navigation graph. Navigation is organized as explained at
@@ -32,7 +32,7 @@ import com.jetapps.jettaskboard.JtbNavigationDestination
 @Composable
 fun JtbNavHost(
   navController: NavHostController,
-  onNavigateToDestination: (JtbNavigationDestination, String) -> Unit,
+  onNavigateToDestination: (JtbNavDestination, String) -> Unit,
   onBackClick: () -> Unit,
   modifier: Modifier = Modifier,
   startDestination: String = DashboardDestination.route
@@ -42,7 +42,21 @@ fun JtbNavHost(
     startDestination = startDestination,
     modifier = modifier,
   ) {
-    dashboardGraph()
-    cardGraph()
+    dashboardGraph(
+      navigateToTaskBoard = {
+        onNavigateToDestination(
+          TaskBoardDestination, TaskBoardDestination.route
+        )
+      },
+      navigateToCreateCard = {
+        onNavigateToDestination(
+          CardDetailsDestination, CardDetailsDestination.route
+        )
+      },
+      navigateToCreateBoard = {}
+    ) {
+      taskBoardGraph(onBackClick)
+      cardGraph(onBackClick)
+    }
   }
 }

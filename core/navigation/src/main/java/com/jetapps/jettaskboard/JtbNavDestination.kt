@@ -20,7 +20,7 @@ package com.jetapps.jettaskboard
  * Interface for describing the JetTaskBoard navigation destinations
  */
 
-interface JtbNavigationDestination {
+interface JtbNavDestination {
     /**
      * Defines a specific route this destination belongs to.
      * Route is a String that defines the path to your composable.
