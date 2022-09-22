@@ -117,4 +117,7 @@ dependencies {
   testImplementation(TestLib.MOCKK)
   androidTestImplementation(Lib.Android.COMPOSE_JUNIT)
   debugImplementation(Lib.Android.COMPOSE_TEST_MANIFEST)
+
+  implementation(Lib.Android.CONSTRAINT_LAYOUT)
+  implementation(Lib.Android.COMPOSE_CALENDAR)
 }

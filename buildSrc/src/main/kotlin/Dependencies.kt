@@ -58,6 +58,10 @@ object Lib {
     const val COMPOSE_TEST_MANIFEST = "androidx.compose.ui:ui-test-manifest:$COMPOSE_VERSION"
 
     const val PROFILE_INSTALLER = "androidx.profileinstaller:profileinstaller:1.2.0"
+
+    // Constraint layout
+    const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout-compose:1.0.1"
+    const val COMPOSE_CALENDAR =  "com.squaredem:composecalendar:1.0.0"
   }
 
   object Di {
