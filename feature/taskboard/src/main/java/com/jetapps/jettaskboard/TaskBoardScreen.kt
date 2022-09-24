@@ -16,6 +16,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 fun TaskBoardRoute(
   onBackClick: () -> Unit,
   modifier: Modifier = Modifier,
+  isExpandedScreen: Boolean,
   viewModel: TaskBoardViewModel = hiltViewModel()
 ) {
   Surface(

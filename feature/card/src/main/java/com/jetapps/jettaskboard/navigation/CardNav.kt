@@ -32,11 +32,11 @@ object CardDetailsDestination : JtbNavDestination {
   override val destination = "card_details_destination"
 }
 
-fun NavGraphBuilder.cardGraph(onBackClick: () -> Unit) {
+fun NavGraphBuilder.cardGraph(isExpandedScreen: Boolean, onBackClick: () -> Unit) {
   composable(route = CreateCardDestination.route) {
-    CreateCardRoute()
+    CreateCardRoute(isExpandedScreen)
   }
   composable(route = CardDetailsDestination.route) {
-    CardDetailsRoute()
+    CardDetailsRoute(isExpandedScreen)
   }
 }

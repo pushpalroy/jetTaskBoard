@@ -19,6 +19,7 @@ import com.jetapps.jettaskboard.uimodel.CardDetail
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun CardDetailsRoute(
+    isExpandedScreen: Boolean,
     modifier: Modifier = Modifier,
     viewModel: CardViewModel = hiltViewModel()
 ) {
@@ -31,10 +32,12 @@ fun CardDetailsRoute(
         val scrollState = rememberScrollState()
         Scaffold(
             topBar = {
-                MotionTopBar(scrollState = scrollState, cardModel.coverImageUrl, cardModel.title)
-
-            }) {
-            CardDetailsContent(scrollState, CardDetail())
+                if (!isExpandedScreen) {
+                    MotionTopBar(scrollState = scrollState, isExpandedScreen, cardModel.coverImageUrl, cardModel.title)
+                }
+            }
+        ) {
+            CardDetailsContent(scrollState, isExpandedScreen, CardDetail())
         }
     }
 }

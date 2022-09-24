@@ -41,7 +41,7 @@ import com.jetapps.jettaskboard.feature.card.R
 
 @OptIn(ExperimentalMotionApi::class)
 @Composable
-fun MotionTopBar(scrollState: ScrollState, coverImageUrl: String?, title: String?) {
+fun MotionTopBar(scrollState: ScrollState, isExpandedScreen: Boolean ,coverImageUrl: String?, title: String?) {
 
     val context = LocalContext.current
     val motionScene = remember {

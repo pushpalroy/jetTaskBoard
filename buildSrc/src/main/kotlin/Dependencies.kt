@@ -56,6 +56,8 @@ object Lib {
     const val ACCOMPANIST_COIL = "com.google.accompanist:accompanist-coil:0.14.0"
     const val COMPOSE_JUNIT = "androidx.compose.ui:ui-test-junit4:$COMPOSE_VERSION"
     const val COMPOSE_TEST_MANIFEST = "androidx.compose.ui:ui-test-manifest:$COMPOSE_VERSION"
+    const val COMPOSE_WINDOW_MATRICES = "androidx.window:window:1.0.0"
+
 
     const val PROFILE_INSTALLER = "androidx.profileinstaller:profileinstaller:1.2.0"
 

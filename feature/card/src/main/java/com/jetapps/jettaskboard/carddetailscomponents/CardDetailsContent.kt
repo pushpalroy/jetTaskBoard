@@ -52,7 +52,7 @@ import com.squaredem.composecalendar.ComposeCalendar
 import java.time.LocalDate
 
 @Composable
-fun CardDetailsContent(scrollState: ScrollState, cardDetails: CardDetail) {
+fun CardDetailsContent(scrollState: ScrollState, isExpandedScreen: Boolean, cardDetails: CardDetail) {
 
     val configuration = LocalConfiguration.current
 
