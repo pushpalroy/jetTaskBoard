@@ -1,4 +1,4 @@
-package com.example.trelloclonelist.carddetailscomponents
+package com.jetapps.jettaskboard.carddetailscomponents
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState

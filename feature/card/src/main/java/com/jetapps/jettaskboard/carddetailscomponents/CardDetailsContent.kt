@@ -1,4 +1,4 @@
-package com.example.trelloclonelist.carddetailscomponents
+package com.jetapps.jettaskboard.carddetailscomponents
 
 import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
@@ -40,24 +40,32 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jetapps.jettaskboard.feature.card.R
+import com.jetapps.jettaskboard.theme.LabelBlue
+import com.jetapps.jettaskboard.theme.LabelGreen
+import com.jetapps.jettaskboard.theme.LabelOrange
+import com.jetapps.jettaskboard.theme.LabelPeach
+import com.jetapps.jettaskboard.theme.LabelViolet
+import com.jetapps.jettaskboard.theme.LabelYellow
+import com.jetapps.jettaskboard.uimodel.CardDetail
+import com.jetapps.jettaskboard.uimodel.LabelColor
 import com.squaredem.composecalendar.ComposeCalendar
 import java.time.LocalDate
 
 @Composable
-fun CardDetailsContent(scrollState: ScrollState) {
+fun CardDetailsContent(scrollState: ScrollState, cardDetails: CardDetail) {
 
     val configuration = LocalConfiguration.current
 
     Column(modifier = Modifier.verticalScroll(scrollState)) {
         Text(
             modifier = Modifier.padding(16.dp),
-            text = "BackLog",
+            text = cardDetails.title ?: "Backlog",
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold
         )
         Text(
             modifier = Modifier.padding(horizontal = 16.dp),
-            text = "Praxis in list Backlog",
+            text = "${(cardDetails.boardName) ?: "Praxis"} in list ${(cardDetails.listName) ?: "Backlog"}",
             fontSize = 16.sp,
         )
         Spacer(modifier = Modifier.height(16.dp))
@@ -68,30 +76,31 @@ fun CardDetailsContent(scrollState: ScrollState) {
 
         Divider()
 
-        EditTextCard()
+        EditTextCard(description = cardDetails.description)
 
         LabelRow()
 
-        ItemRow(leadingIcon = Icons.Outlined.Person, text = "Members...")
+        val members by remember { mutableStateOf(cardDetails.authorName ?: "Members...") }
+        ItemRow(leadingIcon = Icons.Outlined.Person, text = members)
 
 
         val showCalendar = rememberSaveable { mutableStateOf(false) }
         val isTopText = rememberSaveable { mutableStateOf(false) }
         val isBottomText = rememberSaveable { mutableStateOf(false) }
 
-        val topText = rememberSaveable {
-            mutableStateOf("Start Date...")
+        val startDateText = rememberSaveable {
+            mutableStateOf(cardDetails.startDate ?: "Start Date...")
         }
 
-        val bottomText = rememberSaveable {
-            mutableStateOf("Due Date...")
+        val dueDateText = rememberSaveable {
+            mutableStateOf(cardDetails.dueDate ?: "Due Date...")
         }
 
         TimeItemRow(
             modifier = Modifier,
             icon = R.drawable.ic_time,
-            topText = topText.value,
-            bottomText = bottomText.value,
+            topText = startDateText.value,
+            bottomText = dueDateText.value,
             onTopTextClick = {
                 showCalendar.value = !showCalendar.value
                 isTopText.value = true
@@ -109,10 +118,10 @@ fun CardDetailsContent(scrollState: ScrollState) {
                         // Hide dialog
                         showCalendar.value = false
                         // Do something with the date
-                        if (isTopText.value) topText.value = "Starts on ${it.dayOfMonth} ${
+                        if (isTopText.value) startDateText.value = "Starts on ${it.dayOfMonth} ${
                             (it.month).toString().lowercase()
                         }, ${it.year}"
-                        if (isBottomText.value) bottomText.value = "Due on ${it.dayOfMonth} ${
+                        if (isBottomText.value) dueDateText.value = "Due on ${it.dayOfMonth} ${
                             (it.month).toString().lowercase()
                         }, ${it.year}"
                     },
@@ -136,9 +145,7 @@ fun CardDetailsContent(scrollState: ScrollState) {
             Configuration.ORIENTATION_PORTRAIT -> {
                 Spacer(modifier = Modifier.height(600.dp))
             }
-            else -> {
-
-            }
+            else -> {}
         }
 
     }
@@ -149,11 +156,12 @@ fun LabelRow() {
     var isClicked by remember { mutableStateOf(false) }
     val labels = remember {
         mutableStateListOf(
-            LabelColor(Color(0x89ABE3FF)),
-            LabelColor(Color(0xADEFD1FF)),
-            LabelColor(Color(0x80203FFF)),
-            LabelColor(Color(0xFFD662FF)),
-            LabelColor(Color(0xE69A8DFF)),
+            LabelColor(LabelGreen),
+            LabelColor(LabelYellow),
+            LabelColor(LabelPeach),
+            LabelColor(LabelOrange),
+            LabelColor(LabelViolet),
+            LabelColor(LabelBlue),
         )
     }
 

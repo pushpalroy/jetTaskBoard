@@ -1,4 +1,4 @@
-package com.example.trelloclonelist.carddetailscomponents
+package com.jetapps.jettaskboard.carddetailscomponents
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
@@ -21,8 +21,8 @@ import androidx.compose.ui.unit.dp
 import com.jetapps.jettaskboard.feature.card.R
 
 @Composable
-fun EditTextCard() {
-    var inputvalue by remember { mutableStateOf(TextFieldValue()) }
+fun EditTextCard(description: String?) {
+    var inputvalue by remember { mutableStateOf(TextFieldValue(description ?: "")) }
 
 
     Row(modifier = Modifier.fillMaxWidth()) {

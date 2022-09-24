@@ -1,4 +1,4 @@
-package com.example.trelloclonelist.carddetailscomponents
+package com.jetapps.jettaskboard.uimodel
 
 import androidx.compose.ui.graphics.Color
 

@@ -64,6 +64,7 @@ dependencies {
   implementation(project(":core:domain"))
   
   implementation(project(":core:navigation"))
+  implementation(project(":core:designsystem"))
 
   /* Android Designing and layout */
   implementation(Lib.Android.COMPOSE_LIVEDATA)

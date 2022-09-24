@@ -1,4 +1,4 @@
-package com.example.trelloclonelist.carddetailscomponents
+package com.jetapps.jettaskboard.carddetailscomponents
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
@@ -41,7 +41,7 @@ import com.jetapps.jettaskboard.feature.card.R
 
 @OptIn(ExperimentalMotionApi::class)
 @Composable
-fun MotionTopBar(scrollState: ScrollState) {
+fun MotionTopBar(scrollState: ScrollState, coverImageUrl: String?, title: String?) {
 
     val context = LocalContext.current
     val motionScene = remember {
@@ -51,12 +51,12 @@ fun MotionTopBar(scrollState: ScrollState) {
     }
 
     val progress by animateFloatAsState(
-        targetValue = if (scrollState.value in 0..4) 0f else 1f,
+        targetValue = if (scrollState.value in 0..4 && coverImageUrl != null) 0f else 1f,
         tween(300)
     )
 
     val motionHeight by animateDpAsState(
-        targetValue = if (scrollState.value in 0..4) 180.dp else 56.dp,
+        targetValue = if (scrollState.value in 0..4 && coverImageUrl != null) 180.dp else 56.dp,
         tween(300)
     )
 
@@ -75,32 +75,36 @@ fun MotionTopBar(scrollState: ScrollState) {
                     .background(color = Color.Black)
             )
 
-            Image(
-                painter = painterResource(id = R.drawable.backlog),
-                contentDescription = "Backlog",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(180.dp)
-                    .layoutId("bg_image")
-            )
+            if (coverImageUrl != null) {
+                Image(
+                    painter = painterResource(id = R.drawable.backlog),
+                    contentDescription = "Backlog",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(180.dp)
+                        .layoutId("bg_image")
+                )
 
-            Box(
-                modifier = Modifier
-                    .layoutId("box_shadow")
-                    .background(
-                        brush = Brush.verticalGradient(
-                            startY = 0f,
-                            endY = 180f,
-                            colors = listOf(
-                                Color.Black.copy(
-                                    alpha = .3f
-                                ),
-                                Color.Transparent,
+                Box(
+                    modifier = Modifier
+                        .layoutId("box_shadow")
+                        .background(
+                            brush = Brush.verticalGradient(
+                                startY = 0f,
+                                endY = 180f,
+                                colors = listOf(
+                                    Color.Black.copy(
+                                        alpha = .3f
+                                    ),
+                                    Color.Transparent,
+                                )
                             )
                         )
-                    )
-            )
+                )
+            }
+
+
 
             Icon(
                 imageVector = Icons.Default.Close,

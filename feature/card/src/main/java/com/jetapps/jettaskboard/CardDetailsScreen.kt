@@ -7,10 +7,14 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.trelloclonelist.carddetailscomponents.CardDetailsContent
-import com.example.trelloclonelist.carddetailscomponents.MotionTopBar
+import com.jetapps.jettaskboard.carddetailscomponents.CardDetailsContent
+import com.jetapps.jettaskboard.carddetailscomponents.MotionTopBar
+import com.jetapps.jettaskboard.uimodel.CardDetail
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -22,15 +26,15 @@ fun CardDetailsRoute(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
     ) {
+        val cardModel by remember { mutableStateOf(CardDetail(coverImageUrl = "fsd")) }
 
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colors.background
-        ) {
-            val scrollState = rememberScrollState()
-            Scaffold(topBar = { MotionTopBar(scrollState = scrollState) }) {
-                CardDetailsContent(scrollState)
-            }
+        val scrollState = rememberScrollState()
+        Scaffold(
+            topBar = {
+                MotionTopBar(scrollState = scrollState, cardModel.coverImageUrl, cardModel.title)
+
+            }) {
+            CardDetailsContent(scrollState, CardDetail())
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.trelloclonelist.carddetailscomponents
+package com.jetapps.jettaskboard.carddetailscomponents
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
