@@ -62,6 +62,7 @@ kapt {
 dependencies {
 
   implementation(project(":core:navigation"))
+  implementation(project(":core:ui"))
 
   /* Android Designing and layout */
   implementation(Lib.Android.COMPOSE_LIVEDATA)

@@ -60,6 +60,7 @@ kapt {
 dependencies {
   /* Android Designing and layout */
   implementation(Lib.Android.MATERIAL_DESIGN)
+  implementation(Lib.Android.COMPOSE_UI_UTIL)
 
   /* Testing */
   testImplementation(TestLib.JUNIT)

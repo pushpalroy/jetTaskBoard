@@ -45,6 +45,7 @@ object Lib {
     const val CONSTRAINT_LAYOUT_COMPOSE = "androidx.constraintlayout:constraintlayout-compose:${COMPOSE_CONSTRAINT_LAYOUT_VERSION}"
     const val COMPOSE_TOOLING = "androidx.compose.ui:ui-tooling:${COMPOSE_VERSION}"
     const val COMPOSE_TOOLING_PREVIEW = "androidx.compose.ui:ui-tooling-preview:${COMPOSE_VERSION}"
+    const val COMPOSE_UI_UTIL = "androidx.compose.ui:ui-util:${COMPOSE_VERSION}"
     const val ACCOMPANIST_SYSTEM_UI_CONTROLLER = "com.google.accompanist:accompanist-systemuicontroller:${ACCOMPANIST_VERSION}"
     const val ACCOMPANIST_FLOW_LAYOUTS = "com.google.accompanist:accompanist-flowlayout:${ACCOMPANIST_VERSION}"
     const val COIL_COMPOSE = "io.coil-kt:coil-compose:${COMPOSE_COIL_VERSION}"
