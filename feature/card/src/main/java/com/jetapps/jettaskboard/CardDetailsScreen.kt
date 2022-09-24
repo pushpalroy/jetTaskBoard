@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.jetapps.jettaskboard.carddetailscomponents.CardDetailsContent
 import com.jetapps.jettaskboard.carddetailscomponents.MotionTopBar
+import com.jetapps.jettaskboard.carddetailscomponents.expanded.ExpandedCardDetailsContent
 import com.jetapps.jettaskboard.uimodel.CardDetail
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -32,12 +33,19 @@ fun CardDetailsRoute(
         val scrollState = rememberScrollState()
         Scaffold(
             topBar = {
-                if (!isExpandedScreen) {
-                    MotionTopBar(scrollState = scrollState, isExpandedScreen, cardModel.coverImageUrl, cardModel.title)
-                }
+                MotionTopBar(
+                    scrollState = scrollState,
+                    isExpandedScreen,
+                    cardModel.coverImageUrl,
+                    cardModel.title
+                )
+
             }
         ) {
-            CardDetailsContent(scrollState, isExpandedScreen, CardDetail())
+            if (!isExpandedScreen)
+                CardDetailsContent(scrollState, isExpandedScreen, CardDetail())
+            else
+                ExpandedCardDetailsContent(scrollState, CardDetail())
         }
     }
 }

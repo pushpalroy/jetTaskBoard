@@ -3,6 +3,7 @@ package com.jetapps.jettaskboard.carddetailscomponents
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -21,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import com.jetapps.jettaskboard.feature.card.R
 
 @Composable
-fun EditTextCard(description: String?) {
+fun EditTextCard(description: String?, isExpanded: Boolean = false) {
     var inputvalue by remember { mutableStateOf(TextFieldValue(description ?: "")) }
 
 
@@ -36,6 +37,7 @@ fun EditTextCard(description: String?) {
             modifier = Modifier
                 .background(Color.Transparent)
                 .padding(end = 16.dp)
+                .height(if (isExpanded) {80.dp } else {56.dp})
                 .fillMaxWidth(),
             value = inputvalue,
             onValueChange = {

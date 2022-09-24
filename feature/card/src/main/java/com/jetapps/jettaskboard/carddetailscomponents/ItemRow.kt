@@ -82,11 +82,12 @@ fun TimeItemRow(
     icon: Int,
     topText: String,
     bottomText: String,
-    onTopTextClick: () -> Unit,
-    onBottomTextClick: () -> Unit,
+    onStartDateClick: () -> Unit,
+    onDueDateClick: () -> Unit,
     content: @Composable () -> Unit
 ) {
     Box() {
+
         Column {
             Divider()
 
@@ -100,7 +101,7 @@ fun TimeItemRow(
                     Text(
                         text = topText,
                         modifier = Modifier
-                            .clickable { onTopTextClick() }
+                            .clickable { onStartDateClick() }
                             .padding(vertical = 16.dp)
                             .fillMaxWidth(),
                         textAlign = TextAlign.Start
@@ -111,7 +112,7 @@ fun TimeItemRow(
                     Text(
                         text = bottomText,
                         modifier = Modifier
-                            .clickable { onBottomTextClick() }
+                            .clickable { onDueDateClick() }
                             .padding(vertical = 16.dp)
                             .fillMaxWidth(),
                         textAlign = TextAlign.Start
@@ -122,5 +123,4 @@ fun TimeItemRow(
 
         content()
     }
-
 }

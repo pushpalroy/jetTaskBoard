@@ -51,12 +51,12 @@ fun MotionTopBar(scrollState: ScrollState, isExpandedScreen: Boolean ,coverImage
     }
 
     val progress by animateFloatAsState(
-        targetValue = if (scrollState.value in 0..4 && coverImageUrl != null) 0f else 1f,
+        targetValue = if (scrollState.value in 0..4 && coverImageUrl != null && !isExpandedScreen) 0f else 1f,
         tween(300)
     )
 
     val motionHeight by animateDpAsState(
-        targetValue = if (scrollState.value in 0..4 && coverImageUrl != null) 180.dp else 56.dp,
+        targetValue = if (scrollState.value in 0..4 && coverImageUrl != null && !isExpandedScreen) 180.dp else 56.dp,
         tween(300)
     )
 
