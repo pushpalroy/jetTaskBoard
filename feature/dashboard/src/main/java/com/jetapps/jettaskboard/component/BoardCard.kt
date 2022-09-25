@@ -33,9 +33,10 @@ fun BoardCardComponent(
     title: String,
     modifier: Modifier = Modifier,
     widthSizeInDp: Dp = 160.dp,
-    backgroundImageUrl: String? = null,
+    backgroundImageUrl: String,
     placeHolderImage: Painter = painterResource(R.drawable.temp_place_holder),
 ) {
+    // Todo : Remove Card : (Review)
     Card(
         modifier = modifier
             .size(widthSizeInDp)
@@ -65,19 +66,11 @@ fun BoardCardComponent(
                 Text(
                     modifier = modifier
                         .padding(14.dp),
-                    text = title, color = Color.White,
+                    text = title,
                     fontStyle = FontStyle.Normal,
                     fontSize = 18.sp
                 )
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun BoardCardPreview() {
-    BoardCardComponent(
-        title = "Elephant"
-    )
 }

@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -27,14 +28,13 @@ fun Header(
     modifier: Modifier,
     title: String,
     showIcon: Boolean = false,
-    icon: ImageVector = Icons.Default.Menu,
+    icon: ImageVector = Icons.Filled.Menu,
     onMenuItemClicked: () -> Unit
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .background(color = Color.Black.copy(alpha = 0.75f)),
-        horizontalArrangement = Arrangement.SpaceEvenly
+            .background(MaterialTheme.colors.background),
     ) {
         Text(
             modifier = modifier
@@ -42,9 +42,8 @@ fun Header(
                 .weight(1f),
             text = title,
             textAlign = TextAlign.Start,
-            fontStyle = FontStyle.Normal,
             fontSize = 18.sp,
-            color = Color.White
+            fontWeight = FontWeight.Bold
         )
         if (showIcon) {
             IconButton(
