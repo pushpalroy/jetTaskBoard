@@ -89,7 +89,7 @@ class ZoomableState(
     zoomChange: Float,
     panChange: Offset,
     rotationChange: Float,
-    animationSpec: AnimationSpec<Float> = SpringSpec(stiffness = Spring.StiffnessLow)
+    animationSpec: AnimationSpec<Float> = SpringSpec(stiffness = Spring.StiffnessMediumLow)
   ) {
     val baseScale = scale.value
     var previous = 0f

@@ -91,7 +91,7 @@ fun Zoomable(
     } else {
       coroutineScope.launch {
         zoomableState.animateZoomToPosition(
-          zoomChange = 2f,
+          zoomChange = 1.4f,
           position = Offset.Zero,
           currentComposableCenter = composableCenter
         )
