@@ -35,7 +35,8 @@ fun JtbNavHost(
   onNavigateToDestination: (JtbNavDestination, String) -> Unit,
   onBackClick: () -> Unit,
   modifier: Modifier = Modifier,
-  startDestination: String = DashboardDestination.route
+  startDestination: String = DashboardDestination.route,
+  isExpandedScreen: Boolean
 ) {
   NavHost(
     navController = navController,
@@ -53,10 +54,20 @@ fun JtbNavHost(
           CardDetailsDestination, CardDetailsDestination.route
         )
       },
-      navigateToCreateBoard = {}
-    ) {
-      taskBoardGraph(onBackClick)
-      cardGraph(onBackClick)
-    }
+      navigateToCreateBoard = {},
+      nestedGraphs = {
+        taskBoardGraph(
+          isExpandedScreen = isExpandedScreen,
+          onBackClick = onBackClick,
+          navigateToCreateCard = {
+            onNavigateToDestination(
+              CardDetailsDestination, CardDetailsDestination.route
+            )
+          }
+        )
+        cardGraph(isExpandedScreen, onBackClick)
+      },
+      isExpandedScreen = isExpandedScreen
+    )
   }
 }

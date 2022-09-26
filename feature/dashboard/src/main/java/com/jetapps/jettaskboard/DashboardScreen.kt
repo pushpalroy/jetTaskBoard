@@ -13,11 +13,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun DashboardRoute(
-  modifier: Modifier = Modifier,
-  viewModel: DashboardViewModel = hiltViewModel(),
-  navigateToTaskBoard: (String) -> Unit = {},
-  navigateToCreateCard: (String) -> Unit = {},
-  navigateToCreateBoard: (String) -> Unit = {},
+    modifier: Modifier = Modifier,
+    viewModel: DashboardViewModel = hiltViewModel(),
+    navigateToTaskBoard: (String) -> Unit = {},
+    navigateToCreateCard: (String) -> Unit = {},
+    navigateToCreateBoard: (String) -> Unit = {},
+    isExpandedScreen: Boolean,
 ) {
   Surface(
     modifier = modifier.fillMaxSize(),
@@ -25,9 +26,9 @@ fun DashboardRoute(
   ) {
     Button(
       modifier = Modifier.padding(16.dp),
-      onClick = { navigateToTaskBoard("1") }
+      onClick = { navigateToTaskBoard("") }
     ) {
-      Text(text = "Go to task board")
+      Text(text = "This is dummy dashboard.\n\nGo to task board")
     }
   }
 }

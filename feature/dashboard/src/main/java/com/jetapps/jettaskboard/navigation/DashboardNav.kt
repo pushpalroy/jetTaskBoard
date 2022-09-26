@@ -31,7 +31,8 @@ fun NavGraphBuilder.dashboardGraph(
   navigateToTaskBoard: (String) -> Unit,
   navigateToCreateCard: (String) -> Unit,
   navigateToCreateBoard: (String) -> Unit,
-  nestedGraphs: NavGraphBuilder.() -> Unit
+  nestedGraphs: NavGraphBuilder.() -> Unit,
+  isExpandedScreen: Boolean,
 ) {
   navigation(
     route = DashboardDestination.route,
@@ -41,7 +42,8 @@ fun NavGraphBuilder.dashboardGraph(
       DashboardRoute(
         navigateToTaskBoard = navigateToTaskBoard,
         navigateToCreateCard = navigateToCreateCard,
-        navigateToCreateBoard = navigateToCreateBoard
+        navigateToCreateBoard = navigateToCreateBoard,
+        isExpandedScreen = isExpandedScreen
       )
     }
     nestedGraphs()

@@ -57,8 +57,17 @@ object Lib {
     const val ACCOMPANIST_COIL = "com.google.accompanist:accompanist-coil:0.14.0"
     const val COMPOSE_JUNIT = "androidx.compose.ui:ui-test-junit4:$COMPOSE_VERSION"
     const val COMPOSE_TEST_MANIFEST = "androidx.compose.ui:ui-test-manifest:$COMPOSE_VERSION"
+    const val COMPOSE_WINDOW_MATRICES = "androidx.window:window:1.0.0"
+
 
     const val PROFILE_INSTALLER = "androidx.profileinstaller:profileinstaller:1.2.0"
+
+    // Constraint layout
+    const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout-compose:1.0.1"
+    const val COMPOSE_CALENDAR =  "com.squaredem:composecalendar:1.0.0"
+    const val COMPOSE_PLUCK = "com.himanshoe:pluck:1.0.0-RC2"
+
+    const val DESIGN_SYSTEMS = ":core:designsystem"
   }
 
   object Di {
