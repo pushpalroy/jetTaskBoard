@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 
 val workspaceList = mapOf(
@@ -27,19 +28,22 @@ fun CreateBoardForm() {
             .background(Color.Black)
             .fillMaxHeight()
     ) {
-        CreateFormEditText(hint = "Board Name")
-        CreateFormText(text = "Workspace")
+        val screenWidth = LocalConfiguration.current.screenWidthDp.dp
+        CreateFormEditText(hint = "Board Name", width = screenWidth)
+        CreateFormText(text = "Workspace", width = screenWidth)
 
         CreateformDropDown(
             text = "User's Workspace",
             modifier = Modifier.padding(15.dp),
-            contentMap = workspaceList
+            contentMap = workspaceList,
+            width = screenWidth
         )
-        CreateFormText(text = "Visibility")
+        CreateFormText(text = "Visibility", width = screenWidth)
         CreateformDropDown(
             text = "User's Workspace",
             modifier = Modifier.padding(15.dp),
-            contentMap = visibilityList
+            contentMap = visibilityList,
+            width = screenWidth
         )
     }
 }

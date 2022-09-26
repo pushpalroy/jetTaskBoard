@@ -53,7 +53,11 @@ fun JtbNavHost(
           CardDetailsDestination, CardDetailsDestination.route
         )
       },
-      navigateToCreateBoard = {}
+      navigateToCreateBoard = {
+        onNavigateToDestination(
+          CreateBoardDestination, CreateBoardDestination.route
+        )
+      },
     ) {
       taskBoardGraph(onBackClick)
       cardGraph(onBackClick)

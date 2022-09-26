@@ -29,10 +29,3 @@ fun CreateBoardRoute(
         }
     }
 }
-
-
-@Preview
-@Composable
-fun CreateBoardPreview() {
-    CreateBoardRoute(onCancelClick = { /*TODO*/ })
-}

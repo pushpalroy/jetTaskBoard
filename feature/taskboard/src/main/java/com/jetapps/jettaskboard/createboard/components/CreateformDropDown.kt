@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
@@ -29,6 +30,7 @@ fun CreateformDropDown(
     modifier: Modifier,
     contentMap: Map<String, String>,
     initiallyOpened: Boolean = false,
+    width: Dp
 ) {
     var isOpen by remember {
         mutableStateOf(initiallyOpened)
@@ -42,7 +44,7 @@ fun CreateformDropDown(
             durationMillis = 300
         )
     )
-    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+    Box(modifier = Modifier.width(width), contentAlignment = Alignment.Center) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
@@ -50,6 +52,9 @@ fun CreateformDropDown(
                 .fillMaxWidth()
                 .onGloballyPositioned {
                     dropdownWidth = it.size.toSize()
+                }
+                .clickable {
+                    isOpen = !isOpen
                 }
         ) {
 
@@ -63,19 +68,14 @@ fun CreateformDropDown(
                 contentDescription = "Open or close the drop down",
                 tint = Color.White,
                 modifier = Modifier
-                    .clickable {
-                        isOpen = !isOpen
-                    }
                     .scale(1f, if (isOpen) -1f else 1f)
             )
         }
 
-        var screenSize = LocalConfiguration.current.screenWidthDp
 
         DropdownMenu(expanded = isOpen,
             onDismissRequest = { isOpen = false },
-            modifier = Modifier  //TODO Have to check for the properties
-                .height(100.dp)
+            modifier = Modifier
                 .width(
                     with(LocalDensity.current) {
                         dropdownWidth.width.toDp()
