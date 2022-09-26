@@ -58,8 +58,15 @@ kapt {
 }
 
 dependencies {
+
+  implementation(project(":core:domain"))
+
   /* Android Designing and layout */
   implementation(Lib.Android.MATERIAL_DESIGN)
+
+  /* Image Loading */
+  implementation(Lib.Android.COIL_COMPOSE)
+  implementation(Lib.Android.ACCOMPANIST_COIL)
 
   /* Testing */
   testImplementation(TestLib.JUNIT)
