@@ -1,6 +1,5 @@
 package com.jetapps.jettaskboard.carddetailscomponents
 
-import android.content.res.Configuration
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -8,6 +7,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -19,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -28,7 +29,11 @@ import com.squaredem.composecalendar.ComposeCalendar
 import java.time.LocalDate
 
 @Composable
-fun CardDetailsContent(scrollState: ScrollState, isExpandedScreen: Boolean, cardDetails: CardDetail) {
+fun CardDetailsContent(
+    scrollState: ScrollState,
+    isExpandedScreen: Boolean,
+    cardDetails: CardDetail
+) {
 
     val configuration = LocalConfiguration.current
 
@@ -54,11 +59,19 @@ fun CardDetailsContent(scrollState: ScrollState, isExpandedScreen: Boolean, card
 
         EditTextCard(description = cardDetails.description)
 
-        LabelRow(false)
+        LabelRow()
 
         val members by remember { mutableStateOf(cardDetails.authorName ?: "Members...") }
-        ItemRow(leadingIcon = Icons.Outlined.Person, text = members)
-
+        ItemRow(
+            leadingIcon = {
+                Icon(
+                    modifier = Modifier.padding(16.dp),
+                    imageVector = Icons.Outlined.Person,
+                    contentDescription = "Leading Icon"
+                )
+            },
+            text = members
+        )
 
         val showCalendar = rememberSaveable { mutableStateOf(false) }
         val isTopText = rememberSaveable { mutableStateOf(false) }
@@ -110,21 +123,20 @@ fun CardDetailsContent(scrollState: ScrollState, isExpandedScreen: Boolean, card
         }
 
         ItemRow(
-            leadingIcon = R.drawable.ic_attachment,
+            leadingIcon = {
+                Icon(
+                    modifier = Modifier.padding(16.dp),
+                    painter = painterResource(id = R.drawable.ic_attachment),
+                    contentDescription = "Leading Icon"
+                )
+            },
             text = "ATTACHMENTS",
             trailingIcon = Icons.Default.Add
         )
 
         Divider()
-
-        when (configuration.orientation) {
-            Configuration.ORIENTATION_PORTRAIT -> {
-                Spacer(modifier = Modifier.height(600.dp))
-            }
-            else -> {}
-        }
-
     }
 }
+
 
 

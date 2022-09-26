@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -109,9 +110,18 @@ fun ExpandedCardDetailsContent(
         ) {
 
             val members by remember { mutableStateOf(cardDetails.authorName ?: "Members...") }
-            ItemRow(leadingIcon = Icons.Outlined.Person, text = members)
+            ItemRow(
+                leadingIcon = {
+                    Icon(
+                        modifier = Modifier.padding(16.dp),
+                        imageVector = Icons.Outlined.Person,
+                        contentDescription = "Leading Icon"
+                    )
+                },
+                text = members
+            )
 
-            LabelRow(isExpanded = false)
+            LabelRow()
 
             val showCalendar = rememberSaveable { mutableStateOf(false) }
             val isTopText = rememberSaveable { mutableStateOf(false) }
@@ -164,7 +174,13 @@ fun ExpandedCardDetailsContent(
             }
 
             ItemRow(
-                leadingIcon = R.drawable.ic_attachment,
+                leadingIcon = {
+                    Icon(
+                        modifier = Modifier.padding(16.dp),
+                        painter = painterResource(id = R.drawable.ic_attachment),
+                        contentDescription = "Leading Icon"
+                    )
+                },
                 text = "ATTACHMENTS",
                 trailingIcon = Icons.Default.Add,
                 onClick = {}

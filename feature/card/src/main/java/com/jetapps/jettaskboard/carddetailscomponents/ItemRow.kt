@@ -18,33 +18,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ItemRow(leadingIcon: ImageVector, text: String, trailingIcon: ImageVector? = null) {
-    Column {
-        Divider()
-
-        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            Icon(
-                modifier = Modifier.padding(16.dp),
-                imageVector = leadingIcon,
-                contentDescription = "Leading Icon"
-            )
-            Text(text = text, modifier = Modifier.weight(5f))
-            if (trailingIcon != null) {
-                Icon(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .weight(1f),
-                    imageVector = trailingIcon,
-                    contentDescription = "Trailing Icon"
-                )
-            }
-        }
-    }
-}
-
-@Composable
 fun ItemRow(
-    leadingIcon: Int,
+    leadingIcon: @Composable () -> Unit,
     text: String,
     trailingIcon: ImageVector? = null,
     onClick: () -> Unit? = {}
@@ -57,11 +32,7 @@ fun ItemRow(
                 .fillMaxWidth()
                 .clickable { onClick() }, verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                modifier = Modifier.padding(16.dp),
-                painter = painterResource(id = leadingIcon),
-                contentDescription = "Leading Icon"
-            )
+            leadingIcon()
             Text(text = text, modifier = Modifier.weight(5f))
             if (trailingIcon != null) {
                 Icon(

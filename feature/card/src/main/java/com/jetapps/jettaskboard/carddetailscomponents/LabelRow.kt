@@ -39,7 +39,7 @@ import com.jetapps.jettaskboard.theme.LabelYellow
 import com.jetapps.jettaskboard.uimodel.LabelColor
 
 @Composable
-fun LabelRow(isExpanded: Boolean) {
+fun LabelRow() {
     var isClicked by remember { mutableStateOf(false) }
     val labels = remember {
         mutableStateListOf(
@@ -59,9 +59,7 @@ fun LabelRow(isExpanded: Boolean) {
     val rotate = animateFloatAsState(targetValue = if (isClicked) 180f else 0f, tween(500))
 
     Column {
-        if (!isExpanded) {
-            Divider()
-        }
+        Divider()
 
         Row(
             modifier = Modifier
@@ -91,19 +89,18 @@ fun LabelRow(isExpanded: Boolean) {
 
                 }
             }
-            if (!isExpanded) {
-                Icon(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .weight(1f)
-                        .rotate(rotate.value),
-                    imageVector = Icons.Default.ArrowDropDown,
-                    contentDescription = "Trailing Icon"
-                )
-            }
+            Icon(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .weight(1f)
+                    .rotate(rotate.value),
+                imageVector = Icons.Default.ArrowDropDown,
+                contentDescription = "Trailing Icon"
+            )
+
         }
 
-        AnimatedVisibility(visible = isClicked || isExpanded) {
+        AnimatedVisibility(visible = isClicked) {
             Column {
                 labels.forEach { labelColor ->
                     LabelCheckBox(
