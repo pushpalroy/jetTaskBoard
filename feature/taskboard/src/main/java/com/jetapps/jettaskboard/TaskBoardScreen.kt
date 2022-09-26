@@ -54,6 +54,7 @@ fun TaskBoardRoute(
   onBackClick: () -> Unit,
   modifier: Modifier = Modifier,
   isExpandedScreen: Boolean,
+  navigateToCreateCard: (String) -> Unit = {},
   viewModel: TaskBoardViewModel = hiltViewModel()
 ) {
   val scaffoldState = rememberScaffoldState()
@@ -99,6 +100,8 @@ fun TaskBoardRoute(
             modifier = modifier.fillMaxSize()
           ) {
             Board(
+              modifier = Modifier,
+              navigateToCreateCard = navigateToCreateCard,
               viewModel = viewModel
             )
           }
@@ -111,6 +114,7 @@ fun TaskBoardRoute(
 @Composable
 fun Board(
   modifier: Modifier = Modifier,
+  navigateToCreateCard: (String) -> Unit = {},
   viewModel: TaskBoardViewModel
 ) {
   val boardState = remember { DragTargetInfo() }
@@ -173,7 +177,7 @@ fun Board(
                   ) {
                     TaskCard(
                       modifier = Modifier.fillMaxWidth(),
-                      onClick = {},
+                      onClick = { navigateToCreateCard("1") },
                       card = it
                     )
                   }

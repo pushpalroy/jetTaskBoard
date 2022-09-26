@@ -26,9 +26,9 @@ fun DashboardRoute(
   ) {
     Button(
       modifier = Modifier.padding(16.dp),
-      onClick = { navigateToCreateCard("1") }
+      onClick = { navigateToTaskBoard("") }
     ) {
-      Text(text = "Go to task board")
+      Text(text = "This is dummy dashboard.\n\nGo to task board")
     }
   }
 }

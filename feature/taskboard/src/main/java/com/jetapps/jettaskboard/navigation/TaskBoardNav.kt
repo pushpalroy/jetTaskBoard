@@ -10,8 +10,16 @@ object TaskBoardDestination : JtbNavDestination {
   override val destination = "task_board_destination"
 }
 
-fun NavGraphBuilder.taskBoardGraph(isExpandedScreen: Boolean ,onBackClick: () -> Unit) {
+fun NavGraphBuilder.taskBoardGraph(
+  isExpandedScreen: Boolean,
+  navigateToCreateCard: (String) -> Unit = {},
+  onBackClick: () -> Unit
+) {
   composable(route = TaskBoardDestination.route) {
-    TaskBoardRoute(isExpandedScreen = isExpandedScreen , onBackClick = onBackClick)
+    TaskBoardRoute(
+      isExpandedScreen = isExpandedScreen,
+      navigateToCreateCard = navigateToCreateCard,
+      onBackClick = onBackClick
+    )
   }
 }
