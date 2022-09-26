@@ -1,4 +1,4 @@
-package com.jetapps.jettaskboard.presentation.drawer
+package com.jetapps.jettaskboard.drawer
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,8 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.jetapps.jettaskboard.DashboardViewModel
 import com.jetapps.jettaskboard.component.WorkSpaceItem
-import com.jetapps.jettaskboard.presentation.DashboardViewModel
 
 @Composable
 fun DrawerWorkSpaceComponent(
