@@ -44,6 +44,7 @@ fun JtbNavHost(
     modifier = modifier,
   ) {
     dashboardGraph(
+      isExpandedScreen = isExpandedScreen,
       navigateToTaskBoard = {
         onNavigateToDestination(
           TaskBoardDestination, TaskBoardDestination.route
@@ -65,9 +66,11 @@ fun JtbNavHost(
             )
           }
         )
-        cardGraph(isExpandedScreen, onBackClick)
-      },
-      isExpandedScreen = isExpandedScreen
+        cardGraph(
+          isExpandedScreen = isExpandedScreen,
+          onBackClick = onBackClick
+        )
+      }
     )
   }
 }
