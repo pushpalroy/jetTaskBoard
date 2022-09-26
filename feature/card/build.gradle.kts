@@ -121,4 +121,7 @@ dependencies {
 
   implementation(Lib.Android.CONSTRAINT_LAYOUT)
   implementation(Lib.Android.COMPOSE_CALENDAR)
+  implementation(Lib.Android.COMPOSE_PLUCK)
+  implementation(Lib.Android.COIL_COMPOSE)
+  implementation(Lib.Android.ACCOMPANIST_COIL)
 }

@@ -31,6 +31,8 @@ fun CardDetailsRoute(
         val cardModel by remember { mutableStateOf(CardDetail(coverImageUrl = "fsd")) }
 
         val scrollState = rememberScrollState()
+        val expandedLeftScrollState = rememberScrollState()
+        val expandedRightScrollState = rememberScrollState()
         Scaffold(
             topBar = {
                 MotionTopBar(
@@ -45,7 +47,7 @@ fun CardDetailsRoute(
             if (!isExpandedScreen)
                 CardDetailsContent(scrollState, isExpandedScreen, CardDetail())
             else
-                ExpandedCardDetailsContent(scrollState, CardDetail())
+                ExpandedCardDetailsContent(expandedLeftScrollState, expandedRightScrollState, CardDetail())
         }
     }
 }

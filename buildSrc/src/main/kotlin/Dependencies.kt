@@ -64,6 +64,7 @@ object Lib {
     // Constraint layout
     const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout-compose:1.0.1"
     const val COMPOSE_CALENDAR =  "com.squaredem:composecalendar:1.0.0"
+    const val COMPOSE_PLUCK = "com.himanshoe:pluck:1.0.0-RC2"
 
     const val DESIGN_SYSTEMS = ":core:designsystem"
   }

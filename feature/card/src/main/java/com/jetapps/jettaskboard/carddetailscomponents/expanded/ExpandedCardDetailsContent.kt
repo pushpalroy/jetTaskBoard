@@ -40,13 +40,17 @@ import com.squaredem.composecalendar.ComposeCalendar
 import java.time.LocalDate
 
 @Composable
-fun ExpandedCardDetailsContent(scrollState: ScrollState, cardDetails: CardDetail) {
+fun ExpandedCardDetailsContent(
+    leftScrollState: ScrollState,
+    rightScrollState: ScrollState,
+    cardDetails: CardDetail
+) {
     Row(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
                 .fillMaxHeight()
                 .fillMaxWidth(0.5f)
-                .verticalScroll(scrollState)
+                .verticalScroll(leftScrollState)
                 .padding(16.dp)
                 .weight(1f),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -56,7 +60,7 @@ fun ExpandedCardDetailsContent(scrollState: ScrollState, cardDetails: CardDetail
                 contentDescription = "Backlog",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
-                    .width(400.dp)
+                    .fillMaxWidth()
                     .height(180.dp)
             )
 
@@ -99,6 +103,7 @@ fun ExpandedCardDetailsContent(scrollState: ScrollState, cardDetails: CardDetail
             modifier = Modifier
                 .fillMaxHeight()
                 .fillMaxWidth(0.5f)
+                .verticalScroll(rightScrollState)
                 .padding(16.dp)
                 .weight(1f)
         ) {
@@ -161,7 +166,8 @@ fun ExpandedCardDetailsContent(scrollState: ScrollState, cardDetails: CardDetail
             ItemRow(
                 leadingIcon = R.drawable.ic_attachment,
                 text = "ATTACHMENTS",
-                trailingIcon = Icons.Default.Add
+                trailingIcon = Icons.Default.Add,
+                onClick = {}
             )
 
             Divider()
