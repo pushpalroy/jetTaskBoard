@@ -22,7 +22,7 @@ import androidx.room.PrimaryKey
   // ]
 )
 data class CardEntity(
-  @PrimaryKey(autoGenerate = true) val id: Int?,
+  @PrimaryKey(autoGenerate = true) val id: Int,
   val title: String,
   val description: String?,
   @ColumnInfo(name = "column_image_url")
