@@ -1,0 +1,104 @@
+{
+  ConstraintSets: {
+    start: {
+      cross_icon: {
+        width: 24,
+        height: 24,
+        start: ['parent', 'start', 16],
+        top: ['parent', 'top', 16],
+      },
+      more_icon: {
+        width: 24,
+        height: 24,
+        end: ['parent', 'end', 16],
+        top: ['parent', 'top', 16],
+      },
+      box: {
+        width: 'spread',
+        height: 180,
+        start: ['parent', 'start'],
+        end: ['parent', 'end'],
+        top: ['parent', 'top'],
+        bottom: ['parent', 'bottom']
+      },
+      bg_image: {
+        width: 'spread',
+        height: 'spread',
+        start: ['box', 'start'],
+        end: ['box', 'end'],
+        top: ['box', 'top'],
+        bottom: ['box', 'bottom'],
+        alpha: 1,
+      },
+      box_shadow: {
+        width: 'spread',
+        height: 56,
+        start: ['parent', 'start', 0],
+        end: ['parent', 'end', 0],
+        top: ['parent', 'top', 0],
+        alpha: 1,
+      },
+      item_name: {
+        start: ['cross_icon', 'end', 16],
+        top: ['cross_icon', 'top'],
+        bottom: ['cross_icon', 'bottom'],
+        alpha: 0,
+      },
+      cover_tab: {
+        start: ['parent', 'start', 0],
+        bottom: ['parent', 'bottom', 0],
+        alpha: 1,
+      }
+    },
+    end: {
+      cross_icon: {
+        width: 24,
+        height: 24,
+        start: ['parent', 'start', 16],
+        top: ['parent', 'top', 16],
+      },
+      more_icon: {
+        width: 24,
+        height: 24,
+        end: ['parent', 'end', 16],
+        top: ['parent', 'top', 16],
+      },
+      box: {
+        width: 'spread',
+        height: 56,
+        start: ['parent', 'start'],
+        end: ['parent', 'end'],
+        top: ['parent', 'top'],
+        bottom: ['parent', 'bottom']
+      },
+      bg_image: {
+        width: 'spread',
+        height: 'spread',
+        start: ['box', 'start'],
+        end: ['box', 'end'],
+        top: ['box', 'top'],
+        bottom: ['box', 'bottom'],
+        alpha: 0,
+      },
+      box_shadow: {
+        width: 'spread',
+        height: 56,
+        start: ['parent', 'start', 0],
+        end: ['parent', 'end', 0],
+        top: ['parent', 'top', 0],
+        alpha: 0,
+      },
+      item_name: {
+        start: ['cross_icon', 'end', 16],
+        top: ['cross_icon', 'top'],
+        bottom: ['cross_icon', 'bottom'],
+        alpha: 1,
+      },
+      cover_tab: {
+        start: ['parent', 'start', 0],
+        bottom: ['parent', 'bottom', 0],
+        alpha: 0,
+      }
+    }
+  }
+}

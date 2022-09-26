@@ -61,6 +61,8 @@ kapt {
 
 dependencies {
 
+  //implementation(project(":core:data"))
+  implementation(project(":core:domain"))
   implementation(project(":core:navigation"))
 
   /* Android Designing and layout */
@@ -103,8 +105,6 @@ dependencies {
   kapt(Lib.Room.roomCompiler)
   implementation(Lib.Room.roomKtx)
   implementation(Lib.Room.roomPaging)
-
-  implementation(Lib.Lottie.lottieCompose)
 
   /*Testing*/
   testImplementation(TestLib.JUNIT)

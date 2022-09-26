@@ -9,7 +9,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.tracing.trace
-import com.jetapps.jettaskboard.JtbNavigationDestination
+import com.jetapps.jettaskboard.JtbNavDestination
 import com.jetapps.jettaskboard.navigation.TopLevelDestination
 
 @Composable
@@ -39,11 +39,11 @@ class JtbAppState(
    * Regular destinations can have multiple copies in the back stack and state isn't saved nor
    * restored.
    *
-   * @param destination: The [JtbNavigationDestination] the app needs to navigate to.
+   * @param destination: The [JtbNavDestination] the app needs to navigate to.
    * @param route: Optional route to navigate to in case the destination contains arguments.
    */
   fun navigate(
-    destination: JtbNavigationDestination,
+    destination: JtbNavDestination,
     route: String? = null
   ) {
     trace("Navigation: $destination") {
@@ -56,14 +56,18 @@ class JtbAppState(
             saveState = true
           }
           // Avoid multiple copies of the same destination when
-          // reselecting the same item
+          // re-selecting the same item
           launchSingleTop = true
-          // Restore state when reselecting a previously selected item
+          // Restore state when re-selecting a previously selected item
           restoreState = true
         }
       } else {
         navController.navigate(route ?: destination.route)
       }
     }
+  }
+
+  fun onBackClick() {
+    navController.popBackStack()
   }
 }

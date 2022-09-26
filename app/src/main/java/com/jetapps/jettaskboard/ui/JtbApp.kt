@@ -2,17 +2,19 @@ package com.jetapps.jettaskboard.ui
 
 import androidx.compose.runtime.Composable
 import com.jetapps.jettaskboard.navigation.JtbNavHost
-import com.jetapps.jettaskboard.theme.JetTaskBoardTheme
+import com.jetapps.jettaskboard.theme.JtbTheme
 
 @Composable
 fun JtbApp(
-  appState: JtbAppState = rememberJtbAppState()
+  appState: JtbAppState = rememberJtbAppState(),
+  isExpandedScreen: Boolean,
 ) {
-  JetTaskBoardTheme {
+  JtbTheme {
     JtbNavHost(
       navController = appState.navController,
       onNavigateToDestination = appState::navigate,
-      onBackClick = {}
+      onBackClick = appState::onBackClick,
+      isExpandedScreen = isExpandedScreen
     )
   }
 }

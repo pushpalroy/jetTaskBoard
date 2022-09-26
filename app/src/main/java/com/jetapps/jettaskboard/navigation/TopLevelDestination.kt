@@ -16,7 +16,7 @@
 
 package com.jetapps.jettaskboard.navigation
 
-import com.jetapps.jettaskboard.JtbNavigationDestination
+import com.jetapps.jettaskboard.JtbNavDestination
 
 /**
  * Type for the top level destinations in the application. Each of these destinations
@@ -26,4 +26,4 @@ import com.jetapps.jettaskboard.JtbNavigationDestination
 data class TopLevelDestination(
   override val route: String,
   override val destination: String
-) : JtbNavigationDestination
+) : JtbNavDestination
