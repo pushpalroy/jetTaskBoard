@@ -55,7 +55,11 @@ fun JtbNavHost(
           CardDetailsDestination, CardDetailsDestination.route
         )
       },
-      navigateToCreateBoard = {},
+      navigateToCreateBoard = {
+        onNavigateToDestination(
+          CreateBoardDestination, CreateBoardDestination.route
+        )
+      },
       nestedGraphs = {
         taskBoardGraph(
           isExpandedScreen = isExpandedScreen,
@@ -71,6 +75,9 @@ fun JtbNavHost(
           onBackClick = onBackClick
         )
       }
+    )
+    createBoardGraph(
+      onBackClick = onBackClick
     )
   }
 }
