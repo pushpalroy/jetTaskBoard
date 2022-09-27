@@ -1,6 +1,7 @@
 package com.jetapps.jettaskboard
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -11,10 +12,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
@@ -25,16 +25,19 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jetapps.jettaskboard.components.TaskCard
 import com.jetapps.jettaskboard.draganddrop.DragTarget
-import com.jetapps.jettaskboard.draganddrop.DragTargetInfo
-import com.jetapps.jettaskboard.draganddrop.DropTarget
+import com.jetapps.jettaskboard.draganddrop.DragInfoState
+import com.jetapps.jettaskboard.draganddrop.DroppingArea
 import com.jetapps.jettaskboard.draganddrop.LongPressDraggable
 import com.jetapps.jettaskboard.model.ListModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun Board(
@@ -42,10 +45,10 @@ fun Board(
   navigateToCreateCard: (String) -> Unit = {},
   viewModel: TaskBoardViewModel
 ) {
-  val boardState = remember { DragTargetInfo() }
+  val boardState = remember { DragInfoState() }
   LaunchedEffect(Unit) {
     viewModel.apply {
-      getBoardList()
+      getBoardData()
     }
   }
   LongPressDraggable(
@@ -57,14 +60,15 @@ fun Board(
         .fillMaxWidth()
         .horizontalScroll(rememberScrollState())
     ) {
-      for (list in viewModel.boardList) {
-        BoardList(
+      for (list in viewModel.lists) {
+        Lists(
           boardState = boardState,
-          boardList = list,
+          listModel = list,
           onTaskCardClick = navigateToCreateCard,
           onAddCardClick = {
-            viewModel.insertNewCardInList(list.id)
-          }
+            viewModel.addNewCardInList(list.id)
+          },
+          viewModel = viewModel
         )
       }
     }
@@ -72,64 +76,84 @@ fun Board(
 }
 
 @Composable
-fun BoardList(
-  boardState: DragTargetInfo,
-  boardList: ListModel,
+fun Lists(
+  boardState: DragInfoState,
+  listModel: ListModel,
+  viewModel: TaskBoardViewModel,
   onTaskCardClick: (String) -> Unit,
   onAddCardClick: () -> Unit
 ) {
-  DropTarget(
+  val scrollState = rememberScrollState()
+  val scope = rememberCoroutineScope()
+  val cards = remember { viewModel.cards }
+
+  val view = LocalView.current
+  val screenHeight = view.rootView.height
+
+  // Always scroll to bottom when size changes
+  LaunchedEffect(
+    key1 = cards.size,
+    block = {
+      scope.launch {
+        scrollState.scrollBy(screenHeight.toFloat())
+      }
+    }
+  )
+
+  DroppingArea(
     modifier = Modifier
       .padding(4.dp)
       .background(
         color = Color(0xFF222222),
         shape = RoundedCornerShape(2)
-      )
-  ) { isInBound, dragOffset ->
-    val bgColor = if (isInBound && boardState.isDragging) {
-      Color(0xFF383838)
-    } else {
-      Color.Transparent
-    }
+      ),
+    listId = listModel.id
+  ) { isInBound, _ ->
     Column(
       modifier = Modifier
-        .background(color = bgColor, shape = RoundedCornerShape(2))
+        .background(
+          color = getBgColor(isInBound, boardState.isDragging),
+          shape = RoundedCornerShape(2)
+        )
         .width(220.dp)
         .padding(4.dp)
     ) {
-      ListHeader(name = boardList.title)
-      LazyColumn(
-        modifier = Modifier
+      ListHeader(
+        name = listModel.title
+      )
+      Column(
+        modifier = Modifier.verticalScroll(scrollState)
       ) {
-        items(
-          items = boardList.cards,
-          key = { it.id }
-        ) {
-          DragTarget(
-            modifier = Modifier.fillMaxWidth(),
-            cardDraggedId = it.id
-          ) {
-            TaskCard(
+        for (cardModel in cards) {
+          if (cardModel.listId == listModel.id) {
+            DragTarget(
               modifier = Modifier.fillMaxWidth(),
-              onClick = { onTaskCardClick("1") },
-              card = it
-            )
+              currentListId = cardModel.listId ?: 0,
+              cardDraggedId = cardModel.id
+            ) {
+              TaskCard(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = { onTaskCardClick("1") },
+                card = cardModel
+              )
+            }
           }
         }
+        ListFooter(
+          onAddCardClick = onAddCardClick
+        )
       }
-      ListFooter(
-        onAddCardClick = onAddCardClick
-      )
     }
   }
 }
 
 @Composable
 fun ListHeader(
+  modifier: Modifier = Modifier,
   name: String
 ) {
   Row(
-    modifier = Modifier
+    modifier = modifier
       .padding(start = 8.dp, top = 8.dp, end = 8.dp, bottom = 16.dp)
       .fillMaxWidth()
   ) {
@@ -142,10 +166,11 @@ fun ListHeader(
 
 @Composable
 fun ListFooter(
+  modifier: Modifier = Modifier,
   onAddCardClick: () -> Unit
 ) {
   Row(
-    modifier = Modifier
+    modifier = modifier
       .padding(start = 8.dp, top = 16.dp, end = 8.dp, bottom = 8.dp)
       .fillMaxWidth()
   ) {
@@ -158,5 +183,16 @@ fun ListFooter(
       Icon(imageVector = Filled.Add, contentDescription = "Add")
       Text(modifier = Modifier, fontSize = 10.sp, text = "Add Card")
     }
+  }
+}
+
+fun getBgColor(
+  isInBound: Boolean,
+  isDragging: Boolean
+): Color {
+  return if (isInBound && isDragging) {
+    Color(0xFF383838)
+  } else {
+    Color.Transparent
   }
 }

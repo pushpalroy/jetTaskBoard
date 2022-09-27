@@ -30,11 +30,11 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun LongPressDraggable(
   modifier: Modifier = Modifier,
-  state: DragTargetInfo = remember { DragTargetInfo() },
+  state: DragInfoState = remember { DragInfoState() },
   content: @Composable BoxScope.() -> Unit
 ) {
   CompositionLocalProvider(
-    LocalDragTargetInfo provides state
+    LocalDragInfoState provides state
   ) {
     Box(modifier = modifier.wrapContentWidth())
     {
@@ -72,11 +72,12 @@ fun LongPressDraggable(
 @Composable
 fun DragTarget(
   modifier: Modifier,
+  currentListId: Int = 0,
   cardDraggedId: Int = 0,
   content: @Composable (() -> Unit)
 ) {
   var currentPosition by remember { mutableStateOf(Offset.Zero) }
-  val currentState = LocalDragTargetInfo.current
+  val dragInfoState = LocalDragInfoState.current
   var targetHeight by remember {
     mutableStateOf(0)
   }
@@ -89,30 +90,31 @@ fun DragTarget(
       .pointerInput(Unit) {
         detectDragGesturesAfterLongPress(
           onDragStart = {
-            currentState.isDragging = true
-            currentState.dragPosition = currentPosition + it
-            currentState.draggableComposable = content
-            currentState.cardDraggedId = cardDraggedId
+            dragInfoState.isDragging = true
+            dragInfoState.dragPosition = currentPosition + it
+            dragInfoState.draggableComposable = content
+            dragInfoState.cardDraggedId = cardDraggedId
+            dragInfoState.cardDraggedListId = currentListId
           },
           onDrag = { change, dragAmount ->
             change.consume()
-            currentState.dragOffset += Offset(dragAmount.x, dragAmount.y)
+            dragInfoState.dragOffset += Offset(dragAmount.x, dragAmount.y)
           },
           onDragEnd = {
-            currentState.isDragging = false
-            currentState.dragOffset = Offset.Zero
+            dragInfoState.isDragging = false
+            dragInfoState.dragOffset = Offset.Zero
           },
           onDragCancel = {
-            currentState.dragOffset = Offset.Zero
-            currentState.isDragging = false
+            dragInfoState.dragOffset = Offset.Zero
+            dragInfoState.isDragging = false
           }
         )
       }
   ) {
-    if (currentState.cardDraggedId != cardDraggedId) {
+    if (dragInfoState.cardDraggedId != cardDraggedId) {
       content()
     } else {
-      AnimatedVisibility(visible = currentState.isDragging) {
+      AnimatedVisibility(visible = dragInfoState.isDragging) {
         Box(
           modifier = Modifier
             .fillMaxWidth()
@@ -124,13 +126,14 @@ fun DragTarget(
 }
 
 @Composable
-fun DropTarget(
+fun DroppingArea(
   modifier: Modifier,
+  listId: Int,
   content: @Composable (BoxScope.(isInBound: Boolean, dragOffset: Offset) -> Unit)
 ) {
-  val dragInfo = LocalDragTargetInfo.current
-  val dragPosition = dragInfo.dragPosition
-  val dragOffset = dragInfo.dragOffset
+  val dragInfoState = LocalDragInfoState.current
+  val dragPosition = dragInfoState.dragPosition
+  val dragOffset = dragInfoState.dragOffset
   var isCurrentDropTarget by remember {
     mutableStateOf(false)
   }
@@ -138,6 +141,9 @@ fun DropTarget(
     modifier = modifier.onGloballyPositioned {
       it.boundsInWindow().let { rect ->
         isCurrentDropTarget = rect.contains(dragPosition + dragOffset)
+        if (isCurrentDropTarget && listId != dragInfoState.cardDraggedListId) {
+          dragInfoState.cardDraggedListId = listId
+        }
       }
     }
   ) {
@@ -145,12 +151,13 @@ fun DropTarget(
   }
 }
 
-class DragTargetInfo {
+class DragInfoState {
   var isDragging by mutableStateOf(false)
   var dragPosition by mutableStateOf(Offset.Zero)
   var dragOffset by mutableStateOf(Offset.Zero)
   var draggableComposable by mutableStateOf<(@Composable () -> Unit)?>(null)
-  var cardDraggedId by mutableStateOf(0)
+  var cardDraggedId by mutableStateOf(-1)
+  var cardDraggedListId by mutableStateOf(-1)
 }
 
-internal val LocalDragTargetInfo = compositionLocalOf { DragTargetInfo() }
+internal val LocalDragInfoState = compositionLocalOf { DragInfoState() }

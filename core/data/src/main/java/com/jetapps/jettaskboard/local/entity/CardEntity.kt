@@ -30,7 +30,7 @@ data class CardEntity(
   @ColumnInfo(name = "board_id")
   val boardId: String?,
   @ColumnInfo(name = "list_id")
-  val listId: String?,
+  val listId: Int?,
   @ColumnInfo(name = "author_id")
   val authorId: String?,
   @ColumnInfo(name = "start_date")

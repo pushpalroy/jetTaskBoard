@@ -47,7 +47,7 @@ val CardList_1 = listOf(
     coverImageUrl = "",
     labels = listOf(Labels[1], Labels[2]),
     boardId = "1",
-    listId = "1",
+    listId = 0,
     authorId = null
   ),
   CardModel(
@@ -57,7 +57,7 @@ val CardList_1 = listOf(
     coverImageUrl = "",
     labels = listOf(Labels[0], Labels[1]),
     boardId = "1",
-    listId = "1",
+    listId = 0,
     authorId = null
   ),
   CardModel(
@@ -67,7 +67,7 @@ val CardList_1 = listOf(
     coverImageUrl = "",
     labels = listOf(Labels[1]),
     boardId = "1",
-    listId = "1",
+    listId = 0,
     authorId = null
   ),
   CardModel(
@@ -77,7 +77,7 @@ val CardList_1 = listOf(
     coverImageUrl = "",
     labels = listOf(Labels[0], Labels[1], Labels[2]),
     boardId = "1",
-    listId = "1",
+    listId = 0,
     authorId = null
   ),
   CardModel(
@@ -87,7 +87,7 @@ val CardList_1 = listOf(
     coverImageUrl = "",
     labels = listOf(Labels[1]),
     boardId = "1",
-    listId = "1",
+    listId = 0,
     authorId = null
   ),
 )
@@ -100,7 +100,7 @@ val CardList_2 = listOf(
     coverImageUrl = "",
     labels = listOf(Labels[0], Labels[1], Labels[3]),
     boardId = "1",
-    listId = "1",
+    listId = 1,
     authorId = null
   ),
   CardModel(
@@ -110,7 +110,7 @@ val CardList_2 = listOf(
     coverImageUrl = "",
     labels = listOf(Labels[0], Labels[1]),
     boardId = "1",
-    listId = "1",
+    listId = 1,
     authorId = null
   ),
   CardModel(
@@ -120,7 +120,7 @@ val CardList_2 = listOf(
     coverImageUrl = "",
     labels = listOf(Labels[1]),
     boardId = "1",
-    listId = "1",
+    listId = 1,
     authorId = null
   )
 )
@@ -133,7 +133,7 @@ val CardList_3 = listOf(
     coverImageUrl = "",
     labels = listOf(Labels[1]),
     boardId = "1",
-    listId = "1",
+    listId = 2,
     authorId = null
   ),
   CardModel(
@@ -143,7 +143,7 @@ val CardList_3 = listOf(
     coverImageUrl = "",
     labels = listOf(Labels[0], Labels[1], Labels[2]),
     boardId = "1",
-    listId = "1",
+    listId = 2,
     authorId = null
   ),
 )

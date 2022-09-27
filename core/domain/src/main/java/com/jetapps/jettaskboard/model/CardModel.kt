@@ -7,7 +7,7 @@ data class CardModel(
   val coverImageUrl: String? = null,
   val labels: List<LabelModel> = listOf(),
   val boardId: String? = null,
-  val listId: String? = null,
+  val listId: Int? = null,
   val authorId: String? = null,
   val startDate: String? = null,
   val dueDate: String? = null
