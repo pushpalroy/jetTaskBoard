@@ -78,7 +78,7 @@ fun DashboardRoute(
       },
       floatingActionButtonPosition = FabPosition.End,
       floatingActionButton = {
-        FloatingActionButton(onClick = { /*TODO*/ }) {
+        FloatingActionButton(onClick = { navigateToCreateBoard("") }) {
           Image(
             imageVector = Icons.Default.Add,
             contentDescription = "FAB Icon"

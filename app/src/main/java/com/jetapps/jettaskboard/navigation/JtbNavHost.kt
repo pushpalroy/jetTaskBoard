@@ -76,5 +76,8 @@ fun JtbNavHost(
         )
       }
     )
+    createBoardGraph(
+      onBackClick = onBackClick
+    )
   }
 }
