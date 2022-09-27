@@ -13,27 +13,27 @@ const val OrangeLabel = 0xFFFFD180
 
 val Labels = listOf(
   LabelModel(
-    id = "0",
+    id = 0,
     labelName = "Architecture",
     labelColor = YellowLabel
   ),
   LabelModel(
-    id = "1",
+    id = 1,
     labelName = "Feature",
     labelColor = BlueLabel
   ),
   LabelModel(
-    id = "2",
+    id = 2,
     labelName = "Tests",
     labelColor = GreenLabel
   ),
   LabelModel(
-    id = "3",
+    id = 3,
     labelName = "CI/CD",
     labelColor = RedLabel
   ),
   LabelModel(
-    id = "4",
+    id = 4,
     labelName = "Library",
     labelColor = OrangeLabel
   ),
@@ -152,16 +152,19 @@ val Board = BoardModel(
   title = "JetTaskBoard",
   lists = listOf(
     ListModel(
+      id = 0,
       title = "Backlog",
-      cards = CardList_1
+      cards = CardList_1.toMutableList()
     ),
     ListModel(
+      id = 1,
       title = "In progress",
-      cards = CardList_2
+      cards = CardList_2.toMutableList()
     ),
     ListModel(
+      id = 2,
       title = "Completed",
-      cards = CardList_3
+      cards = CardList_3.toMutableList()
     )
   )
 )

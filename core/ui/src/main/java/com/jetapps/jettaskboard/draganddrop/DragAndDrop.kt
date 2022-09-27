@@ -27,8 +27,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 
-internal val LocalDragTargetInfo = compositionLocalOf { DragTargetInfo() }
-
 @Composable
 fun LongPressDraggable(
   modifier: Modifier = Modifier,
@@ -148,9 +146,11 @@ fun DropTarget(
 }
 
 class DragTargetInfo {
-  var isDragging: Boolean by mutableStateOf(false)
+  var isDragging by mutableStateOf(false)
   var dragPosition by mutableStateOf(Offset.Zero)
   var dragOffset by mutableStateOf(Offset.Zero)
   var draggableComposable by mutableStateOf<(@Composable () -> Unit)?>(null)
   var cardDraggedId by mutableStateOf(0)
 }
+
+internal val LocalDragTargetInfo = compositionLocalOf { DragTargetInfo() }

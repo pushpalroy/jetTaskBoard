@@ -1,7 +1,7 @@
 package com.jetapps.jettaskboard.model
 
 data class ListModel(
-  val id: Int? = null,
+  val id: Int = 0,
   val title: String,
-  val cards: List<CardModel> = listOf()
+  val cards: MutableList<CardModel> = mutableListOf()
 )
