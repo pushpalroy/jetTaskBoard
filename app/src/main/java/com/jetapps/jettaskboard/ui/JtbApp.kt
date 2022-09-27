@@ -6,13 +6,15 @@ import com.jetapps.jettaskboard.theme.JtbTheme
 
 @Composable
 fun JtbApp(
-  appState: JtbAppState = rememberJtbAppState()
+  appState: JtbAppState = rememberJtbAppState(),
+  isExpandedScreen: Boolean,
 ) {
   JtbTheme {
     JtbNavHost(
       navController = appState.navController,
       onNavigateToDestination = appState::navigate,
-      onBackClick = appState::onBackClick
+      onBackClick = appState::onBackClick,
+      isExpandedScreen = isExpandedScreen
     )
   }
 }
