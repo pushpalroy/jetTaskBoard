@@ -1,26 +1,19 @@
 package com.jetapps.jettaskboard
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Divider
 import androidx.compose.material.FabPosition
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -51,8 +44,7 @@ fun DashboardRoute(
     modifier = modifier.fillMaxSize(),
     color = MaterialTheme.colors.background
   ) {
-    val scaffoldState: ScaffoldState = rememberScaffoldState()
-    val scrollState: ScrollState = rememberScrollState()
+    val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
 
     Scaffold(
@@ -72,7 +64,7 @@ fun DashboardRoute(
       drawerGesturesEnabled = scaffoldState.drawerState.isOpen,
       drawerContent = {
         JtbDrawer(
-          modifier = modifier,
+          modifier = Modifier,
           viewModel = viewModel
         )
       },
@@ -86,61 +78,49 @@ fun DashboardRoute(
         }
       }
     ) { scaffoldPadding ->
-      Column(
-        modifier
-          .verticalScroll(scrollState)
-          .padding(scaffoldPadding)
+      LazyColumn(
+        Modifier.padding(scaffoldPadding)
       ) {
-        Divider()
-
-        Header(modifier = modifier, title = "Starred Boards") {}
-
-        Divider()
-
-        LazyVerticalGrid(
-          modifier = modifier
-            .padding(top = 8.dp, bottom = 8.dp)
-            .height(320.dp),
-          columns = GridCells.Adaptive(minSize = 160.dp),
-          contentPadding = PaddingValues(4.dp),
-        ) {
-          items(viewModel.boardList) { boardItem ->
-            BoardCardComponent(
-              modifier = Modifier.clickable { navigateToTaskBoard("") },
-              title = boardItem.title,
-              backgroundImageUrl = boardItem.imageUrl
-            )
+        item {
+          Header(
+            modifier = Modifier, title = "Starred Boards", onMenuItemClicked = {}
+          )
+        }
+        item {
+          LazyVerticalGrid(
+            modifier = Modifier
+              .padding(bottom = 8.dp)
+              .height(240.dp),
+            columns = GridCells.Fixed(2),
+            contentPadding = PaddingValues(4.dp),
+          ) {
+            items(viewModel.boardList) { boardItem ->
+              BoardCardComponent(
+                modifier = Modifier.clickable { navigateToTaskBoard("") },
+                title = boardItem.title,
+                backgroundImageUrl = boardItem.imageUrl
+              )
+            }
           }
         }
-
-        Divider()
-
-        Header(modifier = modifier, title = "Project One", showIcon = true) {}
-
-        Divider()
-
-        WorkshopCard(
-          modifier = modifier,
-          title = "Project One",
-          isWorkshopStarred = true,
-          imageUrl = viewModel.getRandomImageUrl().random()
-        )
-
-        Divider()
-
-        Header(modifier = modifier, title = "Trello Workshop", showIcon = true) {}
-
-        Divider()
-
-        LazyColumn(
-          modifier = modifier.size(320.dp),
-        ) {
-          items(viewModel.boardList) {
-            WorkshopCard(modifier, title = it.title, imageUrl = it.imageUrl)
+        item {
+          Header(
+            modifier = Modifier, title = "Trello workspace", onMenuItemClicked = {}
+          )
+        }
+        item {
+          LazyColumn(
+            modifier = Modifier.height(320.dp),
+          ) {
+            items(viewModel.boardList) {
+              WorkshopCard(
+                modifier = Modifier.clickable { navigateToTaskBoard("") },
+                title = it.title,
+                imageUrl = it.imageUrl
+              )
+            }
           }
         }
-
-        Divider()
       }
     }
   }

@@ -27,6 +27,10 @@ class DashboardViewModel @Inject constructor(
     Board("Project One", getRandomImageUrl().random()),
     Board("Project Two", getRandomImageUrl().random()),
     Board("Project Three", getRandomImageUrl().random()),
+    Board("Project Four", getRandomImageUrl().random()),
+    Board("Project Five", getRandomImageUrl().random()),
+    Board("Project Six", getRandomImageUrl().random()),
+    Board("Project Seven", getRandomImageUrl().random())
   )
 
   fun getRandomImageUrl() =
