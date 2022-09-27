@@ -15,17 +15,12 @@ fun CreateBoardRoute(
     onCancelClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colors.background
-    ) {
-        Scaffold(topBar = {
-            CreateBoardTopBar(
-                title = "Create Board",
-                onCancelClick = onCancelClick
-            )
-        }){
-            CreateBoardForm()
-        }
+    Scaffold(topBar = {
+        CreateBoardTopBar(
+            title = "Create Board",
+            onCancelClick = onCancelClick
+        )
+    }) {
+        CreateBoardForm()
     }
 }
