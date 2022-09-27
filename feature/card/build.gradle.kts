@@ -64,6 +64,7 @@ dependencies {
   implementation(project(":core:domain"))
   
   implementation(project(":core:navigation"))
+  implementation(project(":core:designsystem"))
 
   /* Android Designing and layout */
   implementation(Lib.Android.COMPOSE_LIVEDATA)
@@ -117,4 +118,10 @@ dependencies {
   testImplementation(TestLib.MOCKK)
   androidTestImplementation(Lib.Android.COMPOSE_JUNIT)
   debugImplementation(Lib.Android.COMPOSE_TEST_MANIFEST)
+
+  implementation(Lib.Android.CONSTRAINT_LAYOUT)
+  implementation(Lib.Android.COMPOSE_CALENDAR)
+  implementation(Lib.Android.COMPOSE_PLUCK)
+  implementation(Lib.Android.COIL_COMPOSE)
+  implementation(Lib.Android.ACCOMPANIST_COIL)
 }

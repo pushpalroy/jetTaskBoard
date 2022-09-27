@@ -10,8 +10,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun CreateCardRoute(
+  isExpandedScreen: Boolean,
   modifier: Modifier = Modifier,
-  viewModel: CardViewModel = hiltViewModel()
+  viewModel: CardViewModel = hiltViewModel(),
 ) {
   Surface(
     modifier = Modifier.fillMaxSize(),

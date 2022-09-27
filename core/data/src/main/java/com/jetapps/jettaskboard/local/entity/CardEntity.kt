@@ -22,7 +22,7 @@ import androidx.room.PrimaryKey
   // ]
 )
 data class CardEntity(
-  @PrimaryKey(autoGenerate = true) val id: Int?,
+  @PrimaryKey(autoGenerate = true) val id: Int,
   val title: String,
   val description: String?,
   @ColumnInfo(name = "column_image_url")
@@ -30,7 +30,7 @@ data class CardEntity(
   @ColumnInfo(name = "board_id")
   val boardId: String?,
   @ColumnInfo(name = "list_id")
-  val listId: String?,
+  val listId: Int?,
   @ColumnInfo(name = "author_id")
   val authorId: String?,
   @ColumnInfo(name = "start_date")
