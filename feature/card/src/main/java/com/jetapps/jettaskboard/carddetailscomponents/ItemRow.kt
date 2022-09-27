@@ -22,7 +22,8 @@ fun ItemRow(
     leadingIcon: @Composable () -> Unit,
     text: String,
     trailingIcon: ImageVector? = null,
-    onClick: () -> Unit? = {}
+    onClick: () -> Unit = {},
+    content: @Composable () -> Unit = {}
 ) {
     Column {
         Divider()
@@ -44,6 +45,8 @@ fun ItemRow(
                 )
             }
         }
+
+        content()
     }
 }
 
