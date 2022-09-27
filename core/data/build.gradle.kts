@@ -61,6 +61,7 @@ kapt {
 dependencies {
 
   implementation(project(":core:domain"))
+  implementation(project(":core:common"))
 
   /* Android Designing and layout */
   implementation(Lib.Android.MATERIAL_DESIGN)

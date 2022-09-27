@@ -10,6 +10,7 @@ import com.jetapps.jettaskboard.model.CardModel
 import com.jetapps.jettaskboard.model.ListModel
 import com.jetapps.jettaskboard.util.Board
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -34,15 +35,20 @@ class TaskBoardViewModel @Inject constructor(
    */
   fun getBoardData() {
     viewModelScope.launch {
-      with(getFakeBoardData()) {
-        boardInfo.value = Pair(id, title)
-        if (_lists.isEmpty()) {
-          _lists.addAll(lists)
-        }
-        if (_cards.isEmpty()) {
-          for (list in lists) {
-            _cards.addAll(list.cards)
-          }
+
+      // Trigger repository requests in parallel
+      val boardDeferred = async { getFakeBoard() }
+
+      // Wait for all requests to finish
+      val board = boardDeferred.await().successOr(BoardModel())
+
+      boardInfo.value = Pair(board.id, board.title)
+      if (_lists.isEmpty()) {
+        _lists.addAll(board.lists)
+      }
+      if (_cards.isEmpty()) {
+        for (list in board.lists) {
+          _cards.addAll(list.cards)
         }
       }
     }
@@ -73,9 +79,7 @@ class TaskBoardViewModel @Inject constructor(
     )
   }
 
-  private fun getFakeBoardData() = BoardModel(
-    id = Board.id,
-    title = Board.title,
-    lists = Board.lists
-  )
+  private fun getFakeBoard(): Result<BoardModel> {
+    return Result.Success(Board)
+  }
 }
