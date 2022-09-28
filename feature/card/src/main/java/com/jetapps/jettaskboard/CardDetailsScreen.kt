@@ -22,6 +22,7 @@ import com.jetapps.jettaskboard.uimodel.CardDetail
 fun CardDetailsRoute(
     isExpandedScreen: Boolean,
     modifier: Modifier = Modifier,
+    onCancelClick: () -> Unit,
     viewModel: CardViewModel = hiltViewModel()
 ) {
     Surface(
@@ -38,6 +39,7 @@ fun CardDetailsRoute(
                 MotionTopBar(
                     scrollState = scrollState,
                     isExpandedScreen,
+                    onCancelClick,
                     cardModel.coverImageUrl,
                     cardModel.title
                 )

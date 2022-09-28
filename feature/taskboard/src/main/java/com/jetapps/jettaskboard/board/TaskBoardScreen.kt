@@ -1,4 +1,4 @@
-package com.jetapps.jettaskboard
+package com.jetapps.jettaskboard.board
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -22,7 +21,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.jetapps.jettaskboard.TaskBoardViewModel
 import com.jetapps.jettaskboard.feature.taskboard.R
+import com.jetapps.jettaskboard.theme.DefaultTaskBoardBGColor
 import com.jetapps.jettaskboard.zoomable.Zoomable
 import com.jetapps.jettaskboard.zoomable.rememberZoomableState
 import kotlinx.coroutines.CoroutineScope
@@ -49,7 +50,7 @@ fun TaskBoardRoute(
     Surface(
       modifier = modifier
         .fillMaxSize(),
-      color = MaterialTheme.colors.background
+      color = DefaultTaskBoardBGColor
     ) {
       Box(
         modifier = Modifier

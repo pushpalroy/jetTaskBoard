@@ -23,17 +23,17 @@ class DashboardViewModel @Inject constructor(
    * All methods here are temporary for Demonstration
    * Purpose
    */
-  val boardList = listOf<Board>(
-    Board("Project One", getRandomImageUrl().random()),
-    Board("Project Two", getRandomImageUrl().random()),
-    Board("Project Three", getRandomImageUrl().random()),
-    Board("Project Four", getRandomImageUrl().random()),
-    Board("Project Five", getRandomImageUrl().random()),
-    Board("Project Six", getRandomImageUrl().random()),
-    Board("Project Seven", getRandomImageUrl().random())
+  val boardList = listOf(
+    Board("Praxis", getImageUrls()[0], true),
+    Board("Discord Clone", getImageUrls()[1]),
+    Board("Trello Workspace", getImageUrls()[2], true),
+    Board("Praxis Flutter", getImageUrls()[3], true),
+    Board("JetTaskBoard", getImageUrls()[4]),
+    Board("Google Play Clone", getImageUrls()[5]),
+    Board("JetFlix", getImageUrls()[6], true)
   )
 
-  fun getRandomImageUrl() =
+  private fun getImageUrls() =
     listOf(
       "https://images.unsplash.com/photo-1508264165352-258db2ebd59b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=776&q=80",
       "https://images.unsplash.com/photo-1506792006437-256b665541e2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80",
@@ -42,7 +42,7 @@ class DashboardViewModel @Inject constructor(
       "https://images.unsplash.com/photo-1503149779833-1de50ebe5f8a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
       "https://images.unsplash.com/photo-1531176175280-33e81422832a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80",
       "https://images.unsplash.com/photo-1657571484167-9975a442ecbb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1874&q=80",
-    ).shuffled()
+    )
 
   private fun addNewCard() {
     viewModelScope.launch {
@@ -57,5 +57,6 @@ class DashboardViewModel @Inject constructor(
 
 data class Board(
   val title: String,
-  val imageUrl: String
+  val imageUrl: String,
+  val isStarred: Boolean = false
 )

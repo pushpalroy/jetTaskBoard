@@ -63,6 +63,7 @@ dependencies {
 
   /* Android Designing and layout */
   implementation(Lib.Android.MATERIAL_DESIGN)
+  implementation(Lib.Android.ACCOMPANIST_SYSTEM_UI_CONTROLLER)
 
   /* Image Loading */
   implementation(Lib.Android.COIL_COMPOSE)

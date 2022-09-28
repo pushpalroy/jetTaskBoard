@@ -94,12 +94,12 @@ fun DashboardRoute(
                 item {
                     LazyVerticalGrid(
                         modifier = Modifier
-                            .padding(bottom = 8.dp)
+                            .padding(top = 4.dp, bottom = 8.dp)
                             .height(240.dp),
                         columns = GridCells.Fixed(2),
                         contentPadding = PaddingValues(4.dp),
                     ) {
-                        items(viewModel.boardList) { boardItem ->
+                        items(viewModel.boardList.subList(0, 5)) { boardItem ->
                             BoardCardComponent(
                                 modifier = Modifier.clickable { navigateToTaskBoard("") },
                                 title = boardItem.title,
@@ -115,13 +115,16 @@ fun DashboardRoute(
                 }
                 item {
                     LazyColumn(
-                        modifier = Modifier.height(320.dp),
+                        modifier = Modifier
+                          .height(320.dp)
+                          .padding(top = 4.dp),
                     ) {
                         items(viewModel.boardList) {
                             WorkshopCard(
                                 modifier = Modifier.clickable { navigateToTaskBoard("") },
                                 title = it.title,
-                                imageUrl = it.imageUrl
+                                imageUrl = it.imageUrl,
+                                isWorkshopStarred = it.isStarred
                             )
                         }
                     }

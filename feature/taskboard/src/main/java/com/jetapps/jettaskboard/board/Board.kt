@@ -1,4 +1,4 @@
-package com.jetapps.jettaskboard
+package com.jetapps.jettaskboard.board
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.scrollBy
@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
@@ -31,12 +32,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.jetapps.jettaskboard.TaskBoardViewModel
 import com.jetapps.jettaskboard.components.TaskCard
 import com.jetapps.jettaskboard.draganddrop.DragInfoState
 import com.jetapps.jettaskboard.draganddrop.DragTarget
 import com.jetapps.jettaskboard.draganddrop.DroppingArea
 import com.jetapps.jettaskboard.draganddrop.LongPressDraggable
 import com.jetapps.jettaskboard.model.ListModel
+import com.jetapps.jettaskboard.theme.SecondaryColor
 import kotlinx.coroutines.launch
 
 @Composable
@@ -178,6 +181,9 @@ fun ListFooter(
       modifier = Modifier
         .height(24.dp),
       contentPadding = PaddingValues(4.dp),
+      colors = ButtonDefaults.textButtonColors(
+        contentColor = SecondaryColor
+      ),
       onClick = { onAddCardClick() }
     ) {
       Icon(imageVector = Filled.Add, contentDescription = "Add")

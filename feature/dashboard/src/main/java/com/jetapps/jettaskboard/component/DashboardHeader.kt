@@ -1,10 +1,12 @@
 package com.jetapps.jettaskboard.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
@@ -24,32 +26,37 @@ fun Header(
     title: String,
     showIcon: Boolean = false,
     icon: ImageVector = Icons.Filled.MoreVert,
-    onMenuItemClicked: () -> Unit
+    onMenuItemClicked: () -> Unit = {}
 ) {
-    Row(
+    Surface(
         modifier = modifier
-            .fillMaxWidth(),
+            .background(color = Color(0xFF2c2c2e))
+            .fillMaxWidth()
     ) {
-        Text(
-            modifier = modifier
-                .padding(16.dp)
-                .weight(1f),
-            text = title,
-            textAlign = TextAlign.Start,
-            fontSize = 16.sp,
-          fontWeight = FontWeight.W500
-        )
-        if (showIcon) {
-            IconButton(
-                onClick = { onMenuItemClicked() },
+        Row(
+            modifier = Modifier,
+        ) {
+            Text(
                 modifier = modifier
-                    .align(CenterVertically)
-            ) {
-                Icon(
-                    imageVector = icon,
-                    tint = Color.White,
-                    contentDescription = "Menu Icon"
-                )
+                    .padding(16.dp)
+                    .weight(1f),
+                text = title,
+                textAlign = TextAlign.Start,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.W400
+            )
+            if (showIcon) {
+                IconButton(
+                    onClick = { onMenuItemClicked() },
+                    modifier = modifier
+                        .align(CenterVertically)
+                ) {
+                    Icon(
+                        imageVector = icon,
+                        tint = Color.White,
+                        contentDescription = "Menu Icon"
+                    )
+                }
             }
         }
     }

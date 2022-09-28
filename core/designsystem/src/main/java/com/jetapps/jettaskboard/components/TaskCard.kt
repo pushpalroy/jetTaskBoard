@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -39,51 +40,59 @@ fun TaskCard(
       .clickable {
         onClick()
       },
-    shape = RoundedCornerShape(10),
+    shape = RoundedCornerShape(4.dp),
     backgroundColor = Color(0xFF2c2c2e)
   ) {
     Column(
-      modifier = Modifier.padding(8.dp)
+      modifier = Modifier
     ) {
 
       card.coverImageUrl?.let { safeCoverImageUrl ->
         if (safeCoverImageUrl.isNotEmpty()) {
           Image(
+            modifier = Modifier
+              .height(80.dp)
+              .fillMaxWidth(),
             painter = rememberAsyncImagePainter(safeCoverImageUrl),
+            contentScale = ContentScale.Crop,
             contentDescription = "Cover Image"
           )
           Spacer(modifier = Modifier.height(4.dp))
         }
       }
-
-      card.labels.let { cardLabels ->
-        Row(
-          modifier = Modifier.fillMaxWidth(),
-          horizontalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-          for (label in cardLabels) {
-            Box(
-              modifier = Modifier
-                .width(32.dp)
-                .height(16.dp)
-                .clip(RoundedCornerShape(10))
-                .background(color = Color(label.labelColor))
-            )
+      Column(
+        modifier = Modifier.padding(8.dp)
+      ) {
+        card.labels.let { cardLabels ->
+          Row(
+            modifier = Modifier
+              .fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
+          ) {
+            for (label in cardLabels) {
+              Box(
+                modifier = Modifier
+                  .width(32.dp)
+                  .height(16.dp)
+                  .clip(RoundedCornerShape(10))
+                  .background(color = Color(label.labelColor))
+              )
+            }
           }
         }
-      }
 
-      Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
-      Text(
-        modifier = Modifier,
-        text = card.title,
-        maxLines = 1,
-        overflow = TextOverflow.Ellipsis,
-        style = TextStyle(
-          fontSize = 10.sp
+        Text(
+          modifier = Modifier,
+          text = card.title,
+          maxLines = 1,
+          overflow = TextOverflow.Ellipsis,
+          style = TextStyle(
+            fontSize = 10.sp
+          )
         )
-      )
+      }
     }
   }
 }
