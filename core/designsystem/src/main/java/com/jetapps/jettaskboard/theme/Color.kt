@@ -1,5 +1,7 @@
 package com.jetapps.jettaskboard.theme
 
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 val Purple200 = Color(0xFFBB86FC)
@@ -28,7 +30,6 @@ val md_theme_light_background = Color(0xFFf4f5f7)
 val md_theme_light_onBackground = Color(0xFF201A1A)
 val md_theme_light_surface = Color(0xFF0079bf)
 val md_theme_light_onSurface = Color(0xFF201A1A)
-val md_theme_light_surfaceVariant = Color(0xFF61bd4f)
 val md_theme_light_onSurfaceVariant = Color(0xFF524343)
 val md_theme_light_outline = Color(0xFF857373)
 val md_theme_light_inverseOnSurface = Color(0xFFFBEEED)
@@ -56,7 +57,6 @@ val md_theme_dark_background = Color(0xFF222222)
 val md_theme_dark_onBackground = Color(0xFFECE0DF)
 val md_theme_dark_surface = Color(0xFF3f3e41)
 val md_theme_dark_onSurface = Color(0xFFECE0DF)
-val md_theme_dark_surfaceVariant = Color(0xFF61bd4f)
 val md_theme_dark_onSurfaceVariant = Color(0xFFD7C1C1)
 val md_theme_dark_outline = Color(0xFFA08C8C)
 val md_theme_dark_inverseOnSurface = Color(0xFF201A1A)
@@ -71,3 +71,8 @@ val LabelOrange = Color(0xFFEF7564)
 val LabelViolet = Color(0xE69A8DFF)
 val LabelBlue = Color(0xFF5BA4CF)
 val DefaultTaskBoardBGColor = Color(0xFF0079bf)
+val SecondaryColor = Color(0xFF61bd4f)
+
+val MotionTopBarColor
+    @Composable get() =
+        if (isSystemInDarkTheme()) md_theme_dark_surface else md_theme_light_surface

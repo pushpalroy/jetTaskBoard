@@ -39,6 +39,7 @@ import androidx.constraintlayout.compose.ExperimentalMotionApi
 import androidx.constraintlayout.compose.MotionLayout
 import androidx.constraintlayout.compose.MotionScene
 import com.jetapps.jettaskboard.feature.card.R
+import com.jetapps.jettaskboard.theme.MotionTopBarColor
 
 @OptIn(ExperimentalMotionApi::class)
 @Composable
@@ -79,7 +80,7 @@ fun MotionTopBar(
             Box(
                 modifier = Modifier
                     .layoutId("box")
-                    .background(color = Color.Black)
+                    .background(color = MotionTopBarColor)
             )
 
             if (coverImageUrl != null) {

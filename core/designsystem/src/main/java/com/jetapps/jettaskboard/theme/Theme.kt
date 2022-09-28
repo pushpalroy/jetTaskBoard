@@ -11,7 +11,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 private val DarkColorPalette = darkColors(
     primary = md_theme_dark_background,
     primaryVariant = md_theme_dark_surface,
-    secondary = md_theme_dark_surfaceVariant,
+    secondary = SecondaryColor,
     background = md_theme_dark_background,
     surface = md_theme_dark_surface,
     error = md_theme_dark_error,
@@ -25,7 +25,7 @@ private val DarkColorPalette = darkColors(
 private val LightColorPalette = lightColors(
     primary = md_theme_light_surface,
     primaryVariant = md_theme_light_background,
-    secondary = md_theme_light_surfaceVariant,
+    secondary = SecondaryColor,
     background = md_theme_light_background,
     surface = md_theme_light_surface,
     error = md_theme_light_error,
