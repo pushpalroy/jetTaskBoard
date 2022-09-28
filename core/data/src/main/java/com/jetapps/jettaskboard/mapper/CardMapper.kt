@@ -12,6 +12,7 @@ class CardMapper @Inject constructor() : EntityMapper<CardModel, CardEntity> {
       entity.title,
       entity.description,
       entity.coverImageUrl,
+      listOf(),
       entity.boardId,
       entity.listId,
       entity.authorId,
