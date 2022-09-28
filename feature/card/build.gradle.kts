@@ -124,4 +124,6 @@ dependencies {
   implementation(Lib.Android.COMPOSE_PLUCK)
   implementation(Lib.Android.COIL_COMPOSE)
   implementation(Lib.Android.ACCOMPANIST_COIL)
+  implementation(Lib.Android.ACCOMPANIST_PERMISSION)
+  implementation(Lib.Android.ACCOMPANIST_FLOW_LAYOUTS)
 }

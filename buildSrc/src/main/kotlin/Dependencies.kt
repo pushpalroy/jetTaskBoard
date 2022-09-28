@@ -37,6 +37,9 @@ object Lib {
     private const val COMPOSE_NAVIGATION_VERSION = "2.5.0-alpha01"
     private const val COMPOSE_COIL_VERSION = "2.1.0"
     private const val ACCOMPANIST_VERSION = "0.24.13-rc"
+    private const val ACCOMPANIST_FLOW_LAYOUT_VERSION = "0.24.13-rc"
+    private const val WINDOW_METRICES_VERSION = "1.0.0"
+    private const val ACTIVITY_VERSION = "1.6.0"
 
     const val APP_COMPAT = "androidx.appcompat:appcompat:1.4.1"
 
@@ -55,9 +58,11 @@ object Lib {
     const val ACCOMPANIST_INSETS = "com.google.accompanist:accompanist-insets:${ACCOMPANIST_VERSION}"
     const val ACCOMPANIST_INSETS_UI = "com.google.accompanist:accompanist-insets-ui:${ACCOMPANIST_VERSION}"
     const val ACCOMPANIST_COIL = "com.google.accompanist:accompanist-coil:0.14.0"
+    const val ACCOMPANIST_PERMISSION = "com.google.accompanist:accompanist-permissions:${ACCOMPANIST_VERSION}"
     const val COMPOSE_JUNIT = "androidx.compose.ui:ui-test-junit4:$COMPOSE_VERSION"
     const val COMPOSE_TEST_MANIFEST = "androidx.compose.ui:ui-test-manifest:$COMPOSE_VERSION"
-    const val COMPOSE_WINDOW_MATRICES = "androidx.window:window:1.0.0"
+    const val COMPOSE_WINDOW_MATRICES = "androidx.window:window:$WINDOW_METRICES_VERSION"
+    const val ACTIVITY_KTX = "androidx.activity:activity-ktx:$ACTIVITY_VERSION"
 
 
     const val PROFILE_INSTALLER = "androidx.profileinstaller:profileinstaller:1.2.0"

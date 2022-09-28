@@ -1,5 +1,9 @@
 package com.jetapps.jettaskboard.carddetailscomponents
 
+import android.Manifest
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -17,25 +21,49 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.PermissionStatus
+import com.google.accompanist.permissions.rememberPermissionState
+import com.jetapps.jettaskboard.CardViewModel
 import com.jetapps.jettaskboard.feature.card.R
 import com.jetapps.jettaskboard.uimodel.CardDetail
 import com.squaredem.composecalendar.ComposeCalendar
 import java.time.LocalDate
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun CardDetailsContent(
     scrollState: ScrollState,
-    isExpandedScreen: Boolean,
-    cardDetails: CardDetail
+    cardDetails: CardDetail,
+    viewModel: CardViewModel
 ) {
 
     val configuration = LocalConfiguration.current
+
+    var imageUri: Uri? by remember {
+        mutableStateOf<Uri?>(null)
+    }
+    val context = LocalContext.current
+
+    val launcher = rememberLauncherForActivityResult(
+        contract =
+        ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        imageUri = uri
+    }
+
+    val galleryPermissionStatus =
+        rememberPermissionState(permission = Manifest.permission.READ_EXTERNAL_STORAGE)
+
+    var isImageLauncherLaunched by remember { mutableStateOf(false) }
 
     Column(modifier = Modifier.verticalScroll(scrollState)) {
         Text(
@@ -44,6 +72,8 @@ fun CardDetailsContent(
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold
         )
+
+
         Text(
             modifier = Modifier.padding(horizontal = 16.dp),
             text = "${(cardDetails.boardName) ?: "Praxis"} in list ${(cardDetails.listName) ?: "Backlog"}",
@@ -107,12 +137,14 @@ fun CardDetailsContent(
                         // Hide dialog
                         showCalendar.value = false
                         // Do something with the date
-                        if (isTopText.value) startDateText.value = "Starts on ${it.dayOfMonth} ${
-                            (it.month).toString().lowercase()
-                        }, ${it.year}"
-                        if (isBottomText.value) dueDateText.value = "Due on ${it.dayOfMonth} ${
-                            (it.month).toString().lowercase()
-                        }, ${it.year}"
+                        if (isTopText.value) startDateText.value =
+                            "Starts on ${it.dayOfMonth} ${
+                                (it.month).toString().lowercase()
+                            }, ${it.year}"
+                        if (isBottomText.value) dueDateText.value =
+                            "Due on ${it.dayOfMonth} ${
+                                (it.month).toString().lowercase()
+                            }, ${it.year}"
                     },
                     onDismiss = {
                         // Hide dialog
@@ -131,12 +163,20 @@ fun CardDetailsContent(
                 )
             },
             text = "ATTACHMENTS",
-            trailingIcon = Icons.Default.Add
+            trailingIcon = Icons.Default.Add,
+            onClick = {
+                if (galleryPermissionStatus.status != PermissionStatus.Granted) {
+                    galleryPermissionStatus.launchPermissionRequest()
+                } else {
+                    launcher.launch("image/*")
+                }
+            }
         )
+
+        ImageAttachments(viewModel, context, galleryPermissionStatus, imageUri)
+
 
         Divider()
     }
+
 }
-
-
-

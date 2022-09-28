@@ -3,6 +3,8 @@
   xmlns:tools="http://schemas.android.com/tools"
   package="com.jetapps.jettaskboard">
 
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
   <uses-permission android:name="android.permission.INTERNET"/>
 
   <application
