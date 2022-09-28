@@ -29,8 +29,6 @@ fun DashboardSinglePaneContent(
             Header(
                 modifier = Modifier, title = "Starred Boards", onMenuItemClicked = {}
             )
-        }
-        item {
             LazyVerticalGrid(
                 modifier = Modifier
                     .padding(top = 4.dp, bottom = 8.dp)
@@ -38,12 +36,14 @@ fun DashboardSinglePaneContent(
                 columns = Adaptive(minSize = 150.dp),
                 contentPadding = PaddingValues(4.dp),
             ) {
-                items(viewModel.boardList.subList(0, 5)) { boardItem ->
-                    BoardCardComponent(
-                        modifier = Modifier.clickable { navigateToTaskBoard("") },
-                        title = boardItem.title,
-                        backgroundImageUrl = boardItem.imageUrl
-                    )
+                if (viewModel.listOfBoards.isNotEmpty()) {
+                    items(viewModel.listOfBoards.subList(0, 5)) { boardItem ->
+                        BoardCardComponent(
+                            modifier = Modifier.clickable { navigateToTaskBoard("") },
+                            title = boardItem.title,
+                            backgroundImageUrl = boardItem.imageUrl
+                        )
+                    }
                 }
             }
         }
@@ -51,14 +51,12 @@ fun DashboardSinglePaneContent(
             Header(
                 modifier = Modifier, title = "Trello workspace", showIcon = true
             )
-        }
-        item {
             LazyColumn(
                 modifier = Modifier
                     .height(320.dp)
                     .padding(top = 4.dp),
             ) {
-                items(viewModel.boardList) {
+                items(viewModel.listOfBoards) {
                     WorkshopCard(
                         modifier = Modifier.clickable { navigateToTaskBoard("") },
                         title = it.title,
