@@ -4,13 +4,17 @@ import android.app.Activity
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells.Fixed
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -64,20 +68,29 @@ fun LeftPane(
         Header(
             modifier = Modifier, title = "Starred Boards", onMenuItemClicked = {}
         )
-        LazyVerticalGrid(
-            modifier = Modifier
-                .padding(top = 4.dp, bottom = 8.dp)
-                .fillMaxHeight(),
-            columns = Fixed(1),
-            contentPadding = PaddingValues(4.dp),
-        ) {
-            items(viewModel.boardList.subList(0, 5)) { boardItem ->
-                BoardCardComponent(
-                    modifier = Modifier.clickable { navigateToTaskBoard("") },
-                    title = boardItem.title,
-                    backgroundImageUrl = boardItem.imageUrl
-                )
+        Row {
+            LazyVerticalGrid(
+                modifier = Modifier
+                    .padding(top = 4.dp, bottom = 8.dp, end = 8.dp)
+                    .fillMaxHeight()
+                    .fillMaxWidth(0.999f),
+                columns = Fixed(1),
+                contentPadding = PaddingValues(4.dp),
+            ) {
+                items(viewModel.boardList.subList(0, 5)) { boardItem ->
+                    BoardCardComponent(
+                        modifier = Modifier.clickable { navigateToTaskBoard("") },
+                        title = boardItem.title,
+                        backgroundImageUrl = boardItem.imageUrl
+                    )
+                }
             }
+            Divider(
+                modifier = Modifier
+                    .padding(vertical = 8.dp)
+                    .fillMaxHeight()
+                    .width(1.dp)
+            )
         }
     }
 }

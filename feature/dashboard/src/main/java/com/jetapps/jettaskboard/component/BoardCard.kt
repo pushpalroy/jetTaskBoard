@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import coil.size.Scale
 import com.jetapps.jettaskboard.feature.dashboard.R
 
 @Composable
@@ -48,6 +49,7 @@ fun BoardCardComponent(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(backgroundImageUrl)
                     .crossfade(true)
+                    .scale(Scale.FILL)
                     .build(),
                 placeholder = placeHolderImage,
                 contentDescription = stringResource(R.string.content_description_for_place_holder),
@@ -63,7 +65,7 @@ fun BoardCardComponent(
             ) {
                 Text(
                     modifier = modifier
-                        .padding(14.dp),
+                        .padding(12.dp),
                     text = title,
                     fontStyle = FontStyle.Normal,
                     fontSize = 12.sp
