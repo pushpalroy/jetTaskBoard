@@ -6,9 +6,10 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.Notifications
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 
 /**
  * Todo: Check if `actions` is used as per best practices
@@ -32,17 +33,18 @@ fun DashboardAppBar(
                 )
             }
         },
+        backgroundColor = Color(0xFF3f3f41),
         actions = {
             IconButton(onClick = onSearchIconClicked) {
                 Icon(
-                    imageVector = Icons.Default.Search,
+                    imageVector = Icons.Outlined.Search,
                     contentDescription = "Search"
                 )
             }
 
             IconButton(onClick = onNotificationIconClicked) {
                 Icon(
-                    imageVector = Icons.Default.Notifications,
+                    imageVector = Icons.Outlined.Notifications,
                     contentDescription = "Notification"
                 )
             }

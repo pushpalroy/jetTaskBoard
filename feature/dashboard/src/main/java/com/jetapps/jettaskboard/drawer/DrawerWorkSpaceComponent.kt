@@ -23,10 +23,10 @@ fun DrawerWorkSpaceComponent(
             .fillMaxWidth()
     ) {
         Text(
-            text = "WorkSpace",
+            text = "Workspaces",
             modifier = modifier.padding(bottom = 16.dp),
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold
+            fontSize = 16.sp,
+            fontWeight = FontWeight.W500
         )
 
         viewModel.boardList.forEach { items ->

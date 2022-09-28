@@ -3,7 +3,9 @@ package com.jetapps.jettaskboard
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -89,8 +91,8 @@ fun DashboardRoute(
         item {
           LazyVerticalGrid(
             modifier = Modifier
-              .padding(bottom = 8.dp)
-              .height(240.dp),
+                .padding(top = 4.dp, bottom = 8.dp)
+                .height(240.dp),
             columns = GridCells.Fixed(2),
             contentPadding = PaddingValues(4.dp),
           ) {
@@ -110,7 +112,9 @@ fun DashboardRoute(
         }
         item {
           LazyColumn(
-            modifier = Modifier.height(320.dp),
+            modifier = Modifier
+                .height(320.dp)
+                .padding(top = 4.dp),
           ) {
             items(viewModel.boardList) {
               WorkshopCard(

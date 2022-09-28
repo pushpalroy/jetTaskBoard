@@ -4,11 +4,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,15 +24,12 @@ fun WorkSpaceItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(
-                top = 16.dp,
-                bottom = 16.dp
-            ),
+            .padding(vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
 
         Icon(
-            imageVector = Icons.Filled.Person,
+            imageVector = Icons.Outlined.Person,
             contentDescription = "WorkSpace Item"
         )
 
@@ -42,13 +39,13 @@ fun WorkSpaceItem(
                     .weight(1f)
                     .padding(start = 24.dp),
                 text = safeWorkSpace,
-                fontSize = 18.sp,
+                fontSize = 16.sp,
                 fontStyle = FontStyle.Normal
             )
         }
 
         Icon(
-            imageVector = Icons.Filled.Menu,
+            imageVector = Icons.Filled.MoreVert,
             contentDescription = "WorkSpace Item"
         )
     }
