@@ -59,6 +59,7 @@ object Lib {
     const val ACCOMPANIST_INSETS_UI = "com.google.accompanist:accompanist-insets-ui:${ACCOMPANIST_VERSION}"
     const val ACCOMPANIST_COIL = "com.google.accompanist:accompanist-coil:0.14.0"
     const val ACCOMPANIST_PERMISSION = "com.google.accompanist:accompanist-permissions:${ACCOMPANIST_VERSION}"
+    const val ACCOMPANIST_ADAPTIVE = "com.google.accompanist:accompanist-adaptive:0.26.4-beta"
     const val COMPOSE_JUNIT = "androidx.compose.ui:ui-test-junit4:$COMPOSE_VERSION"
     const val COMPOSE_TEST_MANIFEST = "androidx.compose.ui:ui-test-manifest:$COMPOSE_VERSION"
     const val COMPOSE_WINDOW_MATRICES = "androidx.window:window:$WINDOW_METRICES_VERSION"

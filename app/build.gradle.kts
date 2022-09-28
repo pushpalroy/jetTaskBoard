@@ -88,6 +88,7 @@ dependencies {
     implementation(Lib.Android.ACCOMPANIST_INSETS_UI)
     implementation(ACCOMPANIST_SYSTEM_UI_CONTROLLER)
     implementation(Lib.Android.ACCOMPANIST_FLOW_LAYOUTS)
+    implementation(Lib.Android.COMPOSE_WINDOW_MATRICES)
 
     implementation(Lib.Android.APP_COMPAT)
 
@@ -101,7 +102,6 @@ dependencies {
     implementation(Lib.Di.hiltAndroid)
     implementation(Lib.Di.hiltNavigationCompose)
     implementation(Lib.Android.COMPOSE_TOOLING_PREVIEW)
-    implementation(Lib.Android.COMPOSE_WINDOW_MATRICES)
     debugImplementation(Lib.Android.COMPOSE_TOOLING)
 
     implementation(Lib.Android.PROFILE_INSTALLER)
