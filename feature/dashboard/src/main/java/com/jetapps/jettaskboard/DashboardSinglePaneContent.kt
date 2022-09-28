@@ -35,7 +35,7 @@ fun DashboardSinglePaneContent(
                 modifier = Modifier
                     .padding(top = 4.dp, bottom = 8.dp)
                     .height(240.dp),
-                columns = Adaptive(minSize = 180.dp),
+                columns = Adaptive(minSize = 150.dp),
                 contentPadding = PaddingValues(4.dp),
             ) {
                 items(viewModel.boardList.subList(0, 5)) { boardItem ->
