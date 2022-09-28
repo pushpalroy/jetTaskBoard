@@ -24,13 +24,13 @@ class DashboardViewModel @Inject constructor(
    * Purpose
    */
   val boardList = listOf(
-    Board("Praxis", getImageUrls()[0]),
+    Board("Praxis", getImageUrls()[0], true),
     Board("Discord Clone", getImageUrls()[1]),
-    Board("Trello Workspace", getImageUrls()[2]),
-    Board("Praxis Flutter", getImageUrls()[3]),
+    Board("Trello Workspace", getImageUrls()[2], true),
+    Board("Praxis Flutter", getImageUrls()[3], true),
     Board("JetTaskBoard", getImageUrls()[4]),
     Board("Google Play Clone", getImageUrls()[5]),
-    Board("JetFlix", getImageUrls()[6])
+    Board("JetFlix", getImageUrls()[6], true)
   )
 
   private fun getImageUrls() =
@@ -57,5 +57,6 @@ class DashboardViewModel @Inject constructor(
 
 data class Board(
   val title: String,
-  val imageUrl: String
+  val imageUrl: String,
+  val isStarred: Boolean = false
 )

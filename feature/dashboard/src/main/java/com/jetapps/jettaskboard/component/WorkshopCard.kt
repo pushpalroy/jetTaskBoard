@@ -48,9 +48,9 @@ fun WorkshopCard(
         if (isWorkshopStarred) {
             Icon(
                 imageVector = starPainterResource,
-                modifier = modifier.size(24.dp),
+                modifier = modifier.size(18.dp),
                 contentDescription = "star",
-                tint = Color.Yellow
+                tint = Color(0xFFFFEB3B)
             )
         }
     }

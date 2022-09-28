@@ -96,7 +96,7 @@ fun DashboardRoute(
             columns = GridCells.Fixed(2),
             contentPadding = PaddingValues(4.dp),
           ) {
-            items(viewModel.boardList) { boardItem ->
+            items(viewModel.boardList.subList(0, 5)) { boardItem ->
               BoardCardComponent(
                 modifier = Modifier.clickable { navigateToTaskBoard("") },
                 title = boardItem.title,
@@ -107,7 +107,7 @@ fun DashboardRoute(
         }
         item {
           Header(
-            modifier = Modifier, title = "Trello workspace", onMenuItemClicked = {}
+            modifier = Modifier, title = "Trello workspace", showIcon = true
           )
         }
         item {
@@ -120,7 +120,8 @@ fun DashboardRoute(
               WorkshopCard(
                 modifier = Modifier.clickable { navigateToTaskBoard("") },
                 title = it.title,
-                imageUrl = it.imageUrl
+                imageUrl = it.imageUrl,
+                isWorkshopStarred = it.isStarred
               )
             }
           }

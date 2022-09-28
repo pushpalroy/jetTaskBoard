@@ -26,7 +26,7 @@ fun Header(
     title: String,
     showIcon: Boolean = false,
     icon: ImageVector = Icons.Filled.MoreVert,
-    onMenuItemClicked: () -> Unit
+    onMenuItemClicked: () -> Unit = {}
 ) {
     Surface(
         modifier = modifier
