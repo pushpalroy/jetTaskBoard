@@ -63,7 +63,7 @@ fun BoardCardComponent(
             ) {
                 Text(
                     modifier = modifier
-                        .padding(14.dp),
+                        .padding(12.dp),
                     text = title,
                     fontStyle = FontStyle.Normal,
                     fontSize = 12.sp
