@@ -49,7 +49,7 @@ fun DashboardRoute(
 
     Scaffold(
       scaffoldState = scaffoldState,
-      modifier = modifier,
+      modifier = Modifier,
       topBar = {
         DashboardAppBar(
           onMenuIconClick = {
