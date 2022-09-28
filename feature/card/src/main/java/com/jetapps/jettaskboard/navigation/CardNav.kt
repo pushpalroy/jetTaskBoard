@@ -37,6 +37,6 @@ fun NavGraphBuilder.cardGraph(isExpandedScreen: Boolean, onBackClick: () -> Unit
     CreateCardRoute(isExpandedScreen)
   }
   composable(route = CardDetailsDestination.route) {
-    CardDetailsRoute(isExpandedScreen)
+    CardDetailsRoute(isExpandedScreen, onCancelClick = onBackClick)
   }
 }

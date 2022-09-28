@@ -1,6 +1,7 @@
 package com.jetapps.jettaskboard.carddetailscomponents
 
 import android.Manifest
+import android.content.res.Configuration
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -43,7 +44,7 @@ import java.time.LocalDate
 fun CardDetailsContent(
     scrollState: ScrollState,
     cardDetails: CardDetail,
-    viewModel: CardViewModel
+    viewModel: CardViewModel,
 ) {
 
     val configuration = LocalConfiguration.current
@@ -177,6 +178,14 @@ fun CardDetailsContent(
 
 
         Divider()
+
+        when (configuration.orientation) {
+            Configuration.ORIENTATION_PORTRAIT -> {
+                Spacer(modifier = Modifier.height(400.dp))
+            }
+            else -> {
+            }
+        }
     }
 
 }
