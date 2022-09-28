@@ -65,6 +65,9 @@ dependencies {
   implementation(project(":core:domain"))
   implementation(project(":core:navigation"))
 
+  implementation("androidx.compose.material3:material3:1.0.0-beta03")
+  implementation("androidx.compose.material3:material3-window-size-class:1.0.0-beta03")
+
   /* Android Designing and layout */
   implementation(Lib.Android.COMPOSE_LIVEDATA)
   implementation(Lib.Android.COMPOSE_NAVIGATION)
