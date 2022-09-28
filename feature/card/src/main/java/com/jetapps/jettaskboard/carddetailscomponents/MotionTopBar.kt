@@ -6,6 +6,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -41,7 +42,13 @@ import com.jetapps.jettaskboard.feature.card.R
 
 @OptIn(ExperimentalMotionApi::class)
 @Composable
-fun MotionTopBar(scrollState: ScrollState, isExpandedScreen: Boolean ,coverImageUrl: String?, title: String?) {
+fun MotionTopBar(
+    scrollState: ScrollState,
+    isExpandedScreen: Boolean,
+    onCancelClick: () -> Unit,
+    coverImageUrl: String?,
+    title: String?,
+    ) {
 
     val context = LocalContext.current
     val motionScene = remember {
@@ -110,7 +117,10 @@ fun MotionTopBar(scrollState: ScrollState, isExpandedScreen: Boolean ,coverImage
                 imageVector = Icons.Default.Close,
                 contentDescription = "Close the App Bar",
                 modifier = Modifier
-                    .layoutId("cross_icon"),
+                    .layoutId("cross_icon")
+                    .clickable {
+                               onCancelClick()
+                    },
                 tint = Color.White
             )
 
@@ -118,7 +128,8 @@ fun MotionTopBar(scrollState: ScrollState, isExpandedScreen: Boolean ,coverImage
                 imageVector = Icons.Default.MoreVert,
                 contentDescription = "Open Menu",
                 modifier = Modifier
-                    .layoutId("more_icon"),
+                    .layoutId("more_icon")
+                    .clickable { },
                 tint = Color.White
             )
 
