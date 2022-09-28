@@ -45,9 +45,9 @@ fun CardDetailsRoute(
             }
         ) {
             if (!isExpandedScreen)
-                CardDetailsContent(scrollState, isExpandedScreen, CardDetail())
+                CardDetailsContent(scrollState, CardDetail(), viewModel)
             else
-                ExpandedCardDetailsContent(expandedLeftScrollState, expandedRightScrollState, CardDetail())
+                ExpandedCardDetailsContent(expandedLeftScrollState, expandedRightScrollState, CardDetail(), viewModel)
         }
     }
 }
