@@ -1,7 +1,8 @@
 package com.jetapps.jettaskboard.carddetailscomponents.expanded
 
 import android.Manifest
-import android.graphics.Bitmap
+import android.app.Activity
+import android.content.Context
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -37,6 +38,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
+import com.google.accompanist.adaptive.TwoPane
+import com.google.accompanist.adaptive.calculateDisplayFeatures
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
@@ -52,19 +56,39 @@ import com.jetapps.jettaskboard.uimodel.CardDetail
 import com.squaredem.composecalendar.ComposeCalendar
 import java.time.LocalDate
 
-@OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun ExpandedCardDetailsContent(
+fun ExpandedCardDetailContent(
     leftScrollState: ScrollState,
     rightScrollState: ScrollState,
     cardDetails: CardDetail,
     viewModel: CardViewModel
 ) {
-
     val context = LocalContext.current
-    val bitmap = remember {
-        mutableStateOf<Bitmap?>(null)
-    }
+    TwoPane(
+        first = {
+            LeftPane(leftScrollState, cardDetails)
+        },
+        second = {
+            RightPane(rightScrollState, cardDetails, viewModel, context)
+        },
+        strategy = { density, layoutDirection, layoutCoordinates ->
+            HorizontalTwoPaneStrategy(
+                splitFraction = .5f
+            ).calculateSplitResult(density, layoutDirection, layoutCoordinates)
+        },
+        displayFeatures = calculateDisplayFeatures(activity = context as Activity)
+    )
+
+}
+
+@OptIn(ExperimentalPermissionsApi::class)
+@Composable
+fun RightPane(
+    rightScrollState: ScrollState,
+    cardDetails: CardDetail,
+    viewModel: CardViewModel,
+    context: Context
+) {
 
     val galleryPermissionStatus =
         rememberPermissionState(permission = Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -80,16 +104,114 @@ fun ExpandedCardDetailsContent(
         imageUri = uri
     }
 
-    var isImageLauncherLaunched by remember { mutableStateOf(false) }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rightScrollState)
+            .padding(16.dp)
+    ) {
 
-    Row(modifier = Modifier.fillMaxSize()) {
+        val members by remember { mutableStateOf(cardDetails.authorName ?: "Members...") }
+        ItemRow(
+            leadingIcon = {
+                Icon(
+                    modifier = Modifier.padding(16.dp),
+                    imageVector = Icons.Outlined.Person,
+                    contentDescription = "Leading Icon"
+                )
+            },
+            text = members
+        )
+
+        LabelRow()
+
+        val showCalendar = rememberSaveable { mutableStateOf(false) }
+        val isTopText = rememberSaveable { mutableStateOf(false) }
+        val isBottomText = rememberSaveable { mutableStateOf(false) }
+
+        val startDateText = rememberSaveable {
+            mutableStateOf(cardDetails.startDate ?: "Start Date...")
+        }
+
+        val dueDateText = rememberSaveable {
+            mutableStateOf(cardDetails.dueDate ?: "Due Date...")
+        }
+
+        TimeItemRow(
+            modifier = Modifier,
+            icon = R.drawable.ic_time,
+            topText = startDateText.value,
+            bottomText = dueDateText.value,
+            onStartDateClick = {
+                showCalendar.value = !showCalendar.value
+                isTopText.value = true
+                isBottomText.value = false
+            },
+            onDueDateClick = {
+                showCalendar.value = !showCalendar.value
+                isBottomText.value = true
+                isTopText.value = false
+            }
+        ) {
+            if (showCalendar.value) {
+                ComposeCalendar(
+                    onDone = { it: LocalDate ->
+                        // Hide dialog
+                        showCalendar.value = false
+                        // Do something with the date
+                        if (isTopText.value) startDateText.value =
+                            "Starts on ${it.dayOfMonth} ${
+                                (it.month).toString().lowercase()
+                            }, ${it.year}"
+                        if (isBottomText.value) dueDateText.value = "Due on ${it.dayOfMonth} ${
+                            (it.month).toString().lowercase()
+                        }, ${it.year}"
+                    },
+                    onDismiss = {
+                        // Hide dialog
+                        showCalendar.value = false
+                    }
+                )
+            }
+        }
+
+        ItemRow(
+            leadingIcon = {
+                Icon(
+                    modifier = Modifier.padding(16.dp),
+                    painter = painterResource(id = R.drawable.ic_attachment),
+                    contentDescription = "Leading Icon"
+                )
+            },
+            text = "ATTACHMENTS",
+            trailingIcon = Icons.Default.Add,
+            onClick = {
+                if (galleryPermissionStatus.status != PermissionStatus.Granted) {
+                    galleryPermissionStatus.launchPermissionRequest()
+                } else {
+                    launcher.launch("image/*")
+                }
+
+            }
+        )
+
+        ImageAttachments(viewModel, context, galleryPermissionStatus, imageUri)
+
+
+        Divider()
+    }
+}
+
+@Composable
+fun LeftPane(leftScrollState: ScrollState, cardDetails: CardDetail) {
+    Row(
+        modifier = Modifier.fillMaxSize()
+    ) {
         Column(
             modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxWidth(0.5f)
+                .fillMaxWidth(0.999f)
                 .verticalScroll(leftScrollState)
-                .padding(16.dp)
-                .weight(1f),
+                .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
@@ -129,110 +251,11 @@ fun ExpandedCardDetailsContent(
             Divider()
             Spacer(modifier = Modifier.height(8.dp))
         }
-
         Divider(
             modifier = Modifier
                 .fillMaxHeight()
                 .width(1.dp)
         )
-
-        Column(
-            modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxWidth(0.5f)
-                .verticalScroll(rightScrollState)
-                .padding(16.dp)
-                .weight(1f)
-        ) {
-
-            val members by remember { mutableStateOf(cardDetails.authorName ?: "Members...") }
-            ItemRow(
-                leadingIcon = {
-                    Icon(
-                        modifier = Modifier.padding(16.dp),
-                        imageVector = Icons.Outlined.Person,
-                        contentDescription = "Leading Icon"
-                    )
-                },
-                text = members
-            )
-
-            LabelRow()
-
-            val showCalendar = rememberSaveable { mutableStateOf(false) }
-            val isTopText = rememberSaveable { mutableStateOf(false) }
-            val isBottomText = rememberSaveable { mutableStateOf(false) }
-
-            val startDateText = rememberSaveable {
-                mutableStateOf(cardDetails.startDate ?: "Start Date...")
-            }
-
-            val dueDateText = rememberSaveable {
-                mutableStateOf(cardDetails.dueDate ?: "Due Date...")
-            }
-
-            TimeItemRow(
-                modifier = Modifier,
-                icon = R.drawable.ic_time,
-                topText = startDateText.value,
-                bottomText = dueDateText.value,
-                onStartDateClick = {
-                    showCalendar.value = !showCalendar.value
-                    isTopText.value = true
-                    isBottomText.value = false
-                },
-                onDueDateClick = {
-                    showCalendar.value = !showCalendar.value
-                    isBottomText.value = true
-                    isTopText.value = false
-                }
-            ) {
-                if (showCalendar.value) {
-                    ComposeCalendar(
-                        onDone = { it: LocalDate ->
-                            // Hide dialog
-                            showCalendar.value = false
-                            // Do something with the date
-                            if (isTopText.value) startDateText.value =
-                                "Starts on ${it.dayOfMonth} ${
-                                    (it.month).toString().lowercase()
-                                }, ${it.year}"
-                            if (isBottomText.value) dueDateText.value = "Due on ${it.dayOfMonth} ${
-                                (it.month).toString().lowercase()
-                            }, ${it.year}"
-                        },
-                        onDismiss = {
-                            // Hide dialog
-                            showCalendar.value = false
-                        }
-                    )
-                }
-            }
-
-            ItemRow(
-                leadingIcon = {
-                    Icon(
-                        modifier = Modifier.padding(16.dp),
-                        painter = painterResource(id = R.drawable.ic_attachment),
-                        contentDescription = "Leading Icon"
-                    )
-                },
-                text = "ATTACHMENTS",
-                trailingIcon = Icons.Default.Add,
-                onClick = {
-                    if (galleryPermissionStatus.status != PermissionStatus.Granted) {
-                        galleryPermissionStatus.launchPermissionRequest()
-                    } else {
-                        launcher.launch("image/*")
-                    }
-
-                }
-            )
-
-                ImageAttachments(viewModel, context, galleryPermissionStatus, imageUri)
-
-
-            Divider()
-        }
     }
+
 }

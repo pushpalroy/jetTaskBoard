@@ -40,6 +40,7 @@ object Lib {
     private const val ACCOMPANIST_FLOW_LAYOUT_VERSION = "0.24.13-rc"
     private const val WINDOW_METRICES_VERSION = "1.0.0"
     private const val ACTIVITY_VERSION = "1.6.0"
+    private const val ACCOMPANIST_ADAPTIVE_VERSION = "0.26.4-beta"
 
     const val APP_COMPAT = "androidx.appcompat:appcompat:1.4.1"
 
@@ -59,6 +60,7 @@ object Lib {
     const val ACCOMPANIST_INSETS_UI = "com.google.accompanist:accompanist-insets-ui:${ACCOMPANIST_VERSION}"
     const val ACCOMPANIST_COIL = "com.google.accompanist:accompanist-coil:0.14.0"
     const val ACCOMPANIST_PERMISSION = "com.google.accompanist:accompanist-permissions:${ACCOMPANIST_VERSION}"
+    const val ACCOMPANIST_ADAPTIVE = "com.google.accompanist:accompanist-adaptive:$ACCOMPANIST_ADAPTIVE_VERSION"
     const val COMPOSE_JUNIT = "androidx.compose.ui:ui-test-junit4:$COMPOSE_VERSION"
     const val COMPOSE_TEST_MANIFEST = "androidx.compose.ui:ui-test-manifest:$COMPOSE_VERSION"
     const val COMPOSE_WINDOW_MATRICES = "androidx.window:window:$WINDOW_METRICES_VERSION"

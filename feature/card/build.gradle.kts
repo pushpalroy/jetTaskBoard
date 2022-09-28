@@ -126,4 +126,6 @@ dependencies {
   implementation(Lib.Android.ACCOMPANIST_COIL)
   implementation(Lib.Android.ACCOMPANIST_PERMISSION)
   implementation(Lib.Android.ACCOMPANIST_FLOW_LAYOUTS)
+  implementation(Lib.Android.ACCOMPANIST_ADAPTIVE)
+  implementation(Lib.Android.COMPOSE_WINDOW_MATRICES)
 }
