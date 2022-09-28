@@ -1,4 +1,4 @@
-package com.jetapps.jettaskboard
+package com.jetapps.jettaskboard.board
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.scrollBy
@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.jetapps.jettaskboard.TaskBoardViewModel
 import com.jetapps.jettaskboard.components.TaskCard
 import com.jetapps.jettaskboard.draganddrop.DragInfoState
 import com.jetapps.jettaskboard.draganddrop.DragTarget
