@@ -116,8 +116,8 @@ fun DashboardRoute(
                 item {
                     LazyColumn(
                         modifier = Modifier
-                          .height(320.dp)
-                          .padding(top = 4.dp),
+                            .height(320.dp)
+                            .padding(top = 4.dp),
                     ) {
                         items(viewModel.boardList) {
                             WorkshopCard(
