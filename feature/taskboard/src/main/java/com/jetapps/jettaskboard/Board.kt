@@ -32,8 +32,8 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jetapps.jettaskboard.components.TaskCard
-import com.jetapps.jettaskboard.draganddrop.DragTarget
 import com.jetapps.jettaskboard.draganddrop.DragInfoState
+import com.jetapps.jettaskboard.draganddrop.DragTarget
 import com.jetapps.jettaskboard.draganddrop.DroppingArea
 import com.jetapps.jettaskboard.draganddrop.LongPressDraggable
 import com.jetapps.jettaskboard.model.ListModel
@@ -102,7 +102,7 @@ fun Lists(
 
   DroppingArea(
     modifier = Modifier
-      .padding(4.dp)
+      .padding(start = 16.dp, end = 0.dp, top = 16.dp, bottom = 8.dp)
       .background(
         color = Color(0xFF222222),
         shape = RoundedCornerShape(2)
@@ -115,7 +115,7 @@ fun Lists(
           color = getBgColor(isInBound, boardState.isDragging),
           shape = RoundedCornerShape(2)
         )
-        .width(220.dp)
+        .width(240.dp)
         .padding(4.dp)
     ) {
       ListHeader(

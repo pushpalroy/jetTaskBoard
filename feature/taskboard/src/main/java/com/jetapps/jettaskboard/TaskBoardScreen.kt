@@ -3,7 +3,6 @@ package com.jetapps.jettaskboard
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -19,7 +18,6 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.jetapps.jettaskboard.zoomable.Zoomable
 import com.jetapps.jettaskboard.zoomable.rememberZoomableState
@@ -46,25 +44,22 @@ fun TaskBoardRoute(
   ) {
     Surface(
       modifier = modifier
-        .padding(top = 8.dp)
         .fillMaxSize(),
       color = MaterialTheme.colors.background
     ) {
-      val coroutineScope = rememberCoroutineScope()
       Zoomable(
-        coroutineScope = coroutineScope,
-        content = {
-          Box(
-            modifier = modifier.fillMaxSize()
-          ) {
-            Board(
-              modifier = Modifier,
-              navigateToCreateCard = navigateToCreateCard,
-              viewModel = viewModel
-            )
-          }
+        coroutineScope = rememberCoroutineScope()
+      ) {
+        Box(
+          modifier = Modifier.fillMaxSize()
+        ) {
+          Board(
+            modifier = Modifier,
+            navigateToCreateCard = navigateToCreateCard,
+            viewModel = viewModel
+          )
         }
-      )
+      }
     }
   }
 }
