@@ -64,8 +64,6 @@ fun CardDetailsContent(
     val galleryPermissionStatus =
         rememberPermissionState(permission = Manifest.permission.READ_EXTERNAL_STORAGE)
 
-    var isImageLauncherLaunched by remember { mutableStateOf(false) }
-
     Column(modifier = Modifier.verticalScroll(scrollState)) {
         Text(
             modifier = Modifier.padding(16.dp),

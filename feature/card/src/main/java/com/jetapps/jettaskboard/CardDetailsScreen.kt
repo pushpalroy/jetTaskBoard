@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.jetapps.jettaskboard.carddetailscomponents.CardDetailsContent
 import com.jetapps.jettaskboard.carddetailscomponents.MotionTopBar
-import com.jetapps.jettaskboard.carddetailscomponents.twopane.TwoPaneCardDetailContent
+import com.jetapps.jettaskboard.carddetailscomponents.expanded.ExpandedCardDetailContent
 import com.jetapps.jettaskboard.uimodel.CardDetail
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -49,7 +49,12 @@ fun CardDetailsRoute(
             if (!isExpandedScreen)
                 CardDetailsContent(scrollState, CardDetail(), viewModel)
             else
-                TwoPaneCardDetailContent(expandedLeftScrollState, expandedRightScrollState, CardDetail(), viewModel)
+                ExpandedCardDetailContent(
+                    expandedLeftScrollState,
+                    expandedRightScrollState,
+                    CardDetail(),
+                    viewModel
+                )
         }
     }
 }

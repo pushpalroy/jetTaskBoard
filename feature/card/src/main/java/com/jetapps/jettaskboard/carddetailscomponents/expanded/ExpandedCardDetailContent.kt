@@ -1,20 +1,22 @@
-package com.jetapps.jettaskboard.carddetailscomponents.twopane
+package com.jetapps.jettaskboard.carddetailscomponents.expanded
 
 import android.Manifest
 import android.app.Activity
 import android.content.Context
-import android.graphics.Bitmap
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
@@ -54,9 +56,8 @@ import com.jetapps.jettaskboard.uimodel.CardDetail
 import com.squaredem.composecalendar.ComposeCalendar
 import java.time.LocalDate
 
-@OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun TwoPaneCardDetailContent(
+fun ExpandedCardDetailContent(
     leftScrollState: ScrollState,
     rightScrollState: ScrollState,
     cardDetails: CardDetail,
@@ -89,10 +90,6 @@ fun RightPane(
     context: Context
 ) {
 
-    val bitmap = remember {
-        mutableStateOf<Bitmap?>(null)
-    }
-
     val galleryPermissionStatus =
         rememberPermissionState(permission = Manifest.permission.READ_EXTERNAL_STORAGE)
 
@@ -106,8 +103,6 @@ fun RightPane(
     ) { uri: Uri? ->
         imageUri = uri
     }
-
-    var isImageLauncherLaunched by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -209,48 +204,58 @@ fun RightPane(
 
 @Composable
 fun LeftPane(leftScrollState: ScrollState, cardDetails: CardDetail) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(leftScrollState)
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+    Row(
+        modifier = Modifier.fillMaxSize()
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.backlog),
-            contentDescription = "Backlog",
-            contentScale = ContentScale.Crop,
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(180.dp)
+                .fillMaxWidth(0.999f)
+                .verticalScroll(leftScrollState)
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.backlog),
+                contentDescription = "Backlog",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(180.dp)
+            )
+
+            Text(
+                modifier = Modifier.padding(16.dp),
+                text = cardDetails.title ?: "Backlog",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold
+            )
+
+            Text(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                text = "${(cardDetails.boardName) ?: "Praxis"} in list ${(cardDetails.listName) ?: "Backlog"}",
+                fontSize = 16.sp,
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+            Divider()
+            Spacer(modifier = Modifier.height(8.dp))
+
+            EditTextCard(description = cardDetails.description, isExpanded = true)
+
+            Divider()
+            Spacer(modifier = Modifier.height(8.dp))
+
+            QuickActionsCard(isExpanded = true)
+
+            Spacer(modifier = Modifier.height(8.dp))
+            Divider()
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+        Divider(
+            modifier = Modifier
+                .fillMaxHeight()
+                .width(1.dp)
         )
-
-        Text(
-            modifier = Modifier.padding(16.dp),
-            text = cardDetails.title ?: "Backlog",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold
-        )
-
-        Text(
-            modifier = Modifier.padding(horizontal = 16.dp),
-            text = "${(cardDetails.boardName) ?: "Praxis"} in list ${(cardDetails.listName) ?: "Backlog"}",
-            fontSize = 16.sp,
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-        Divider()
-        Spacer(modifier = Modifier.height(8.dp))
-
-        EditTextCard(description = cardDetails.description, isExpanded = true)
-
-        Divider()
-        Spacer(modifier = Modifier.height(8.dp))
-
-        QuickActionsCard(isExpanded = true)
-
-        Spacer(modifier = Modifier.height(8.dp))
-        Divider()
-        Spacer(modifier = Modifier.height(8.dp))
     }
+
 }
