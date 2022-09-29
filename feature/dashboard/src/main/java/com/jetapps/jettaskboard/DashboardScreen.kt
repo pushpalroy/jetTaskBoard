@@ -21,14 +21,21 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.rememberDrawerState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.insets.ui.Scaffold
 import com.jetapps.jettaskboard.component.DashboardAppBar
+import com.jetapps.jettaskboard.component.multifab.FabIcon
+import com.jetapps.jettaskboard.component.multifab.FabOption
+import com.jetapps.jettaskboard.component.multifab.MultiFabItem
+import com.jetapps.jettaskboard.component.multifab.MultiFloatingActionButton
 import com.jetapps.jettaskboard.drawer.JtbDrawer
+import com.jetapps.jettaskboard.feature.dashboard.R.drawable
 import com.jetapps.jettaskboard.navigation.JtbDrawerShape
 import kotlinx.coroutines.launch
 
@@ -88,7 +95,7 @@ fun DashboardRoute(
       floatingActionButton = {
         MultiFloatingActionButton(
           fabIcon = FabIcon(
-            iconRes = R.drawable.ic_edit
+            iconRes = drawable.ic_edit
           ),
           fabOption = FabOption(
             iconTint = Color.White,
@@ -97,12 +104,12 @@ fun DashboardRoute(
           items = listOf(
             MultiFabItem(
               id = 1,
-              iconRes = R.drawable.dashboard_icon,
+              iconRes = drawable.dashboard_icon,
               label = "Board"
             ),
             MultiFabItem(
               id = 2,
-              iconRes = R.drawable.card_icon,
+              iconRes = drawable.card_icon,
               label = "Card"
             )
           ),
