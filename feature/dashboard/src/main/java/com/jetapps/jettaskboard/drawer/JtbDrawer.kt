@@ -1,10 +1,14 @@
 package com.jetapps.jettaskboard.drawer
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
@@ -28,14 +32,43 @@ import com.jetapps.jettaskboard.component.NavigationDrawerItem
 @Composable
 fun JtbDrawer(
     modifier: Modifier,
-    viewModel: DashboardViewModel
+    viewModel: DashboardViewModel,
+    isExpandedScreen: Boolean = false,
+    isMenuClickedInExpandedMode: Boolean = false
 ) {
     val scrollState = rememberScrollState()
 
-    Column(
+    Box(
         modifier = modifier
             .verticalScroll(scrollState)
+            .fillMaxHeight()
             .background(color = Color(0xFF2c2c2e))
+    ) {
+        if (isExpandedScreen.not()) {
+            OpenDrawerInExpandedMode(
+                Modifier, viewModel
+            )
+        } else {
+            if (isMenuClickedInExpandedMode.not()) {
+                OpenDrawerInExpandedMode(
+                    Modifier, viewModel
+                )
+            } else {
+                ClosedDrawerInExpandedMode(
+                    Modifier.align(Alignment.Center)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun OpenDrawerInExpandedMode(
+    modifier: Modifier = Modifier,
+    viewModel: DashboardViewModel,
+) {
+    Column(
+        modifier = Modifier
     ) {
         DrawerHeader(
             modifier = modifier,
@@ -94,5 +127,31 @@ fun JtbDrawer(
             heading = "Help!",
             icon = Icons.Outlined.Info
         ) {}
+    }
+}
+
+@Composable
+fun ClosedDrawerInExpandedMode(
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier.wrapContentHeight(),
+        verticalArrangement = Arrangement.Center
+    ) {
+        Icon(
+            modifier = Modifier.padding(16.dp),
+            imageVector = Icons.Outlined.Email,
+            contentDescription = null
+        )
+        Icon(
+            modifier = Modifier.padding(16.dp),
+            imageVector = Icons.Outlined.Settings,
+            contentDescription = null
+        )
+        Icon(
+            modifier = Modifier.padding(16.dp),
+            imageVector = Icons.Outlined.Info,
+            contentDescription = null
+        )
     }
 }
