@@ -2,48 +2,43 @@ package com.jetapps.jettaskboard.createboard.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
-
-val workspaceList = mapOf(
-    "My user's workspace" to ""
-)
-
-val visibilityList = mapOf(
-    "Private" to "the board is private. Only people added to the board can view and edit it",
-    "Workspace" to "Anyone to the user;s Workspace can see this board",
-    "Public" to "The board is public. It's visible to anyone with the link and will show up to anyone with google link"
-)
 
 @Composable
 fun CreateBoardForm() {
     Column(
         modifier = Modifier
-            .padding(10.dp)
-            .background(Color.Black)
-            .fillMaxHeight()
+            .padding(16.dp)
+            .background(MaterialTheme.colors.background)
+            .fillMaxSize()
     ) {
-        val screenWidth = LocalConfiguration.current.screenWidthDp.dp
-        CreateFormEditText(hint = "Board Name", width = screenWidth)
-        CreateFormText(text = "Workspace", width = screenWidth)
-
-        CreateformDropDown(
-            text = "User's Workspace",
-            modifier = Modifier.padding(15.dp),
-            contentMap = workspaceList,
-            width = screenWidth
+        val workspaceList = mapOf(
+            "Praxis" to "Demo Application to learn latest android best practices",
+            "Praxis-Flutter" to "Demo Application to learn latest Flutter best practices",
+            "Trello Clone" to "Trello Clone built using Compose.",
         )
-        CreateFormText(text = "Visibility", width = screenWidth)
-        CreateformDropDown(
-            text = "User's Workspace",
-            modifier = Modifier.padding(15.dp),
+
+        val visibilityList = mapOf(
+            "Workspace" to "Anyone to the users Workspace can see this board",
+            "Public" to "The board is public. It's visible to anyone with the link and will show up to anyone with google link",
+            "Private" to "the board is private. Only people added to the board can view and edit it",
+        )
+
+        CreateFormEditText(hint = "Board Name")
+
+        CreateFormDropDown(
+            headingText = "Workspace",
+            contentMap = workspaceList,
+        )
+
+        CreateFormDropDown(
+            headingText = "Visibility",
             contentMap = visibilityList,
-            width = screenWidth
         )
     }
 }
