@@ -52,7 +52,7 @@ fun JtbNavHost(
       },
       navigateToCreateCard = {
         onNavigateToDestination(
-          CardDetailsDestination, CardDetailsDestination.route
+          CreateCardDestination, CreateCardDestination.route
         )
       },
       navigateToCreateBoard = {
