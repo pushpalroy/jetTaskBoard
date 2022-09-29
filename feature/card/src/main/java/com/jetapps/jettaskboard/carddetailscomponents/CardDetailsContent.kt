@@ -36,8 +36,9 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.jetapps.jettaskboard.CardViewModel
 import com.jetapps.jettaskboard.feature.card.R
 import com.jetapps.jettaskboard.uimodel.CardDetail
-import com.squaredem.composecalendar.ComposeCalendar
-import java.time.LocalDate
+import com.vanpra.composematerialdialogs.MaterialDialog
+import com.vanpra.composematerialdialogs.datetime.date.datepicker
+import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
@@ -64,6 +65,8 @@ fun CardDetailsContent(
     val galleryPermissionStatus =
         rememberPermissionState(permission = Manifest.permission.READ_EXTERNAL_STORAGE)
 
+    val dialogState = rememberMaterialDialogState()
+
     Column(modifier = Modifier.verticalScroll(scrollState)) {
         Text(
             modifier = Modifier.padding(16.dp),
@@ -86,11 +89,11 @@ fun CardDetailsContent(
 
         Divider()
 
-        EditTextCard(description = cardDetails.description)
+        EditTextCard(viewModel = viewModel)
 
-        LabelRow()
+        LabelRow(viewModel)
 
-        val members by remember { mutableStateOf(cardDetails.authorName ?: "Members...") }
+        val members by rememberSaveable { mutableStateOf(cardDetails.authorName ?: "Members...") }
         ItemRow(
             leadingIcon = {
                 Icon(
@@ -101,55 +104,40 @@ fun CardDetailsContent(
             },
             text = members
         )
-
-        val showCalendar = rememberSaveable { mutableStateOf(false) }
-        val isTopText = rememberSaveable { mutableStateOf(false) }
-        val isBottomText = rememberSaveable { mutableStateOf(false) }
-
-        val startDateText = rememberSaveable {
-            mutableStateOf(cardDetails.startDate ?: "Start Date...")
-        }
-
-        val dueDateText = rememberSaveable {
-            mutableStateOf(cardDetails.dueDate ?: "Due Date...")
-        }
-
         TimeItemRow(
             modifier = Modifier,
             icon = R.drawable.ic_time,
-            topText = startDateText.value,
-            bottomText = dueDateText.value,
+            topText = viewModel.startDateText.value,
+            bottomText = viewModel.dueDateText.value,
             onStartDateClick = {
-                showCalendar.value = !showCalendar.value
-                isTopText.value = true
-                isBottomText.value = false
+                viewModel.isTopText.value = true
+                viewModel.isBottomText.value = false
+                dialogState.show()
             },
             onDueDateClick = {
-                showCalendar.value = !showCalendar.value
-                isBottomText.value = true
-                isTopText.value = false
+                viewModel.isBottomText.value = true
+                viewModel.isTopText.value = false
+                dialogState.show()
             }
         ) {
-            if (showCalendar.value) {
-                ComposeCalendar(
-                    onDone = { it: LocalDate ->
-                        // Hide dialog
-                        showCalendar.value = false
-                        // Do something with the date
-                        if (isTopText.value) startDateText.value =
-                            "Starts on ${it.dayOfMonth} ${
-                                (it.month).toString().lowercase()
-                            }, ${it.year}"
-                        if (isBottomText.value) dueDateText.value =
-                            "Due on ${it.dayOfMonth} ${
-                                (it.month).toString().lowercase()
-                            }, ${it.year}"
-                    },
-                    onDismiss = {
-                        // Hide dialog
-                        showCalendar.value = false
-                    }
-                )
+            MaterialDialog(
+                dialogState = dialogState,
+                buttons = {
+                    positiveButton("Ok")
+                    negativeButton("Cancel")
+                }
+            ) {
+                datepicker {
+                    // Do something with the date
+                    if (viewModel.isTopText.value) viewModel.startDateText.value =
+                        "Starts on ${it.dayOfMonth} ${
+                            (it.month).toString().lowercase()
+                        }, ${it.year}"
+                    if (viewModel.isBottomText.value) viewModel.dueDateText.value =
+                        "Due on ${it.dayOfMonth} ${
+                            (it.month).toString().lowercase()
+                        }, ${it.year}"
+                }
             }
         }
 
@@ -173,7 +161,6 @@ fun CardDetailsContent(
         )
 
         ImageAttachments(viewModel, context, galleryPermissionStatus, imageUri)
-
 
         Divider()
 

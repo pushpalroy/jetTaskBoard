@@ -41,19 +41,22 @@ fun QuickActionsCard(isExpanded: Boolean = false) {
     )
 
     Column {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable { showQuickActions.value = !showQuickActions.value },
-            horizontalArrangement = Arrangement.SpaceBetween,
-        ) {
-            if (!isExpanded) {
-            Text(
-                modifier = Modifier.padding(16.dp).fillMaxWidth(),
-                text = "Quick Actions",
-                fontSize = 16.sp,
-                textAlign = TextAlign.Start
-            )
+        if (!isExpanded) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { showQuickActions.value = !showQuickActions.value },
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+
+                Text(
+                    modifier = Modifier
+                        .padding(16.dp),
+                    text = "Quick Actions",
+                    fontSize = 16.sp,
+                    textAlign = TextAlign.Start
+                )
+
 
                 Icon(
                     modifier = Modifier
@@ -63,7 +66,7 @@ fun QuickActionsCard(isExpanded: Boolean = false) {
                 )
             }
         }
-
+        
         AnimatedVisibility(showQuickActions.value || isExpanded) {
             Column(
                 modifier = Modifier

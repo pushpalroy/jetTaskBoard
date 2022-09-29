@@ -28,7 +28,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -53,8 +52,9 @@ import com.jetapps.jettaskboard.carddetailscomponents.QuickActionsCard
 import com.jetapps.jettaskboard.carddetailscomponents.TimeItemRow
 import com.jetapps.jettaskboard.feature.card.R
 import com.jetapps.jettaskboard.uimodel.CardDetail
-import com.squaredem.composecalendar.ComposeCalendar
-import java.time.LocalDate
+import com.vanpra.composematerialdialogs.MaterialDialog
+import com.vanpra.composematerialdialogs.datetime.date.datepicker
+import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 
 @Composable
 fun ExpandedCardDetailContent(
@@ -66,7 +66,7 @@ fun ExpandedCardDetailContent(
     val context = LocalContext.current
     TwoPane(
         first = {
-            LeftPane(leftScrollState, cardDetails)
+            LeftPane(leftScrollState, cardDetails, viewModel)
         },
         second = {
             RightPane(rightScrollState, cardDetails, viewModel, context)
@@ -104,6 +104,8 @@ fun RightPane(
         imageUri = uri
     }
 
+    val dialogState = rememberMaterialDialogState()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -123,56 +125,45 @@ fun RightPane(
             text = members
         )
 
-        LabelRow()
-
-        val showCalendar = rememberSaveable { mutableStateOf(false) }
-        val isTopText = rememberSaveable { mutableStateOf(false) }
-        val isBottomText = rememberSaveable { mutableStateOf(false) }
-
-        val startDateText = rememberSaveable {
-            mutableStateOf(cardDetails.startDate ?: "Start Date...")
-        }
-
-        val dueDateText = rememberSaveable {
-            mutableStateOf(cardDetails.dueDate ?: "Due Date...")
-        }
+        LabelRow(viewModel)
 
         TimeItemRow(
             modifier = Modifier,
             icon = R.drawable.ic_time,
-            topText = startDateText.value,
-            bottomText = dueDateText.value,
+            topText = viewModel.startDateText.value,
+            bottomText = viewModel.dueDateText.value,
             onStartDateClick = {
-                showCalendar.value = !showCalendar.value
-                isTopText.value = true
-                isBottomText.value = false
+                viewModel.isTopText.value = true
+                viewModel.isBottomText.value = false
+                dialogState.show()
             },
             onDueDateClick = {
-                showCalendar.value = !showCalendar.value
-                isBottomText.value = true
-                isTopText.value = false
+                viewModel.isBottomText.value = true
+                viewModel.isTopText.value = false
+                dialogState.show()
             }
         ) {
-            if (showCalendar.value) {
-                ComposeCalendar(
-                    onDone = { it: LocalDate ->
-                        // Hide dialog
-                        showCalendar.value = false
-                        // Do something with the date
-                        if (isTopText.value) startDateText.value =
-                            "Starts on ${it.dayOfMonth} ${
-                                (it.month).toString().lowercase()
-                            }, ${it.year}"
-                        if (isBottomText.value) dueDateText.value = "Due on ${it.dayOfMonth} ${
+
+            MaterialDialog(
+                dialogState = dialogState,
+                buttons = {
+                    positiveButton("Ok")
+                    negativeButton("Cancel")
+                }
+            ) {
+                datepicker {
+                    // Do something with the date
+                    if (viewModel.isTopText.value) viewModel.startDateText.value =
+                        "Starts on ${it.dayOfMonth} ${
                             (it.month).toString().lowercase()
                         }, ${it.year}"
-                    },
-                    onDismiss = {
-                        // Hide dialog
-                        showCalendar.value = false
-                    }
-                )
+                    if (viewModel.isBottomText.value) viewModel.dueDateText.value =
+                        "Due on ${it.dayOfMonth} ${
+                            (it.month).toString().lowercase()
+                        }, ${it.year}"
+                }
             }
+
         }
 
         ItemRow(
@@ -203,7 +194,7 @@ fun RightPane(
 }
 
 @Composable
-fun LeftPane(leftScrollState: ScrollState, cardDetails: CardDetail) {
+fun LeftPane(leftScrollState: ScrollState, cardDetails: CardDetail, viewModel: CardViewModel) {
     Row(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -240,7 +231,7 @@ fun LeftPane(leftScrollState: ScrollState, cardDetails: CardDetail) {
             Divider()
             Spacer(modifier = Modifier.height(8.dp))
 
-            EditTextCard(description = cardDetails.description, isExpanded = true)
+            EditTextCard(viewModel = viewModel, isExpanded = true)
 
             Divider()
             Spacer(modifier = Modifier.height(8.dp))

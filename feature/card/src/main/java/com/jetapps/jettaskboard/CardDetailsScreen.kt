@@ -7,9 +7,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.jetapps.jettaskboard.carddetailscomponents.CardDetailsContent
@@ -29,8 +26,6 @@ fun CardDetailsRoute(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
     ) {
-        val cardModel by remember { mutableStateOf(CardDetail(coverImageUrl = "fsd")) }
-
         val scrollState = rememberScrollState()
         val expandedLeftScrollState = rememberScrollState()
         val expandedRightScrollState = rememberScrollState()
@@ -40,8 +35,8 @@ fun CardDetailsRoute(
                     scrollState = scrollState,
                     isExpandedScreen,
                     onCancelClick,
-                    cardModel.coverImageUrl,
-                    cardModel.title
+                    viewModel.cardModel.value.coverImageUrl,
+                    viewModel.cardModel.value.title
                 )
 
             }
