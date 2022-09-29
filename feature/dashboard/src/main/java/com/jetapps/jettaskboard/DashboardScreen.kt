@@ -91,7 +91,8 @@ fun DashboardRoute(
       floatingActionButton = {
         MultiFloatingActionButton(
           fabIcon = FabIcon(
-            iconRes = drawable.ic_edit
+            iconRes = drawable.ic_edit,
+            iconRotate = 25f
           ),
           fabOption = FabOption(
             iconTint = Color.White,
