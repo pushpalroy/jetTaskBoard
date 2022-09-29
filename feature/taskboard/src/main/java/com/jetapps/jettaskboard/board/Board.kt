@@ -46,7 +46,8 @@ import kotlinx.coroutines.launch
 fun Board(
   modifier: Modifier = Modifier,
   navigateToCreateCard: (String) -> Unit = {},
-  viewModel: TaskBoardViewModel
+  viewModel: TaskBoardViewModel,
+  isExpandedScreen: Boolean,
 ) {
   val boardState = remember { DragInfoState() }
   LaunchedEffect(Unit) {
@@ -71,7 +72,8 @@ fun Board(
           onAddCardClick = {
             viewModel.addNewCardInList(list.id)
           },
-          viewModel = viewModel
+          viewModel = viewModel,
+          isExpandedScreen = isExpandedScreen
         )
       }
     }
@@ -84,7 +86,8 @@ fun Lists(
   listModel: ListModel,
   viewModel: TaskBoardViewModel,
   onTaskCardClick: (String) -> Unit,
-  onAddCardClick: () -> Unit
+  onAddCardClick: () -> Unit,
+  isExpandedScreen: Boolean,
 ) {
   val scrollState = rememberScrollState()
   val scope = rememberCoroutineScope()
@@ -94,14 +97,14 @@ fun Lists(
   val screenHeight = view.rootView.height
 
   // Always scroll to bottom when size changes
-  LaunchedEffect(
-    key1 = cards.size,
-    block = {
-      scope.launch {
-        scrollState.scrollBy(screenHeight.toFloat())
-      }
-    }
-  )
+  // LaunchedEffect(
+  //   key1 = cards.size,
+  //   block = {
+  //     scope.launch {
+  //       scrollState.scrollBy(screenHeight.toFloat())
+  //     }
+  //   }
+  // )
 
   DroppingArea(
     modifier = Modifier
@@ -137,7 +140,8 @@ fun Lists(
               TaskCard(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = { onTaskCardClick("1") },
-                card = cardModel
+                card = cardModel,
+                isExpandedScreen = isExpandedScreen
               )
             }
           }

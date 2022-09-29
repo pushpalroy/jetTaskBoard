@@ -69,7 +69,8 @@ fun TaskBoardRoute(
           Board(
             modifier = Modifier.fillMaxSize(),
             navigateToCreateCard = navigateToCreateCard,
-            viewModel = viewModel
+            viewModel = viewModel,
+            isExpandedScreen = isExpandedScreen
           )
         }
       }

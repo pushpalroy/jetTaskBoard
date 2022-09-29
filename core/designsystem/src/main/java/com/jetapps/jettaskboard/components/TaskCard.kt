@@ -14,24 +14,29 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
+import com.jetapps.jettaskboard.core.designsystem.R
 import com.jetapps.jettaskboard.model.CardModel
 
 @Composable
 fun TaskCard(
   modifier: Modifier = Modifier,
   onClick: () -> Unit,
-  card: CardModel
+  card: CardModel,
+  isExpandedScreen: Boolean
 ) {
   Card(
     modifier = modifier
@@ -89,9 +94,54 @@ fun TaskCard(
           maxLines = 1,
           overflow = TextOverflow.Ellipsis,
           style = TextStyle(
-            fontSize = 10.sp
+            fontSize = 12.sp
           )
         )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        card.description?.let { safeDescription ->
+          if (safeDescription.isNotEmpty() && isExpandedScreen) {
+            Text(
+              modifier = Modifier,
+              text = safeDescription,
+              maxLines = 2,
+              overflow = TextOverflow.Ellipsis,
+              style = TextStyle(
+                fontSize = 10.sp
+              )
+            )
+          }
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Row(
+          modifier = Modifier
+            .height(24.dp)
+            .fillMaxWidth()
+            .padding(top = 4.dp),
+          horizontalArrangement = Arrangement.Start
+        ) {
+          card.description?.let { safeDescription ->
+            if (safeDescription.isNotEmpty()) {
+              Icon(
+                modifier = Modifier,
+                painter = painterResource(id = R.drawable.ic_notes),
+                tint = Color.White,
+                contentDescription = null
+              )
+            }
+          }
+          Icon(
+            modifier = Modifier
+              .padding(start = 8.dp)
+              .rotate(130f),
+            painter = painterResource(id = R.drawable.ic_attachment),
+            tint = Color.White,
+            contentDescription = null
+          )
+        }
       }
     }
   }
