@@ -38,7 +38,6 @@ fun CardDetailsRoute(
                     viewModel.cardModel.value.coverImageUrl,
                     viewModel.cardModel.value.title
                 )
-
             }
         ) {
             if (!isExpandedScreen)

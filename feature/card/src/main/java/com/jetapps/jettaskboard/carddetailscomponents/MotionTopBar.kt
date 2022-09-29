@@ -49,8 +49,7 @@ fun MotionTopBar(
     onCancelClick: () -> Unit,
     coverImageUrl: String?,
     title: String?,
-    ) {
-
+) {
     val context = LocalContext.current
     val motionScene = remember {
         context.resources.openRawResource(R.raw.motion_scene)
@@ -111,20 +110,16 @@ fun MotionTopBar(
                         )
                 )
             }
-
-
-
             Icon(
                 imageVector = Icons.Default.Close,
                 contentDescription = "Close the App Bar",
                 modifier = Modifier
                     .layoutId("cross_icon")
                     .clickable {
-                               onCancelClick()
+                        onCancelClick()
                     },
                 tint = Color.White
             )
-
             Icon(
                 imageVector = Icons.Default.MoreVert,
                 contentDescription = "Open Menu",
@@ -133,20 +128,16 @@ fun MotionTopBar(
                     .clickable { },
                 tint = Color.White
             )
-
             Text(
                 text = "Backlog",
                 color = Color.White,
                 modifier = Modifier.layoutId("item_name"),
                 fontSize = 24.sp,
             )
-
             CoverTab(modifier = Modifier.layoutId("cover_tab"))
-
         }
         Divider()
     }
-
 }
 
 @Composable
@@ -170,6 +161,4 @@ fun CoverTab(modifier: Modifier) {
             Spacer(modifier = Modifier.width(8.dp))
         }
     }
-
-
 }
