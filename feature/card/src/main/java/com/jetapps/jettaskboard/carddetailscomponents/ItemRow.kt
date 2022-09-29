@@ -56,6 +56,7 @@ fun TimeItemRow(
     icon: Int,
     topText: String,
     bottomText: String,
+    showUpperDivider: Boolean = true,
     onStartDateClick: () -> Unit,
     onDueDateClick: () -> Unit,
     content: @Composable () -> Unit
@@ -63,7 +64,9 @@ fun TimeItemRow(
     Box() {
 
         Column {
-            Divider()
+            if(showUpperDivider) {
+                Divider()
+            }
 
             Row(modifier = modifier.fillMaxWidth(), verticalAlignment = Alignment.Top) {
                 Icon(

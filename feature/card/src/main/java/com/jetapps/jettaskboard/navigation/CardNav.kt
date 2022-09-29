@@ -34,7 +34,7 @@ object CardDetailsDestination : JtbNavDestination {
 
 fun NavGraphBuilder.cardGraph(isExpandedScreen: Boolean, onBackClick: () -> Unit) {
   composable(route = CreateCardDestination.route) {
-    CreateCardRoute(isExpandedScreen)
+    CreateCardRoute(isExpandedScreen = isExpandedScreen, onCancelClick = onBackClick)
   }
   composable(route = CardDetailsDestination.route) {
     CardDetailsRoute(isExpandedScreen, onCancelClick = onBackClick)
