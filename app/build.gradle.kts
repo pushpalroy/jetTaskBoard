@@ -77,6 +77,8 @@ dependencies {
     implementation(project(":core:navigation"))
 
     implementation("androidx.tracing:tracing-ktx:1.1.0")
+    implementation("androidx.compose.material3:material3:1.0.0-beta03")
+    implementation("androidx.compose.material3:material3-window-size-class:1.0.0-beta03")
 
     /* Android Designing and layout */
     implementation(Lib.Android.COMPOSE_LIVEDATA)
@@ -88,6 +90,7 @@ dependencies {
     implementation(Lib.Android.ACCOMPANIST_INSETS_UI)
     implementation(ACCOMPANIST_SYSTEM_UI_CONTROLLER)
     implementation(Lib.Android.ACCOMPANIST_FLOW_LAYOUTS)
+    implementation(Lib.Android.COMPOSE_WINDOW_MATRICES)
 
     implementation(Lib.Android.APP_COMPAT)
 
@@ -101,7 +104,6 @@ dependencies {
     implementation(Lib.Di.hiltAndroid)
     implementation(Lib.Di.hiltNavigationCompose)
     implementation(Lib.Android.COMPOSE_TOOLING_PREVIEW)
-    implementation(Lib.Android.COMPOSE_WINDOW_MATRICES)
     debugImplementation(Lib.Android.COMPOSE_TOOLING)
 
     implementation(Lib.Android.PROFILE_INSTALLER)

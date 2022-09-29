@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
  */
 @Composable
 fun DashboardAppBar(
+    isExpandedScreen: Boolean,
     onMenuIconClick: () -> Unit,
     onSearchIconClicked: () -> Unit,
     onNotificationIconClicked: () -> Unit
@@ -26,11 +27,13 @@ fun DashboardAppBar(
             Text(text = "Boards")
         },
         navigationIcon = {
-            IconButton(onClick = onMenuIconClick) {
-                Icon(
-                    imageVector = Icons.Default.Menu,
-                    contentDescription = "Drawer"
-                )
+            if (isExpandedScreen.not()) {
+                IconButton(onClick = onMenuIconClick) {
+                    Icon(
+                        imageVector = Icons.Default.Menu,
+                        contentDescription = "Drawer"
+                    )
+                }
             }
         },
         backgroundColor = Color(0xFF3f3f41),

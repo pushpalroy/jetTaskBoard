@@ -3,7 +3,6 @@ package com.jetapps.jettaskboard.drawer
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -37,7 +36,6 @@ fun JtbDrawer(
         modifier = modifier
             .verticalScroll(scrollState)
             .background(color = Color(0xFF2c2c2e))
-            .fillMaxSize()
     ) {
         DrawerHeader(
             modifier = modifier,
