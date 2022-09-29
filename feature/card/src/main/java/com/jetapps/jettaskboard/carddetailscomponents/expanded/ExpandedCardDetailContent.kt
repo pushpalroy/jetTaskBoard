@@ -66,7 +66,7 @@ fun ExpandedCardDetailContent(
     val context = LocalContext.current
     TwoPane(
         first = {
-            LeftPane(leftScrollState, cardDetails)
+            LeftPane(leftScrollState, cardDetails, viewModel)
         },
         second = {
             RightPane(rightScrollState, cardDetails, viewModel, context)
@@ -123,7 +123,7 @@ fun RightPane(
             text = members
         )
 
-        LabelRow()
+        LabelRow(viewModel)
 
         val showCalendar = rememberSaveable { mutableStateOf(false) }
         val isTopText = rememberSaveable { mutableStateOf(false) }
@@ -203,7 +203,7 @@ fun RightPane(
 }
 
 @Composable
-fun LeftPane(leftScrollState: ScrollState, cardDetails: CardDetail) {
+fun LeftPane(leftScrollState: ScrollState, cardDetails: CardDetail, viewModel: CardViewModel) {
     Row(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -240,7 +240,7 @@ fun LeftPane(leftScrollState: ScrollState, cardDetails: CardDetail) {
             Divider()
             Spacer(modifier = Modifier.height(8.dp))
 
-            EditTextCard(description = cardDetails.description, isExpanded = true)
+            EditTextCard(viewModel = viewModel, isExpanded = true)
 
             Divider()
             Spacer(modifier = Modifier.height(8.dp))

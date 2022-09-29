@@ -18,45 +18,17 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.jetapps.jettaskboard.CardViewModel
 import com.jetapps.jettaskboard.feature.card.R
-import com.jetapps.jettaskboard.theme.LabelBlue
-import com.jetapps.jettaskboard.theme.LabelGreen
-import com.jetapps.jettaskboard.theme.LabelOrange
-import com.jetapps.jettaskboard.theme.LabelPeach
-import com.jetapps.jettaskboard.theme.LabelViolet
-import com.jetapps.jettaskboard.theme.LabelYellow
-import com.jetapps.jettaskboard.uimodel.LabelColor
 
 @Composable
-fun LabelRow() {
-    var isClicked by remember { mutableStateOf(false) }
-    val labels = remember {
-        mutableStateListOf(
-            LabelColor(LabelGreen),
-            LabelColor(LabelYellow),
-            LabelColor(LabelPeach),
-            LabelColor(LabelOrange),
-            LabelColor(LabelViolet),
-            LabelColor(LabelBlue),
-        )
-    }
-
-    val selectedColors = remember {
-        mutableStateListOf<Color>()
-    }
-
-    val rotate = animateFloatAsState(targetValue = if (isClicked) 180f else 0f, tween(500))
+fun LabelRow(viewModel: CardViewModel) {
+    val rotate = animateFloatAsState(targetValue = if (viewModel.isLabelRowClicked.value) 180f else 0f, tween(500))
 
     Column {
         Divider()
@@ -64,7 +36,7 @@ fun LabelRow() {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { isClicked = !isClicked },
+                .clickable { viewModel.isLabelRowClicked.value = !(viewModel.isLabelRowClicked.value) },
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
@@ -72,11 +44,11 @@ fun LabelRow() {
                 painter = painterResource(id = R.drawable.ic_label),
                 contentDescription = "Leading Icon"
             )
-            if (selectedColors.isEmpty()) {
+            if (viewModel.selectedColors.isEmpty()) {
                 Text(text = "Labels...", modifier = Modifier.weight(5f))
             } else {
                 Row(modifier = Modifier.weight(5f)) {
-                    selectedColors.forEach {
+                    viewModel.selectedColors.forEach {
                         Card(
                             modifier = Modifier
                                 .height(36.dp)
@@ -100,18 +72,18 @@ fun LabelRow() {
 
         }
 
-        AnimatedVisibility(visible = isClicked) {
+        AnimatedVisibility(visible = viewModel.isLabelRowClicked.value) {
             Column {
-                labels.forEach { labelColor ->
+                viewModel.labels.forEach { labelColor ->
                     LabelCheckBox(
                         color = labelColor.color,
                         isSelected = labelColor.isSelected,
                         onClick = {
                             labelColor.isSelected = !labelColor.isSelected
-                            if (labelColor.isSelected && !selectedColors.contains(labelColor.color)) {
-                                selectedColors.add(labelColor.color)
+                            if (labelColor.isSelected && !viewModel.selectedColors.contains(labelColor.color)) {
+                                viewModel.selectedColors.add(labelColor.color)
                             } else if (!labelColor.isSelected) {
-                                selectedColors.remove(labelColor.color)
+                                viewModel.selectedColors.remove(labelColor.color)
                             }
                         }
                     )

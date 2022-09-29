@@ -86,11 +86,11 @@ fun CardDetailsContent(
 
         Divider()
 
-        EditTextCard(description = cardDetails.description)
+        EditTextCard(viewModel = viewModel)
 
-        LabelRow()
+        LabelRow(viewModel)
 
-        val members by remember { mutableStateOf(cardDetails.authorName ?: "Members...") }
+        val members by rememberSaveable { mutableStateOf(cardDetails.authorName ?: "Members...") }
         ItemRow(
             leadingIcon = {
                 Icon(

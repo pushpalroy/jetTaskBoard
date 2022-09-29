@@ -10,21 +10,15 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import com.jetapps.jettaskboard.CardViewModel
 import com.jetapps.jettaskboard.feature.card.R
 
 @Composable
-fun EditTextCard(description: String?, isExpanded: Boolean = false) {
-    var inputvalue by remember { mutableStateOf(TextFieldValue(description ?: "")) }
-
+fun EditTextCard(viewModel: CardViewModel, isExpanded: Boolean = false) {
 
     Row(modifier = Modifier.fillMaxWidth()) {
         Icon(
@@ -39,9 +33,9 @@ fun EditTextCard(description: String?, isExpanded: Boolean = false) {
                 .padding(end = 16.dp)
                 .height(if (isExpanded) {80.dp } else {56.dp})
                 .fillMaxWidth(),
-            value = inputvalue,
+            value = viewModel.inputvalue.value,
             onValueChange = {
-                inputvalue = it
+                viewModel.inputvalue.value = it
             },
             placeholder = {
                 Text(text = "Add card description...")
