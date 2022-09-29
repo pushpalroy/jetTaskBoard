@@ -41,7 +41,15 @@ class CardViewModel @Inject constructor(
 
     var isLabelRowClicked = mutableStateOf(false)
 
-    var inputvalue = mutableStateOf(TextFieldValue(cardModel.value.description ?: ""))
+    var inputValue = mutableStateOf(TextFieldValue(cardModel.value.description ?: ""))
+
+    val isTopText = mutableStateOf(false)
+
+    val isBottomText = mutableStateOf(false)
+
+    val startDateText = mutableStateOf(cardModel.value.startDate ?: "Start Date...")
+
+    val dueDateText = mutableStateOf(cardModel.value.dueDate ?: "Due Date...")
 
     suspend fun addCard(cardModel: CardModel) {
         addCardUseCase.invoke(cardModel)

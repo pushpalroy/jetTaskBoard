@@ -33,9 +33,9 @@ fun EditTextCard(viewModel: CardViewModel, isExpanded: Boolean = false) {
                 .padding(end = 16.dp)
                 .height(if (isExpanded) {80.dp } else {56.dp})
                 .fillMaxWidth(),
-            value = viewModel.inputvalue.value,
+            value = viewModel.inputValue.value,
             onValueChange = {
-                viewModel.inputvalue.value = it
+                viewModel.inputValue.value = it
             },
             placeholder = {
                 Text(text = "Add card description...")
