@@ -1,16 +1,18 @@
 package com.jetapps.jettaskboard.createboard.components
 
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Divider
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,85 +20,136 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 
 @Composable
-fun CreateformDropDown(
-    text: String,
-    modifier: Modifier,
+fun CreateFormDropDown(
+    headingText: String,
+    modifier: Modifier = Modifier,
     contentMap: Map<String, String>,
     initiallyOpened: Boolean = false,
-    width: Dp
 ) {
-    var isOpen by remember {
-        mutableStateOf(initiallyOpened)
+    var isOpen by remember { mutableStateOf(initiallyOpened) }
+
+    var dropDownWidth by remember { mutableStateOf(Size.Zero) }
+
+    var selectMenuItem by remember {
+        mutableStateOf("")
     }
-    var dropdownWidth by remember {
-        mutableStateOf(Size.Zero)
+
+    var selectedMenuItemHeading by remember {
+        mutableStateOf(
+            ""
+        )
     }
-    Box(modifier = Modifier.width(width), contentAlignment = Alignment.Center) {
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 16.dp, bottom = 16.dp),
+        horizontalAlignment = Alignment.Start
+    ) {
+        Text(
+            modifier = modifier
+                .padding(8.dp),
+            text = headingText,
+            fontWeight = FontWeight.SemiBold,
+            fontSize = 12.sp
+        )
+
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
+                .padding(8.dp)
                 .fillMaxWidth()
-                .background(Color.Black)
-                .onGloballyPositioned {
-                    dropdownWidth = it.size.toSize()
-                }
-                .clickable {
-                    isOpen = !isOpen
+                .background(Color.Transparent)
+                .clickable { isOpen = !isOpen }
+                .onGloballyPositioned { coordinates ->
+                    dropDownWidth = coordinates.size.toSize()
                 }
         ) {
-
             Text(
-                text = text,
+                text = selectedMenuItemHeading.ifEmpty { "Select from dropdown.. " },
                 color = Color.White,
-                fontSize = 12.sp,
-                modifier = Modifier.padding(start = 16.dp)
+                fontSize = 18.sp,
+                modifier = Modifier
             )
             Icon(
-                imageVector = Icons.Default.ArrowDropDown,
+                imageVector = if (isOpen)
+                    Icons.Default.KeyboardArrowDown
+                else
+                    Icons.Default.KeyboardArrowUp,
                 contentDescription = "Open or close the drop down",
                 tint = Color.White,
                 modifier = Modifier
-                    .scale(1f, if (isOpen) -1f else 1f)
             )
         }
 
-        DropdownMenu(expanded = isOpen,
+        DropdownMenu(
+            expanded = isOpen,
             onDismissRequest = { isOpen = false },
             modifier = Modifier
-                .background(color = Color.Black)
                 .width(
                     with(LocalDensity.current) {
-                        dropdownWidth.width.toDp()
+                        dropDownWidth.width.toDp()
                     }
                 )
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = 8.dp)
         ) {
             contentMap.forEach { (itemKey, itemValue) ->
                 DropdownMenuItem(
-                    onClick = { /*TODO*/ },
+                    onClick = {
+                        isOpen = !isOpen
+                        selectMenuItem = itemValue
+                        selectedMenuItemHeading = itemKey
+                    },
                     modifier = Modifier
-                        .background(color = Color.Cyan)
-                        .padding(20.dp)
+                        .background(color = MaterialTheme.colors.background)
                 ) {
-                    Column(modifier = Modifier.padding(30.dp)) {
-                        Text(text = itemKey, color = Color.White)
+                    Column(
+                        modifier = Modifier
+                            .padding(8.dp),
+                        horizontalAlignment = Alignment.Start
+                    ) {
+                        Text(
+                            modifier = modifier
+                                .padding(all = 4.dp),
+                            text = itemKey,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 14.sp
+                        )
                         if (contentMap.values.isNotEmpty()) {
                             Text(
+                                modifier = modifier
+                                    .padding(all = 4.dp),
                                 text = itemValue,
-                                color = Color.White
+                                fontWeight = FontWeight.Medium,
+                                fontSize = 12.sp
                             )
                         }
+
+                        Divider()
                     }
                 }
+            }
+        }
+
+        selectMenuItem.let { selectedItem ->
+            if (selectedItem.isNotEmpty()){
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text(
+                    text = selectMenuItem.ifEmpty { " " },
+                    fontSize = 12.sp,
+                    modifier = Modifier.padding(8.dp)
+                )
             }
         }
     }

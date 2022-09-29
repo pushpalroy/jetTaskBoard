@@ -1,6 +1,8 @@
 package com.jetapps.jettaskboard.createboard
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
@@ -21,6 +23,8 @@ fun CreateBoardRoute(
             onCancelClick = onCancelClick
         )
     }) {
-        CreateBoardForm()
+        Column(modifier = Modifier.padding(it)) {
+            CreateBoardForm()
+        }
     }
 }
