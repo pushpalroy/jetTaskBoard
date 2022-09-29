@@ -1,62 +1,43 @@
 package com.jetapps.jettaskboard
 
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jetapps.jettaskboard.model.CardModel
+import com.jetapps.jettaskboard.model.Board
+import com.jetapps.jettaskboard.model.BoardListModel
 import com.jetapps.jettaskboard.usecase.AddCardUseCase
+import com.jetapps.jettaskboard.util.BoardList
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
-  savedStateHandle: SavedStateHandle,
-  private val addCardUseCase: AddCardUseCase
+  savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-  init {
-    addNewCard()
-  }
+  private val _listOfBoards: MutableList<Board> = mutableStateListOf()
+  val listOfBoards: List<Board> = _listOfBoards
 
   /**
-   * All methods here are temporary for Demonstration
-   * Purpose
+   * A list of Boards to show on the dashboard
    */
-  val boardList = listOf(
-    Board("Praxis", getImageUrls()[0], true),
-    Board("Discord Clone", getImageUrls()[1]),
-    Board("Trello Workspace", getImageUrls()[2], true),
-    Board("Praxis Flutter", getImageUrls()[3], true),
-    Board("JetTaskBoard", getImageUrls()[4]),
-    Board("Google Play Clone", getImageUrls()[5]),
-    Board("JetFlix", getImageUrls()[6], true)
-  )
-
-  private fun getImageUrls() =
-    listOf(
-      "https://images.unsplash.com/photo-1508264165352-258db2ebd59b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=776&q=80",
-      "https://images.unsplash.com/photo-1506792006437-256b665541e2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80",
-      "https://images.unsplash.com/photo-1500042600524-37ecb686c775?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
-      "https://images.unsplash.com/photo-1514463439976-96c5d33f0d57?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1769&q=80",
-      "https://images.unsplash.com/photo-1503149779833-1de50ebe5f8a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-      "https://images.unsplash.com/photo-1531176175280-33e81422832a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80",
-      "https://images.unsplash.com/photo-1657571484167-9975a442ecbb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1874&q=80",
-    )
-
-  private fun addNewCard() {
+  fun getBoardListData() {
     viewModelScope.launch {
-      addCardUseCase.invoke(
-        CardModel(
-          title = "First card"
-        )
-      )
+      // Trigger repository requests in parallel
+      val boardDeferred = async { getFakeBoardList() }
+
+      // Wait for all requests to finish
+      val boardList = boardDeferred.await().successOr(BoardListModel())
+      if (_listOfBoards.isEmpty()) {
+        _listOfBoards.addAll(boardList.listOfBoards)
+      }
     }
   }
-}
 
-data class Board(
-  val title: String,
-  val imageUrl: String,
-  val isStarred: Boolean = false
-)
+  private fun getFakeBoardList(): Result<BoardListModel> {
+    return Result.Success(BoardList)
+  }
+}

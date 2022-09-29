@@ -77,12 +77,14 @@ fun LeftPane(
                 columns = Fixed(1),
                 contentPadding = PaddingValues(4.dp),
             ) {
-                items(viewModel.boardList.subList(0, 5)) { boardItem ->
-                    BoardCardComponent(
-                        modifier = Modifier.clickable { navigateToTaskBoard("") },
-                        title = boardItem.title,
-                        backgroundImageUrl = boardItem.imageUrl
-                    )
+                if (viewModel.listOfBoards.isNotEmpty()){
+                    items(viewModel.listOfBoards.subList(0, 5)) { boardItem ->
+                        BoardCardComponent(
+                            modifier = Modifier.clickable { navigateToTaskBoard("") },
+                            title = boardItem.title,
+                            backgroundImageUrl = boardItem.imageUrl
+                        )
+                    }
                 }
             }
             Divider(
@@ -112,7 +114,7 @@ fun RightPane(
                 .fillMaxHeight()
                 .padding(top = 4.dp),
         ) {
-            items(viewModel.boardList) {
+            items(viewModel.listOfBoards) {
                 WorkshopCard(
                     modifier = Modifier.clickable { navigateToTaskBoard("") },
                     title = it.title,

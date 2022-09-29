@@ -61,9 +61,10 @@ kapt {
 
 dependencies {
 
-  //implementation(project(":core:data"))
+  implementation(project(":core:data"))
   implementation(project(":core:domain"))
   implementation(project(":core:navigation"))
+  implementation(project(":core:common"))
 
   implementation("androidx.compose.material3:material3:1.0.0-beta03")
   implementation("androidx.compose.material3:material3-window-size-class:1.0.0-beta03")

@@ -29,7 +29,7 @@ fun DrawerWorkSpaceComponent(
             fontWeight = FontWeight.W500
         )
 
-        viewModel.boardList.forEach { items ->
+        viewModel.listOfBoards.forEach { items ->
             WorkSpaceItem(
                 modifier = modifier,
                 workSpaceHeading = items.title
