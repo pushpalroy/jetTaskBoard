@@ -134,7 +134,7 @@ fun MotionTopBar(
                     },
                 tint = Color.White
             )
-            
+
             Icon(
                 imageVector = Icons.Default.MoreVert,
                 contentDescription = "Open Menu",

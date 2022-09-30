@@ -3,6 +3,7 @@ package com.jetapps.card
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.jetapps.jettaskboard.CardDetailsRoute
 import com.jetapps.jettaskboard.CardViewModel
@@ -42,5 +43,16 @@ class CardDetailsScreenTest {
     @Test
     fun motionTopBar_displayed() {
         composeTestRule.onNodeWithTag("motion_top_bar").assertIsDisplayed()
+    }
+
+    @Test
+    fun quickActions_displayed() {
+        composeTestRule.onNodeWithTag("quick_action_card").assertIsDisplayed()
+    }
+
+    @Test
+    fun quickActionsBar_onClick_showActionChips() {
+        composeTestRule.onNodeWithTag("quick_action_card").performClick()
+        composeTestRule.onNodeWithTag("quick_action_chip").assertIsDisplayed()
     }
 }
