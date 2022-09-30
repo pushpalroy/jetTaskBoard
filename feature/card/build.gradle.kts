@@ -89,6 +89,8 @@ dependencies {
   implementation(Lib.Di.hiltAndroid)
   implementation(Lib.Di.hiltNavigationCompose)
   implementation(Lib.Android.COMPOSE_TOOLING_PREVIEW)
+    testImplementation("junit:junit:4.12")
+  testImplementation("junit:junit:4.12")
   debugImplementation(Lib.Android.COMPOSE_TOOLING)
 
   implementation(Lib.Android.PROFILE_INSTALLER)
@@ -118,7 +120,11 @@ dependencies {
   testImplementation(TestLib.COROUTINES)
   testImplementation(TestLib.MOCKK)
   androidTestImplementation(Lib.Android.COMPOSE_JUNIT)
+  androidTestImplementation(Lib.Android.HILT_TESTING)
   debugImplementation(Lib.Android.COMPOSE_TEST_MANIFEST)
+
+
+  kaptAndroidTest(Lib.Android.KAPT_HILT_TESTING)
 
   implementation(Lib.Android.CONSTRAINT_LAYOUT)
   implementation(Lib.Android.COMPOSE_CALENDAR)
