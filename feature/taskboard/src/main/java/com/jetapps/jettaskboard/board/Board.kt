@@ -1,7 +1,6 @@
 package com.jetapps.jettaskboard.board
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -40,7 +39,6 @@ import com.jetapps.jettaskboard.draganddrop.DroppingArea
 import com.jetapps.jettaskboard.draganddrop.LongPressDraggable
 import com.jetapps.jettaskboard.model.ListModel
 import com.jetapps.jettaskboard.theme.SecondaryColor
-import kotlinx.coroutines.launch
 
 @Composable
 fun Board(
@@ -121,8 +119,8 @@ fun Lists(
           color = getBgColor(isInBound, boardState.isDragging),
           shape = RoundedCornerShape(2)
         )
-        .width(240.dp)
-        .padding(4.dp)
+        .width(if (isExpandedScreen) 300.dp else 240.dp)
+        .padding(if (isExpandedScreen) 8.dp else 4.dp)
     ) {
       ListHeader(
         name = listModel.title
