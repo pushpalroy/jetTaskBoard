@@ -16,10 +16,10 @@ import org.junit.Test
 @HiltAndroidTest
 class CardDetailsScreenTest {
 
-    @get:Rule(order = 1)
+    @get:Rule
     val hiltTestRule = HiltAndroidRule(this)
 
-    @get:Rule(order = 2)
+    @get:Rule
     val composeTestRule = createComposeRule()
 
     lateinit var cardViewModel: CardViewModel

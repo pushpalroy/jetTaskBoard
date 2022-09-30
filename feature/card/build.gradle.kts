@@ -13,7 +13,7 @@ android {
   defaultConfig {
     minSdk = (ProjectProperties.MIN_SDK)
     targetSdk = (ProjectProperties.TARGET_SDK)
-    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    testInstrumentationRunner = "com.jetapps.card.CustomTestRunner"
   }
   buildTypes {
     getByName("release") {
@@ -89,8 +89,7 @@ dependencies {
   implementation(Lib.Di.hiltAndroid)
   implementation(Lib.Di.hiltNavigationCompose)
   implementation(Lib.Android.COMPOSE_TOOLING_PREVIEW)
-    testImplementation("junit:junit:4.12")
-  testImplementation("junit:junit:4.12")
+  implementation("androidx.test:runner:1.4.0")
   debugImplementation(Lib.Android.COMPOSE_TOOLING)
 
   implementation(Lib.Android.PROFILE_INSTALLER)
@@ -110,7 +109,7 @@ dependencies {
   implementation(Lib.Room.roomKtx)
   implementation(Lib.Room.roomPaging)
 
-  /*Testing*/
+  /* Testing */
   testImplementation(TestLib.JUNIT)
   testImplementation(TestLib.CORE_TEST)
   testImplementation(TestLib.ANDROID_JUNIT)
