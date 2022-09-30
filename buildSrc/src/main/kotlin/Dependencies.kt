@@ -62,6 +62,8 @@ object Lib {
     const val ACCOMPANIST_PERMISSION = "com.google.accompanist:accompanist-permissions:${ACCOMPANIST_VERSION}"
     const val ACCOMPANIST_ADAPTIVE = "com.google.accompanist:accompanist-adaptive:$ACCOMPANIST_ADAPTIVE_VERSION"
     const val COMPOSE_JUNIT = "androidx.compose.ui:ui-test-junit4:$COMPOSE_VERSION"
+    const val HILT_TESTING = "com.google.dagger:hilt-android-testing:2.44"
+    const val KAPT_HILT_TESTING = "com.google.dagger:hilt-android-compiler:2.44"
     const val COMPOSE_TEST_MANIFEST = "androidx.compose.ui:ui-test-manifest:$COMPOSE_VERSION"
     const val COMPOSE_WINDOW_MATRICES = "androidx.window:window:$WINDOW_METRICES_VERSION"
     const val ACTIVITY_KTX = "androidx.activity:activity-ktx:$ACTIVITY_VERSION"

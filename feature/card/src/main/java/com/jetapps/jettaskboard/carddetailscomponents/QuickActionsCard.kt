@@ -25,6 +25,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -45,6 +46,7 @@ fun QuickActionsCard(isExpanded: Boolean = false) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .testTag("quick_action_card")
                     .clickable { showQuickActions.value = !showQuickActions.value },
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
@@ -66,7 +68,7 @@ fun QuickActionsCard(isExpanded: Boolean = false) {
                 )
             }
         }
-        
+
         AnimatedVisibility(showQuickActions.value || isExpanded) {
             Column(
                 modifier = Modifier
@@ -75,7 +77,9 @@ fun QuickActionsCard(isExpanded: Boolean = false) {
             ) {
                 Row(modifier = Modifier.fillMaxWidth()) {
                     QuickActionChip(
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier.weight(1f)
+                            .testTag("quick_action_chip")
+                        ,
                         leadingIcon = {
                             Icon(
                                 imageVector = Icons.Default.CheckCircle,
