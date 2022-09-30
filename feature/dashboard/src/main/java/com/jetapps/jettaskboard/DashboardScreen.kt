@@ -42,6 +42,7 @@ fun DashboardRoute(
   navigateToTaskBoard: (String) -> Unit = {},
   navigateToCreateCard: (String) -> Unit = {},
   navigateToCreateBoard: (String) -> Unit = {},
+  navigateToSearchScreen: (String) -> Unit = {},
   isExpandedScreen: Boolean
 ) {
 
@@ -71,7 +72,9 @@ fun DashboardRoute(
               }
             }
           },
-          onSearchIconClicked = {},
+          onSearchIconClicked = {
+            navigateToSearchScreen("")
+          },
           onNotificationIconClicked = {}
         )
       },
