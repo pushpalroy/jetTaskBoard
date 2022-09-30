@@ -26,6 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -105,7 +106,7 @@ fun CardDetailsContent(
             text = members
         )
         TimeItemRow(
-            modifier = Modifier,
+            modifier = Modifier.testTag("time_item_row"),
             icon = R.drawable.ic_time,
             topText = viewModel.startDateText.value,
             bottomText = viewModel.dueDateText.value,

@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -27,19 +28,23 @@ fun LabelCheckBox(color: Color, isSelected: Boolean, onClick: () -> Unit) {
                 onClick = onClick
             )
             .fillMaxWidth()
-            .height(48.dp),
+            .height(48.dp)
+            .testTag("label_check_box"),
         shape = RoundedCornerShape(12.dp),
         backgroundColor = color
     ) {
-        if(isSelected) {
+        if (isSelected) {
             Row(
-                horizontalArrangement = Arrangement.End
-            ) {
+                horizontalArrangement = Arrangement.End,
+                ) {
                 Icon(
                     Icons.Default.Check,
                     contentDescription = "Color Selected",
                     tint = Color.White,
-                    modifier = Modifier.padding(horizontal = 16.dp).align(Alignment.CenterVertically)
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .align(Alignment.CenterVertically)
+                        .testTag("label_check_icon")
                 )
             }
 
