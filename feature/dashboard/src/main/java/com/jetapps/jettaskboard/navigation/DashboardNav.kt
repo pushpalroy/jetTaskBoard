@@ -31,6 +31,7 @@ fun NavGraphBuilder.dashboardGraph(
   navigateToTaskBoard: (String) -> Unit,
   navigateToCreateCard: (String) -> Unit,
   navigateToCreateBoard: (String) -> Unit,
+  navigateToSearchScreen: (String) -> Unit,
   nestedGraphs: NavGraphBuilder.() -> Unit,
   isExpandedScreen: Boolean,
 ) {
@@ -43,6 +44,7 @@ fun NavGraphBuilder.dashboardGraph(
         navigateToTaskBoard = navigateToTaskBoard,
         navigateToCreateCard = navigateToCreateCard,
         navigateToCreateBoard = navigateToCreateBoard,
+        navigateToSearchScreen = navigateToSearchScreen,
         isExpandedScreen = isExpandedScreen
       )
     }
