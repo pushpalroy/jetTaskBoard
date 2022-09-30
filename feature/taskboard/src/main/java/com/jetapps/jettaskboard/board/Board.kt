@@ -45,7 +45,7 @@ fun Board(
   modifier: Modifier = Modifier,
   navigateToCreateCard: (String) -> Unit = {},
   viewModel: TaskBoardViewModel,
-  isExpandedScreen: Boolean,
+  isExpandedScreen: Boolean
 ) {
   val boardState = remember { DragInfoState() }
   LaunchedEffect(Unit) {
