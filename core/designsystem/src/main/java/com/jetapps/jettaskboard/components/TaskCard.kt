@@ -56,7 +56,7 @@ fun TaskCard(
         if (safeCoverImageUrl.isNotEmpty()) {
           Image(
             modifier = Modifier
-              .height(80.dp)
+              .height(60.dp)
               .fillMaxWidth(),
             painter = rememberAsyncImagePainter(safeCoverImageUrl),
             contentScale = ContentScale.Crop,
@@ -114,13 +114,13 @@ fun TaskCard(
           }
         }
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(2.dp))
 
         Row(
           modifier = Modifier
-            .height(24.dp)
+            .height(16.dp)
             .fillMaxWidth()
-            .padding(top = 4.dp),
+            .padding(top = 0.dp),
           horizontalArrangement = Arrangement.Start
         ) {
           card.description?.let { safeDescription ->
@@ -135,7 +135,7 @@ fun TaskCard(
           }
           Icon(
             modifier = Modifier
-              .padding(start = 8.dp)
+              .padding(start = 4.dp)
               .rotate(130f),
             painter = painterResource(id = R.drawable.ic_attachment),
             tint = Color.White,

@@ -81,17 +81,7 @@ val CardList_1 by lazy {
       boardId = "1",
       listId = 0,
       authorId = null
-    ),
-    CardModel(
-      id = 5,
-      title = "Add Card edit screen",
-      description = "Need to add edit Card screen.",
-      coverImageUrl = "",
-      labels = listOf(Labels[1]),
-      boardId = "1",
-      listId = 0,
-      authorId = null
-    ),
+    )
   )
 }
 
@@ -150,6 +140,16 @@ val CardList_3 by lazy {
       listId = 2,
       authorId = null
     ),
+    CardModel(
+      id = 5,
+      title = "Add Card edit screen",
+      description = "Need to add edit Card screen.",
+      coverImageUrl = "",
+      labels = listOf(Labels[1]),
+      boardId = "1",
+      listId = 2,
+      authorId = null
+    )
   )
 }
 
