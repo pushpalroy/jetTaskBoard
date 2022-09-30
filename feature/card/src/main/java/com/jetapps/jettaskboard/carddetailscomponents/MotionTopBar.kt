@@ -115,6 +115,15 @@ fun MotionTopBar(
                         )
                 )
             }
+
+            Text(
+                text = "Backlog",
+                color = Color.White,
+                modifier = Modifier.layoutId("item_name"),
+                fontSize = 24.sp,
+            )
+            CoverTab(modifier = Modifier.layoutId("cover_tab"))
+
             Icon(
                 imageVector = Icons.Default.Close,
                 contentDescription = "Close the App Bar",
@@ -125,21 +134,16 @@ fun MotionTopBar(
                     },
                 tint = Color.White
             )
+            
             Icon(
                 imageVector = Icons.Default.MoreVert,
                 contentDescription = "Open Menu",
                 modifier = Modifier
                     .layoutId("more_icon")
-                    .clickable { },
+                    .clickable {
+                    },
                 tint = Color.White
             )
-            Text(
-                text = "Backlog",
-                color = Color.White,
-                modifier = Modifier.layoutId("item_name"),
-                fontSize = 24.sp,
-            )
-            CoverTab(modifier = Modifier.layoutId("cover_tab"))
         }
         Divider()
     }
