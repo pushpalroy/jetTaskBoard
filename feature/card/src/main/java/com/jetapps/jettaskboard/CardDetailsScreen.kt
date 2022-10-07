@@ -23,7 +23,7 @@ fun CardDetailsRoute(
     viewModel: CardViewModel = hiltViewModel()
 ) {
     Surface(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
     ) {
         val scrollState = rememberScrollState()
@@ -38,7 +38,6 @@ fun CardDetailsRoute(
                     viewModel.cardModel.value.coverImageUrl,
                     viewModel.cardModel.value.title
                 )
-
             }
         ) {
             if (!isExpandedScreen)

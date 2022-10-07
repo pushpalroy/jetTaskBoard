@@ -1,7 +1,6 @@
 package com.jetapps.jettaskboard.board
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -40,13 +39,13 @@ import com.jetapps.jettaskboard.draganddrop.DroppingArea
 import com.jetapps.jettaskboard.draganddrop.LongPressDraggable
 import com.jetapps.jettaskboard.model.ListModel
 import com.jetapps.jettaskboard.theme.SecondaryColor
-import kotlinx.coroutines.launch
 
 @Composable
 fun Board(
   modifier: Modifier = Modifier,
   navigateToCreateCard: (String) -> Unit = {},
-  viewModel: TaskBoardViewModel
+  viewModel: TaskBoardViewModel,
+  isExpandedScreen: Boolean
 ) {
   val boardState = remember { DragInfoState() }
   LaunchedEffect(Unit) {
@@ -71,7 +70,8 @@ fun Board(
           onAddCardClick = {
             viewModel.addNewCardInList(list.id)
           },
-          viewModel = viewModel
+          viewModel = viewModel,
+          isExpandedScreen = isExpandedScreen
         )
       }
     }
@@ -84,7 +84,8 @@ fun Lists(
   listModel: ListModel,
   viewModel: TaskBoardViewModel,
   onTaskCardClick: (String) -> Unit,
-  onAddCardClick: () -> Unit
+  onAddCardClick: () -> Unit,
+  isExpandedScreen: Boolean,
 ) {
   val scrollState = rememberScrollState()
   val scope = rememberCoroutineScope()
@@ -94,14 +95,14 @@ fun Lists(
   val screenHeight = view.rootView.height
 
   // Always scroll to bottom when size changes
-  LaunchedEffect(
-    key1 = cards.size,
-    block = {
-      scope.launch {
-        scrollState.scrollBy(screenHeight.toFloat())
-      }
-    }
-  )
+  // LaunchedEffect(
+  //   key1 = cards.size,
+  //   block = {
+  //     scope.launch {
+  //       scrollState.scrollBy(screenHeight.toFloat())
+  //     }
+  //   }
+  // )
 
   DroppingArea(
     modifier = Modifier
@@ -118,8 +119,8 @@ fun Lists(
           color = getBgColor(isInBound, boardState.isDragging),
           shape = RoundedCornerShape(2)
         )
-        .width(240.dp)
-        .padding(4.dp)
+        .width(if (isExpandedScreen) 300.dp else 240.dp)
+        .padding(if (isExpandedScreen) 8.dp else 4.dp)
     ) {
       ListHeader(
         name = listModel.title
@@ -137,7 +138,8 @@ fun Lists(
               TaskCard(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = { onTaskCardClick("1") },
-                card = cardModel
+                card = cardModel,
+                isExpandedScreen = isExpandedScreen
               )
             }
           }

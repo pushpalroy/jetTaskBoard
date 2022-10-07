@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -49,8 +50,7 @@ fun MotionTopBar(
     onCancelClick: () -> Unit,
     coverImageUrl: String?,
     title: String?,
-    ) {
-
+) {
     val context = LocalContext.current
     val motionScene = remember {
         context.resources.openRawResource(R.raw.motion_scene)
@@ -68,7 +68,11 @@ fun MotionTopBar(
         tween(300)
     )
 
-    Column(modifier = Modifier.fillMaxWidth()) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .testTag("motion_top_bar")
+    ) {
         MotionLayout(
             motionScene = MotionScene(content = motionScene),
             progress = progress,
@@ -112,7 +116,13 @@ fun MotionTopBar(
                 )
             }
 
-
+            Text(
+                text = "Backlog",
+                color = Color.White,
+                modifier = Modifier.layoutId("item_name"),
+                fontSize = 24.sp,
+            )
+            CoverTab(modifier = Modifier.layoutId("cover_tab"))
 
             Icon(
                 imageVector = Icons.Default.Close,
@@ -120,7 +130,7 @@ fun MotionTopBar(
                 modifier = Modifier
                     .layoutId("cross_icon")
                     .clickable {
-                               onCancelClick()
+                        onCancelClick()
                     },
                 tint = Color.White
             )
@@ -130,23 +140,13 @@ fun MotionTopBar(
                 contentDescription = "Open Menu",
                 modifier = Modifier
                     .layoutId("more_icon")
-                    .clickable { },
+                    .clickable {
+                    },
                 tint = Color.White
             )
-
-            Text(
-                text = "Backlog",
-                color = Color.White,
-                modifier = Modifier.layoutId("item_name"),
-                fontSize = 24.sp,
-            )
-
-            CoverTab(modifier = Modifier.layoutId("cover_tab"))
-
         }
         Divider()
     }
-
 }
 
 @Composable
@@ -170,6 +170,4 @@ fun CoverTab(modifier: Modifier) {
             Spacer(modifier = Modifier.width(8.dp))
         }
     }
-
-
 }

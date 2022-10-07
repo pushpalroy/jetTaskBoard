@@ -1,10 +1,15 @@
 package com.jetapps.jettaskboard
 
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.SpringSpec
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.DrawerState
@@ -18,8 +23,11 @@ import androidx.compose.material.rememberDrawerState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -42,8 +50,11 @@ fun DashboardRoute(
   navigateToTaskBoard: (String) -> Unit = {},
   navigateToCreateCard: (String) -> Unit = {},
   navigateToCreateBoard: (String) -> Unit = {},
+  navigateToSearchScreen: (String) -> Unit = {},
   isExpandedScreen: Boolean
 ) {
+
+  var isMenuClickedInExpandedMode by remember { mutableStateOf(false) }
 
   LaunchedEffect(Unit) {
     viewModel.apply {
@@ -68,10 +79,14 @@ fun DashboardRoute(
             scope.launch {
               if (isExpandedScreen.not()) {
                 scaffoldState.drawerState.open()
+              } else {
+                isMenuClickedInExpandedMode = isMenuClickedInExpandedMode.not()
               }
             }
           },
-          onSearchIconClicked = {},
+          onSearchIconClicked = {
+            navigateToSearchScreen("")
+          },
           onNotificationIconClicked = {}
         )
       },
@@ -83,52 +98,41 @@ fun DashboardRoute(
         if (isExpandedScreen.not()) {
           JtbDrawer(
             modifier = Modifier.fillMaxSize(),
-            viewModel = viewModel
+            viewModel = viewModel,
+            isExpandedScreen = isExpandedScreen
           )
         }
       },
       floatingActionButtonPosition = FabPosition.End,
       floatingActionButton = {
-        MultiFloatingActionButton(
-          fabIcon = FabIcon(
-            iconRes = drawable.ic_edit,
-            iconRotate = 25f
-          ),
-          fabOption = FabOption(
-            iconTint = Color.White,
-            showLabels = true
-          ),
-          items = listOf(
-            MultiFabItem(
-              id = 1,
-              iconRes = drawable.dashboard_icon,
-              label = "Board"
-            ),
-            MultiFabItem(
-              id = 2,
-              iconRes = drawable.card_icon,
-              label = "Card"
-            )
-          ),
-          onFabItemClicked = { item ->
-            if (item.id == 1) {
-              navigateToCreateBoard("")
-            } else {
-              navigateToCreateCard("")
-            }
-          }
+        MultiFab(
+          navigateToCreateCard,
+          navigateToCreateBoard
         )
       }
     ) { scaffoldPadding ->
+
+      val permanentNavDrawerWidth by animateDpAsState(
+        targetValue = if (isMenuClickedInExpandedMode) 80.dp else 320.dp,
+        animationSpec = SpringSpec(
+          dampingRatio = 0.5f,
+          stiffness = Spring.StiffnessLow
+        )
+      )
       Row(Modifier.fillMaxSize()) {
         // Show permanent drawer only for large screens
         if (isExpandedScreen) {
-          Column {
+          Column(
+            Modifier.width(permanentNavDrawerWidth)
+          ) {
             Spacer(modifier = Modifier.height(56.dp))
             JtbDrawer(
               modifier = Modifier
-                .width(320.dp),
-              viewModel = viewModel
+                .fillMaxWidth()
+                .fillMaxHeight(),
+              viewModel = viewModel,
+              isExpandedScreen = true,
+              isMenuClickedInExpandedMode = isMenuClickedInExpandedMode
             )
           }
         }
@@ -183,4 +187,40 @@ private fun rememberSizeAwareScaffoldState(
   } else {
     compactScaffoldState
   }
+}
+
+@Composable
+private fun MultiFab(
+  navigateToCreateCard: (String) -> Unit = {},
+  navigateToCreateBoard: (String) -> Unit = {}
+) {
+  MultiFloatingActionButton(
+    fabIcon = FabIcon(
+      iconRes = drawable.ic_edit,
+      iconRotate = 25f
+    ),
+    fabOption = FabOption(
+      iconTint = Color.White,
+      showLabels = true
+    ),
+    items = listOf(
+      MultiFabItem(
+        id = 1,
+        iconRes = drawable.dashboard_icon,
+        label = "Board"
+      ),
+      MultiFabItem(
+        id = 2,
+        iconRes = drawable.card_icon,
+        label = "Card"
+      )
+    ),
+    onFabItemClicked = { item ->
+      if (item.id == 1) {
+        navigateToCreateBoard("")
+      } else {
+        navigateToCreateCard("")
+      }
+    }
+  )
 }

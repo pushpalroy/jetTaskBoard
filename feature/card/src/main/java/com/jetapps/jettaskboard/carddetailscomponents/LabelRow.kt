@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.jetapps.jettaskboard.CardViewModel
@@ -36,6 +37,7 @@ fun LabelRow(viewModel: CardViewModel) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .testTag("label")
                 .clickable { viewModel.isLabelRowClicked.value = !(viewModel.isLabelRowClicked.value) },
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -45,15 +47,16 @@ fun LabelRow(viewModel: CardViewModel) {
                 contentDescription = "Leading Icon"
             )
             if (viewModel.selectedColors.isEmpty()) {
-                Text(text = "Labels...", modifier = Modifier.weight(5f))
+                Text(text = "Labels...", modifier = Modifier.weight(5f).testTag("label_text"))
             } else {
-                Row(modifier = Modifier.weight(5f)) {
+                Row(modifier = Modifier.weight(5f).testTag("labels_row")) {
                     viewModel.selectedColors.forEach {
                         Card(
                             modifier = Modifier
                                 .height(36.dp)
                                 .width(48.dp)
-                                .padding(4.dp),
+                                .padding(4.dp)
+                                .testTag("label_card"),
                             backgroundColor = it,
                             shape = RoundedCornerShape(8.dp)
                         ) {}

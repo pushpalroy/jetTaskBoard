@@ -46,7 +46,7 @@ val CardList_1 by lazy {
     CardModel(
       id = 1,
       title = "Add Compose UI Tests",
-      description = "Need to test for compose ui.",
+      description = "Need to test for compose ui for various scenarios. Tests are an amazing way to find flexibility in UI and catch early bugs.",
       coverImageUrl = "https://images.unsplash.com/photo-1535350356005-fd52b3b524fb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&q=80",
       labels = listOf(Labels[1], Labels[2]),
       boardId = "1",
@@ -56,7 +56,6 @@ val CardList_1 by lazy {
     CardModel(
       id = 2,
       title = "Add Compose Animations",
-      description = "Need to animations for Compose.",
       coverImageUrl = "",
       labels = listOf(Labels[0], Labels[1]),
       boardId = "1",
@@ -66,7 +65,7 @@ val CardList_1 by lazy {
     CardModel(
       id = 3,
       title = "Add Home Screen",
-      description = "Need to home screen.",
+      description = "Need add to home screen which will show a list of items in a grid view.",
       coverImageUrl = "",
       labels = listOf(Labels[1]),
       boardId = "1",
@@ -82,17 +81,7 @@ val CardList_1 by lazy {
       boardId = "1",
       listId = 0,
       authorId = null
-    ),
-    CardModel(
-      id = 5,
-      title = "Add Card edit screen",
-      description = "Need to add edit Card screen.",
-      coverImageUrl = "",
-      labels = listOf(Labels[1]),
-      boardId = "1",
-      listId = 0,
-      authorId = null
-    ),
+    )
   )
 }
 
@@ -101,7 +90,6 @@ val CardList_2 by lazy {
     CardModel(
       id = 6,
       title = "Android project setup",
-      description = "Need to setup project.",
       coverImageUrl = "https://images.unsplash.com/photo-1574169208507-84376144848b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&q=80",
       labels = listOf(Labels[0], Labels[1], Labels[3]),
       boardId = "1",
@@ -136,7 +124,6 @@ val CardList_3 by lazy {
     CardModel(
       id = 9,
       title = "Add Splash Screen",
-      description = "Need to add a splash screen.",
       coverImageUrl = "https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&q=80",
       labels = listOf(Labels[1]),
       boardId = "1",
@@ -153,6 +140,16 @@ val CardList_3 by lazy {
       listId = 2,
       authorId = null
     ),
+    CardModel(
+      id = 5,
+      title = "Add Card edit screen",
+      description = "Need to add edit Card screen.",
+      coverImageUrl = "",
+      labels = listOf(Labels[1]),
+      boardId = "1",
+      listId = 2,
+      authorId = null
+    )
   )
 }
 

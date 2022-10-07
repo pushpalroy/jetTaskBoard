@@ -27,13 +27,11 @@ fun DashboardAppBar(
             Text(text = "Boards")
         },
         navigationIcon = {
-            if (isExpandedScreen.not()) {
-                IconButton(onClick = onMenuIconClick) {
-                    Icon(
-                        imageVector = Icons.Default.Menu,
-                        contentDescription = "Drawer"
-                    )
-                }
+            IconButton(onClick = onMenuIconClick) {
+                Icon(
+                    imageVector = Icons.Default.Menu,
+                    contentDescription = "Drawer"
+                )
             }
         },
         backgroundColor = Color(0xFF3f3f41),

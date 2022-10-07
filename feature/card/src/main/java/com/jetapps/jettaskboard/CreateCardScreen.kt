@@ -1,5 +1,6 @@
 package com.jetapps.jettaskboard
 
+import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -25,11 +27,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
+import com.google.accompanist.adaptive.TwoPane
+import com.google.accompanist.adaptive.calculateDisplayFeatures
 import com.jetapps.jettaskboard.carddetailscomponents.ItemRow
 import com.jetapps.jettaskboard.carddetailscomponents.TimeItemRow
 import com.jetapps.jettaskboard.feature.card.R
@@ -71,7 +78,19 @@ fun CreateCardRoute(
             )
         }
     ) {
+        AdaptiveCreateCardContent(isExpandedScreen, viewModel)
+    }
+}
+
+@Composable
+fun AdaptiveCreateCardContent(
+    isExpandedScreen: Boolean,
+    viewModel: CardViewModel
+) {
+    if (isExpandedScreen.not()) {
         CreateCardContent(viewModel)
+    } else {
+        CreateCardTwoPaneContent(viewModel)
     }
 }
 
@@ -112,7 +131,46 @@ fun CreateCardContent(viewModel: CardViewModel) {
 
         CardInfoBox(viewModel)
     }
+}
 
+@Composable
+fun CreateCardTwoPaneContent(viewModel: CardViewModel) {
+    val context = LocalContext.current
+    TwoPane(
+        first = {
+            Column(
+                modifier = Modifier
+                    .padding(16.dp)
+            ) {
+                val boardList = mapOf(
+                    DefaultTaskBoardBGColor to "Praxis",
+                    SecondaryColor to "Discord Clone",
+                    LabelOrange to "Trello Workspace",
+                )
+                val visibilityList = mapOf(
+                    "ToDo Items" to "",
+                    "Doing" to "",
+                    "Done" to "",
+                )
+                CreateBoardDropDown(
+                    headingText = "Board",
+                    contentMap = boardList,
+                )
+                CreateFormDropDown(
+                    headingText = "List",
+                    contentMap = visibilityList,
+                )
+            }
+        },
+        second = {
+            CardInfoBox(viewModel)
+        },
+        strategy = { density, layoutDirection, layoutCoordinates ->
+            HorizontalTwoPaneStrategy(splitFraction = .5f)
+                .calculateSplitResult(density, layoutDirection, layoutCoordinates)
+        },
+        displayFeatures = calculateDisplayFeatures(activity = context as Activity)
+    )
 }
 
 @Composable
@@ -125,14 +183,15 @@ fun CardInfoBox(viewModel: CardViewModel) {
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .background(DefaultTaskBoardBGColor),
+            .background(MaterialTheme.colors.background),
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
-                .padding(16.dp)
-                .background(MaterialTheme.colors.background)
+                .padding(32.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(MaterialTheme.colors.surface)
         ) {
 
             Column {

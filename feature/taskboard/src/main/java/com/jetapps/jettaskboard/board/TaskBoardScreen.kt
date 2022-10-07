@@ -1,8 +1,9 @@
 package com.jetapps.jettaskboard.board
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
@@ -12,21 +13,22 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.jetapps.jettaskboard.TaskBoardViewModel
 import com.jetapps.jettaskboard.feature.taskboard.R
 import com.jetapps.jettaskboard.theme.DefaultTaskBoardBGColor
 import com.jetapps.jettaskboard.zoomable.Zoomable
 import com.jetapps.jettaskboard.zoomable.rememberZoomableState
-import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @Composable
 fun TaskBoardRoute(
@@ -37,6 +39,9 @@ fun TaskBoardRoute(
   viewModel: TaskBoardViewModel = hiltViewModel()
 ) {
   val scaffoldState = rememberScaffoldState()
+  val zoomableState = rememberZoomableState()
+  val coroutineScope = rememberCoroutineScope()
+
   Scaffold(
     scaffoldState = scaffoldState,
     topBar = {
@@ -45,7 +50,31 @@ fun TaskBoardRoute(
         title = viewModel.boardInfo.value.second
       )
     },
-    floatingActionButton = { FAB(onClick = {}) }
+    floatingActionButton = {
+      Column(
+        modifier = Modifier,
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+      ) {
+        FAB(
+          onClick = {},
+          R.drawable.ic_zoom_in
+        )
+        FAB(
+          onClick = {
+            if (zoomableState.scale.value != 1f) {
+              coroutineScope.launch {
+                zoomableState.animateBy(
+                  zoomChange = 1 / zoomableState.scale.value,
+                  panChange = -zoomableState.offset.value,
+                  rotationChange = -zoomableState.rotation.value
+                )
+              }
+            }
+          },
+          R.drawable.ic_zoom_out
+        )
+      }
+    }
   ) {
     Surface(
       modifier = modifier
@@ -64,32 +93,18 @@ fun TaskBoardRoute(
             .matchParentSize()
         )
         Zoomable(
-          coroutineScope = rememberCoroutineScope()
+          coroutineScope = coroutineScope,
+          zoomableState = zoomableState
         ) {
           Board(
             modifier = Modifier.fillMaxSize(),
             navigateToCreateCard = navigateToCreateCard,
-            viewModel = viewModel
+            viewModel = viewModel,
+            isExpandedScreen = isExpandedScreen
           )
         }
       }
     }
-  }
-}
-
-@Composable
-fun Zoomable(
-  coroutineScope: CoroutineScope,
-  content: @Composable (BoxScope.() -> Unit)
-) {
-  val zoomableState = rememberZoomableState()
-  Zoomable(
-    coroutineScope = coroutineScope,
-    zoomableState = zoomableState,
-    onSwipeLeft = {},
-    onSwipeRight = {}
-  ) {
-    content()
   }
 }
 
@@ -115,12 +130,15 @@ fun TopAppBar(
 
 @Composable
 fun FAB(
-  onClick: () -> Unit
+  onClick: () -> Unit,
+  painter: Int
 ) {
   FloatingActionButton(onClick = onClick) {
     Icon(
-      Icons.Default.Add,
-      contentDescription = "Zoom"
+      modifier = Modifier,
+      painter = painterResource(id = painter),
+      tint = Color.White,
+      contentDescription = null
     )
   }
 }

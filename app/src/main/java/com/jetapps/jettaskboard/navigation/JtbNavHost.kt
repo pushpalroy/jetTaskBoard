@@ -21,6 +21,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.jetapps.jettaskboard.JtbNavDestination
+import com.jetapps.jettaskboard.feature_search.SearchDestination
+import com.jetapps.jettaskboard.feature_search.searchGraph
 
 /**
  * Top-level navigation graph. Navigation is organized as explained at
@@ -60,6 +62,12 @@ fun JtbNavHost(
           CreateBoardDestination, CreateBoardDestination.route
         )
       },
+      navigateToSearchScreen = {
+        onNavigateToDestination(
+            SearchDestination,
+            SearchDestination.route
+        )
+      },
       nestedGraphs = {
         taskBoardGraph(
           isExpandedScreen = isExpandedScreen,
@@ -77,6 +85,11 @@ fun JtbNavHost(
       }
     )
     createBoardGraph(
+      onBackClick = onBackClick
+    )
+
+    searchGraph(
+      isExpandedScreen = isExpandedScreen,
       onBackClick = onBackClick
     )
   }
