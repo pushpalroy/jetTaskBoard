@@ -53,14 +53,14 @@ fun Board(
       getBoardData()
     }
   }
-  LaunchedEffect(boardState.moveCardToList) {
+  LaunchedEffect(boardState.movingCardData) {
     viewModel.apply {
-      if (boardState.moveCardToList != INITIAL_CARD_LIST_PAIR) {
+      if (boardState.movingCardData != INITIAL_CARD_LIST_PAIR) {
         viewModel.moveCardToDifferentList(
-          cardId = boardState.moveCardToList.first,
-          newListId = boardState.moveCardToList.second
+          cardId = boardState.movingCardData.first,
+          newListId = boardState.movingCardData.second
         )
-        boardState.moveCardToList = INITIAL_CARD_LIST_PAIR
+        boardState.movingCardData = INITIAL_CARD_LIST_PAIR
       }
     }
   }

@@ -67,9 +67,11 @@ class TaskBoardViewModel @Inject constructor(
     newListId: Int
   ) {
     viewModelScope.launch {
-      val tempCard = _cards[cardId - 1]
-      _cards.removeAt(cardId - 1)
-      _cards.add(tempCard.copy(listId = newListId))
+      val cardToMove = _cards.find { it.id == cardId }
+      _cards.removeIf { it.id == cardToMove?.id }
+      cardToMove?.let { safeCard ->
+        _cards.add(safeCard.copy(listId = newListId))
+      }
     }
   }
 

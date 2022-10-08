@@ -107,7 +107,7 @@ fun DragSurface(
               isDragging = false
               dragOffset = Offset.Zero
               if (cardDraggedListId != listIdHasCardInBounds) {
-                moveCardToList = Pair(cardDraggedId, listIdHasCardInBounds)
+                movingCardData = Pair(cardDraggedId, listIdHasCardInBounds)
                 cardDraggedListId = listIdHasCardInBounds
               }
             }
