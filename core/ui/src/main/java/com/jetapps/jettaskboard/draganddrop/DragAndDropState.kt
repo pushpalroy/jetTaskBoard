@@ -33,7 +33,11 @@ class DragAndDropState constructor(
   var cardDraggedId by mutableStateOf(-1)
   var cardDraggedListId by mutableStateOf(-1)
   var listIdHasCardInBounds by mutableStateOf(-1)
-  var moveCardToList by mutableStateOf(Pair(-1, -1))
+  var moveCardToList by mutableStateOf(INITIAL_CARD_LIST_PAIR)
+
+  companion object {
+    val INITIAL_CARD_LIST_PAIR = Pair(-1, -1)
+  }
 }
 
 internal val LocalDragAndDropState = compositionLocalOf { DragAndDropState() }

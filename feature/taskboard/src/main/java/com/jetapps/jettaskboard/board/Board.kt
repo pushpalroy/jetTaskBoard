@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import com.jetapps.jettaskboard.TaskBoardViewModel
 import com.jetapps.jettaskboard.components.TaskCard
 import com.jetapps.jettaskboard.draganddrop.DragAndDropState
+import com.jetapps.jettaskboard.draganddrop.DragAndDropState.Companion.INITIAL_CARD_LIST_PAIR
 import com.jetapps.jettaskboard.draganddrop.DragAndDropSurface
 import com.jetapps.jettaskboard.draganddrop.DragSurface
 import com.jetapps.jettaskboard.draganddrop.DropSurface
@@ -54,11 +55,12 @@ fun Board(
   }
   LaunchedEffect(boardState.moveCardToList) {
     viewModel.apply {
-      if (boardState.moveCardToList != Pair(-1, -1)) {
+      if (boardState.moveCardToList != INITIAL_CARD_LIST_PAIR) {
         viewModel.moveCardToDifferentList(
-          boardState.moveCardToList.first, boardState.moveCardToList.second
+          cardId = boardState.moveCardToList.first,
+          newListId = boardState.moveCardToList.second
         )
-        boardState.moveCardToList = Pair(-1, -1)
+        boardState.moveCardToList = INITIAL_CARD_LIST_PAIR
       }
     }
   }

@@ -64,12 +64,12 @@ class TaskBoardViewModel @Inject constructor(
 
   fun moveCardToDifferentList(
     cardId: Int,
-    listId: Int
+    newListId: Int
   ) {
     viewModelScope.launch {
       val tempCard = _cards[cardId - 1]
       _cards.removeAt(cardId - 1)
-      _cards.add(tempCard.copy(listId = listId))
+      _cards.add(tempCard.copy(listId = newListId))
     }
   }
 
