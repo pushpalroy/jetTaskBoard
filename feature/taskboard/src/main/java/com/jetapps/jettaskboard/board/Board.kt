@@ -1,7 +1,7 @@
 package com.jetapps.jettaskboard.board
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -11,9 +11,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -25,18 +26,16 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jetapps.jettaskboard.TaskBoardViewModel
 import com.jetapps.jettaskboard.components.TaskCard
-import com.jetapps.jettaskboard.draganddrop.DragInfoState
-import com.jetapps.jettaskboard.draganddrop.DragTarget
-import com.jetapps.jettaskboard.draganddrop.DroppingArea
-import com.jetapps.jettaskboard.draganddrop.LongPressDraggable
+import com.jetapps.jettaskboard.draganddrop.DragAndDropState
+import com.jetapps.jettaskboard.draganddrop.DragAndDropSurface
+import com.jetapps.jettaskboard.draganddrop.DragSurface
+import com.jetapps.jettaskboard.draganddrop.DropSurface
 import com.jetapps.jettaskboard.model.ListModel
 import com.jetapps.jettaskboard.theme.SecondaryColor
 
@@ -47,28 +46,37 @@ fun Board(
   viewModel: TaskBoardViewModel,
   isExpandedScreen: Boolean
 ) {
-  val boardState = remember { DragInfoState() }
+  val boardState = remember { DragAndDropState(isExpandedScreen) }
   LaunchedEffect(Unit) {
     viewModel.apply {
       getBoardData()
     }
   }
-  LongPressDraggable(
+  LaunchedEffect(boardState.moveCardToList) {
+    viewModel.apply {
+      if (boardState.moveCardToList != Pair(-1, -1)) {
+        viewModel.moveCardToDifferentList(
+          boardState.moveCardToList.first, boardState.moveCardToList.second
+        )
+        boardState.moveCardToList = Pair(-1, -1)
+      }
+    }
+  }
+  DragAndDropSurface(
     modifier = modifier.fillMaxSize(),
     state = boardState
   ) {
-    Row(
+    LazyRow(
       modifier = Modifier
         .fillMaxWidth()
-        .horizontalScroll(rememberScrollState())
     ) {
-      for (list in viewModel.lists) {
+      items(viewModel.lists) {
         Lists(
           boardState = boardState,
-          listModel = list,
+          listModel = it,
           onTaskCardClick = navigateToCreateCard,
           onAddCardClick = {
-            viewModel.addNewCardInList(list.id)
+            viewModel.addNewCardInList(it.id)
           },
           viewModel = viewModel,
           isExpandedScreen = isExpandedScreen
@@ -78,22 +86,20 @@ fun Board(
   }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Lists(
-  boardState: DragInfoState,
+  boardState: DragAndDropState,
   listModel: ListModel,
   viewModel: TaskBoardViewModel,
   onTaskCardClick: (String) -> Unit,
   onAddCardClick: () -> Unit,
   isExpandedScreen: Boolean,
 ) {
-  val scrollState = rememberScrollState()
-  val scope = rememberCoroutineScope()
   val cards = remember { viewModel.cards }
 
-  val view = LocalView.current
-  val screenHeight = view.rootView.height
-
+  // val scope = rememberCoroutineScope()
+  // val screenHeight = LocalView.current.rootView.height
   // Always scroll to bottom when size changes
   // LaunchedEffect(
   //   key1 = cards.size,
@@ -104,7 +110,7 @@ fun Lists(
   //   }
   // )
 
-  DroppingArea(
+  DropSurface(
     modifier = Modifier
       .padding(start = 16.dp, end = 0.dp, top = 16.dp, bottom = 8.dp)
       .background(
@@ -125,28 +131,32 @@ fun Lists(
       ListHeader(
         name = listModel.title
       )
-      Column(
-        modifier = Modifier.verticalScroll(scrollState)
+      LazyColumn(
+        modifier = Modifier
       ) {
-        for (cardModel in cards) {
-          if (cardModel.listId == listModel.id) {
-            DragTarget(
-              modifier = Modifier.fillMaxWidth(),
-              currentListId = cardModel.listId ?: 0,
-              cardDraggedId = cardModel.id
+        items(cards) {
+          if (it.listId == listModel.id) {
+            DragSurface(
+              modifier = Modifier
+                .fillMaxWidth()
+                .animateItemPlacement(),
+              cardId = it.id,
+              cardListId = it.listId ?: 0
             ) {
               TaskCard(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = { onTaskCardClick("1") },
-                card = cardModel,
+                card = it,
                 isExpandedScreen = isExpandedScreen
               )
             }
           }
         }
-        ListFooter(
-          onAddCardClick = onAddCardClick
-        )
+        item {
+          ListFooter(
+            onAddCardClick = onAddCardClick
+          )
+        }
       }
     }
   }

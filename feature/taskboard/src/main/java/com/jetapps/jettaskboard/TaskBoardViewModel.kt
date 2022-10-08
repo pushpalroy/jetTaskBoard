@@ -29,8 +29,8 @@ class TaskBoardViewModel @Inject constructor(
   val cards: List<CardModel> = _cards
 
   /**
-   * A Board has a list of Lists
-   * A List has a list of Cards
+   * A Board has a list of Lists: Board = f(List)
+   * A List has a list of Cards: List = f(Card)
    * A new Card has to be inserted in the list Cards of a Board
    */
   fun getBoardData() {
@@ -67,8 +67,8 @@ class TaskBoardViewModel @Inject constructor(
     listId: Int
   ) {
     viewModelScope.launch {
-      val tempCard = cards[cardId]
-      _cards.removeAt(cardId)
+      val tempCard = _cards[cardId - 1]
+      _cards.removeAt(cardId - 1)
       _cards.add(tempCard.copy(listId = listId))
     }
   }

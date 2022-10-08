@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,13 +27,13 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun LongPressDraggable(
+fun DragAndDropSurface(
   modifier: Modifier = Modifier,
-  state: DragInfoState = remember { DragInfoState() },
+  state: DragAndDropState = remember { DragAndDropState() },
   content: @Composable BoxScope.() -> Unit
 ) {
   CompositionLocalProvider(
-    LocalDragInfoState provides state
+    LocalDragAndDropState provides state
   ) {
     Box(modifier = modifier.wrapContentWidth())
     {
@@ -45,15 +44,15 @@ fun LongPressDraggable(
         }
         Box(
           modifier = Modifier
-            .width(200.dp)
+            .width(if (state.isExpandedScreen) 300.dp else 240.dp)
             .rotate(5f)
             .graphicsLayer {
-              val offset = (state.dragPosition + state.dragOffset)
-              scaleX = 1f
-              scaleY = 1f
+              val offset = (state.itemPosition + state.dragOffset)
+              scaleX = 0.9f
+              scaleY = 0.9f
               alpha = if (targetSize == IntSize.Zero) 0f else 1f
               translationX = offset.x.minus(targetSize.width / 2)
-              // 160f is the height adjustment for top app bar
+              // 160f is the height adjustment for top app bar, need to find a way to calculate this height
               translationY = offset.y.minus((targetSize.height / 2 + 160f))
               spotShadowColor = Color(0xFF111111)
               ambientShadowColor = Color(0xFF111111)
@@ -62,7 +61,7 @@ fun LongPressDraggable(
               targetSize = it.size
             }
         ) {
-          state.draggableComposable?.invoke()
+          state.draggableItem?.invoke()
         }
       }
     }
@@ -70,14 +69,14 @@ fun LongPressDraggable(
 }
 
 @Composable
-fun DragTarget(
+fun DragSurface(
   modifier: Modifier,
-  currentListId: Int = 0,
-  cardDraggedId: Int = 0,
-  content: @Composable (() -> Unit)
+  cardId: Int = 0,
+  cardListId: Int = 0,
+  content: @Composable () -> Unit
 ) {
+  val dragNDropState = LocalDragAndDropState.current
   var currentPosition by remember { mutableStateOf(Offset.Zero) }
-  val dragInfoState = LocalDragInfoState.current
   var targetHeight by remember {
     mutableStateOf(0)
   }
@@ -90,31 +89,44 @@ fun DragTarget(
       .pointerInput(Unit) {
         detectDragGesturesAfterLongPress(
           onDragStart = {
-            dragInfoState.isDragging = true
-            dragInfoState.dragPosition = currentPosition + it
-            dragInfoState.draggableComposable = content
-            dragInfoState.cardDraggedId = cardDraggedId
-            dragInfoState.cardDraggedListId = currentListId
+            with(dragNDropState) {
+              isDragging = true
+              itemPosition = currentPosition + it
+              draggableItem = content
+              cardDraggedId = cardId
+              cardDraggedListId = cardListId
+              listIdHasCardInBounds = cardListId
+            }
           },
           onDrag = { change, dragAmount ->
             change.consume()
-            dragInfoState.dragOffset += Offset(dragAmount.x, dragAmount.y)
+            dragNDropState.dragOffset += Offset(dragAmount.x, dragAmount.y)
           },
           onDragEnd = {
-            dragInfoState.isDragging = false
-            dragInfoState.dragOffset = Offset.Zero
+            with(dragNDropState) {
+              isDragging = false
+              dragOffset = Offset.Zero
+              if (cardDraggedListId != listIdHasCardInBounds) {
+                moveCardToList = Pair(cardDraggedId, listIdHasCardInBounds)
+                cardDraggedListId = listIdHasCardInBounds
+              }
+            }
           },
           onDragCancel = {
-            dragInfoState.dragOffset = Offset.Zero
-            dragInfoState.isDragging = false
+            with(dragNDropState) {
+              isDragging = false
+              dragOffset = Offset.Zero
+              cardDraggedListId = cardListId
+              listIdHasCardInBounds = cardListId
+            }
           }
         )
       }
   ) {
-    if (dragInfoState.cardDraggedId != cardDraggedId) {
+    if (dragNDropState.cardDraggedId != cardId) {
       content()
     } else {
-      AnimatedVisibility(visible = dragInfoState.isDragging) {
+      AnimatedVisibility(visible = dragNDropState.isDragging) {
         Box(
           modifier = Modifier
             .fillMaxWidth()
@@ -126,14 +138,14 @@ fun DragTarget(
 }
 
 @Composable
-fun DroppingArea(
+fun DropSurface(
   modifier: Modifier,
   listId: Int,
-  content: @Composable (BoxScope.(isInBound: Boolean, dragOffset: Offset) -> Unit)
+  content: @Composable BoxScope.(isInBound: Boolean, dragOffset: Offset) -> Unit
 ) {
-  val dragInfoState = LocalDragInfoState.current
-  val dragPosition = dragInfoState.dragPosition
-  val dragOffset = dragInfoState.dragOffset
+  val dragNDropState = LocalDragAndDropState.current
+  val dragPosition = dragNDropState.itemPosition
+  val dragOffset = dragNDropState.dragOffset
   var isCurrentDropTarget by remember {
     mutableStateOf(false)
   }
@@ -141,8 +153,10 @@ fun DroppingArea(
     modifier = modifier.onGloballyPositioned {
       it.boundsInWindow().let { rect ->
         isCurrentDropTarget = rect.contains(dragPosition + dragOffset)
-        if (isCurrentDropTarget && listId != dragInfoState.cardDraggedListId) {
-          dragInfoState.cardDraggedListId = listId
+
+        // Changing list id when card moved from one list to another
+        if (isCurrentDropTarget && listId != dragNDropState.cardDraggedListId) {
+          dragNDropState.listIdHasCardInBounds = listId
         }
       }
     }
@@ -150,14 +164,3 @@ fun DroppingArea(
     content(isCurrentDropTarget, dragOffset)
   }
 }
-
-class DragInfoState {
-  var isDragging by mutableStateOf(false)
-  var dragPosition by mutableStateOf(Offset.Zero)
-  var dragOffset by mutableStateOf(Offset.Zero)
-  var draggableComposable by mutableStateOf<(@Composable () -> Unit)?>(null)
-  var cardDraggedId by mutableStateOf(-1)
-  var cardDraggedListId by mutableStateOf(-1)
-}
-
-internal val LocalDragInfoState = compositionLocalOf { DragInfoState() }
