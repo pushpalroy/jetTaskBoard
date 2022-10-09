@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -239,11 +240,12 @@ fun AddNewListButton(
       contentColor = Color.White,
       backgroundColor = Color(0xFF383838)
     ),
-    contentPadding = PaddingValues(vertical = 16.dp),
+    contentPadding = PaddingValues(16.dp),
     onClick = { viewModel.addNewList() }
   ) {
     Icon(imageVector = Filled.Add, contentDescription = "Add")
-    Text(modifier = Modifier, fontSize = 12.sp, text = "Add List")
+    Spacer(modifier = Modifier.width(8.dp))
+    Text(modifier = Modifier.weight(1f), fontSize = 16.sp, text = "Add List")
   }
 }
 
