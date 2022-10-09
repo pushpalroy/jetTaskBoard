@@ -1,9 +1,7 @@
 package com.jetapps.jettaskboard
 
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.neverEqualPolicy
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,15 +14,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class TaskBoardViewModel @Inject constructor(
-  savedStateHandle: SavedStateHandle
-) : ViewModel() {
+class TaskBoardViewModel @Inject constructor(savedStateHandle: SavedStateHandle) : ViewModel() {
 
   var boardInfo = mutableStateOf<Pair<Int?, String>>(Pair(null, ""))
     private set
 
-  private val _lists: MutableList<ListModel> = mutableStateListOf()
-  val lists: List<ListModel> by mutableStateOf(_lists, neverEqualPolicy())
+  private val _lists = mutableStateListOf<ListModel>()
+  val lists: List<ListModel> = _lists
 
   /**
    * A Board has a list of Lists: Board = f(List)
@@ -41,6 +37,8 @@ class TaskBoardViewModel @Inject constructor(
       val board = boardDeferred.await().successOr(BoardModel())
 
       boardInfo.value = Pair(board.id, board.title)
+
+      // Executed for once when ui is loaded
       if (_lists.isEmpty()) {
         _lists.addAll(board.lists)
       }
@@ -61,8 +59,11 @@ class TaskBoardViewModel @Inject constructor(
     newListId: Int
   ) {
     viewModelScope.launch {
+      // Locate the card to be moved
       val cardToMove = _lists.find { it.id == oldListId }?.cards?.find { it.id == cardId }
 
+      // Removing a card from one list and adding to a new list
+      // Basically, modifying the internal data of two list-items simultaneously
       cardToMove?.let { safeCard ->
         _lists.find { it.id == oldListId }?.cards?.removeIf { it.id == safeCard.id }
         _lists.find { it.id == newListId }?.cards?.add(safeCard.copy(listId = newListId))

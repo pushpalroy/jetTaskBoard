@@ -1,5 +1,6 @@
 package com.jetapps.jettaskboard.draganddrop
 
+import android.util.Log
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -76,16 +77,15 @@ fun DragSurface(
 ) {
   val dragNDropState = LocalDragAndDropState.current
   var currentPosition by remember { mutableStateOf(Offset.Zero) }
-  var targetHeight by remember {
-    mutableStateOf(0)
-  }
+  var targetHeight by remember { mutableStateOf(0) }
+
   Box(
     modifier = modifier
       .onGloballyPositioned {
         currentPosition = it.localToWindow(Offset.Zero)
         targetHeight = it.size.height
       }
-      .pointerInput(Unit) {
+      .pointerInput(key1 = cardId) {
         detectDragGesturesAfterLongPress(
           onDragStart = {
             with(dragNDropState) {

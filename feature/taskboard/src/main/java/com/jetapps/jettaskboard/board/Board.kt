@@ -48,11 +48,13 @@ fun Board(
   isExpandedScreen: Boolean
 ) {
   val boardState = remember { DragAndDropState(isExpandedScreen) }
+
   LaunchedEffect(Unit) {
     viewModel.apply {
       getBoardData()
     }
   }
+
   LaunchedEffect(key1 = boardState.movingCardData) {
     viewModel.apply {
       if (boardState.movingCardData != INITIAL_CARD_LIST_PAIR) {
@@ -64,6 +66,7 @@ fun Board(
       }
     }
   }
+
   DragAndDropSurface(
     modifier = modifier.fillMaxSize(),
     state = boardState
@@ -96,8 +99,6 @@ fun Lists(
   onAddCardClick: () -> Unit,
   isExpandedScreen: Boolean,
 ) {
-  val cards = remember { listModel.cards }
-
   // val scope = rememberCoroutineScope()
   // val screenHeight = LocalView.current.rootView.height
   // Always scroll to bottom when size changes
@@ -134,7 +135,7 @@ fun Lists(
       LazyColumn(
         modifier = Modifier
       ) {
-        items(cards) { card ->
+        items(listModel.cards) { card ->
           DragSurface(
             modifier = Modifier
               .fillMaxWidth()
