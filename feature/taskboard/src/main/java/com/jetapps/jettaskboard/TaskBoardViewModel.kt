@@ -1,11 +1,14 @@
 package com.jetapps.jettaskboard
 
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jetapps.jettaskboard.model.BoardModel
+import com.jetapps.jettaskboard.model.CardModel
 import com.jetapps.jettaskboard.model.ListModel
 import com.jetapps.jettaskboard.util.Board
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,11 +19,26 @@ import javax.inject.Inject
 @HiltViewModel
 class TaskBoardViewModel @Inject constructor(savedStateHandle: SavedStateHandle) : ViewModel() {
 
+  /**
+   * Holds the information of the [Board], a pair of ID and title.
+   */
   var boardInfo = mutableStateOf<Pair<Int?, String>>(Pair(null, ""))
     private set
 
+  /**
+   * Defines a list of [ListModel]s which has a list of [CardModel]s internally.
+   * The list of [ListModel]s is used to setup the row of lists (eg: To-do, InProgress, Completed, etc.) in the [Board].
+   * The list of [CardModel]s inside every list, is used to setup the column of cards in a particular list.
+   */
   private val _lists = mutableStateListOf<ListModel>()
   val lists: List<ListModel> = _lists
+
+  /**
+   * A counter of the total number of cards in the board, maintained to assign a unique
+   * index everytime a new card gets added to the board in a particular list, which in also
+   * used to run recomposition whenever the new card is added.
+   */
+  var totalCards by mutableStateOf(0)
 
   /**
    * A Board has a list of Lists: Board = f(List)
@@ -41,15 +59,20 @@ class TaskBoardViewModel @Inject constructor(savedStateHandle: SavedStateHandle)
       // Executed for once when ui is loaded
       if (_lists.isEmpty()) {
         _lists.addAll(board.lists)
+        _lists.forEach { list ->
+          totalCards += list.cards.size
+        }
       }
     }
   }
 
   fun addNewCardInList(listId: Int) {
     viewModelScope.launch {
-      // _lists.find { it.id == listId }?.cards?.add(
-      //   CardModel(id = _lists.size + 1, title = "New Card", listId = listId)
-      // )
+      totalCards += 1
+      val newCardIndex = totalCards
+      _lists.find { it.id == listId }?.cards?.add(
+        CardModel(id = newCardIndex, title = "New Card", listId = listId)
+      )
     }
   }
 

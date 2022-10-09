@@ -48,6 +48,7 @@ fun Board(
   isExpandedScreen: Boolean
 ) {
   val boardState = remember { DragAndDropState(isExpandedScreen) }
+  val lists = remember(viewModel.totalCards) { viewModel.lists }
 
   LaunchedEffect(Unit) {
     viewModel.apply {
@@ -75,7 +76,7 @@ fun Board(
       modifier = Modifier
         .fillMaxWidth()
     ) {
-      items(viewModel.lists) { list ->
+      items(lists) { list ->
         Lists(
           boardState = boardState,
           listModel = list,
@@ -90,7 +91,6 @@ fun Board(
   }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Lists(
   boardState: DragAndDropState,
@@ -132,31 +132,49 @@ fun Lists(
       ListHeader(
         name = listModel.title
       )
-      LazyColumn(
-        modifier = Modifier
+      ListBody(
+        modifier = Modifier,
+        listModel = listModel,
+        onTaskCardClick = onTaskCardClick,
+        onAddCardClick = onAddCardClick,
+        isExpandedScreen = isExpandedScreen
+      )
+    }
+  }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun ListBody(
+  modifier: Modifier,
+  listModel: ListModel,
+  onTaskCardClick: (String) -> Unit,
+  onAddCardClick: () -> Unit,
+  isExpandedScreen: Boolean,
+) {
+  LazyColumn(
+    modifier = Modifier
+  ) {
+    items(listModel.cards) { card ->
+      DragSurface(
+        modifier = modifier
+          .fillMaxWidth()
+          .animateItemPlacement(),
+        cardId = card.id,
+        cardListId = card.listId ?: 0
       ) {
-        items(listModel.cards) { card ->
-          DragSurface(
-            modifier = Modifier
-              .fillMaxWidth()
-              .animateItemPlacement(),
-            cardId = card.id,
-            cardListId = card.listId ?: 0
-          ) {
-            TaskCard(
-              modifier = Modifier.fillMaxWidth(),
-              onClick = { onTaskCardClick("1") },
-              card = card,
-              isExpandedScreen = isExpandedScreen
-            )
-          }
-        }
-        item {
-          ListFooter(
-            onAddCardClick = onAddCardClick
-          )
-        }
+        TaskCard(
+          modifier = Modifier.fillMaxWidth(),
+          onClick = { onTaskCardClick("1") },
+          card = card,
+          isExpandedScreen = isExpandedScreen
+        )
       }
+    }
+    item {
+      ListFooter(
+        onAddCardClick = onAddCardClick
+      )
     }
   }
 }

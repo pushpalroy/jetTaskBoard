@@ -88,7 +88,7 @@ val CardList_1 by lazy {
 val CardList_2 by lazy {
   listOf(
     CardModel(
-      id = 6,
+      id = 5,
       title = "Android project setup",
       coverImageUrl = "https://images.unsplash.com/photo-1574169208507-84376144848b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&q=80",
       labels = listOf(Labels[0], Labels[1], Labels[3]),
@@ -97,7 +97,7 @@ val CardList_2 by lazy {
       authorId = null
     ),
     CardModel(
-      id = 7,
+      id = 6,
       title = "Implement DI using Hilt",
       description = "Need to implement hilt.",
       coverImageUrl = "",
@@ -107,7 +107,7 @@ val CardList_2 by lazy {
       authorId = null
     ),
     CardModel(
-      id = 8,
+      id = 7,
       title = "Adaptive UI using Compose",
       description = "Need to add adaptive UI using compose.",
       coverImageUrl = "",
@@ -122,7 +122,7 @@ val CardList_2 by lazy {
 val CardList_3 by lazy {
   listOf(
     CardModel(
-      id = 9,
+      id = 8,
       title = "Add Splash Screen",
       coverImageUrl = "https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&q=80",
       labels = listOf(Labels[1]),
@@ -131,7 +131,7 @@ val CardList_3 by lazy {
       authorId = null
     ),
     CardModel(
-      id = 10,
+      id = 9,
       title = "Add Github Actions",
       description = "Need to integrate Github Actions for CI/CD.",
       coverImageUrl = "",
@@ -141,7 +141,7 @@ val CardList_3 by lazy {
       authorId = null
     ),
     CardModel(
-      id = 5,
+      id = 10,
       title = "Add Card edit screen",
       description = "Need to add edit Card screen.",
       coverImageUrl = "",
