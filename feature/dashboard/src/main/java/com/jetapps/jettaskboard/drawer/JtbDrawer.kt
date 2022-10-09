@@ -1,6 +1,7 @@
 package com.jetapps.jettaskboard.drawer
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -68,20 +69,18 @@ fun OpenDrawerInExpandedMode(
     viewModel: DashboardViewModel,
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
     ) {
         DrawerHeader(
-            modifier = modifier,
-            onDrawerHeaderToggled = {
-                // Todo Manage Expandable State
-            }
+            modifier = Modifier.clickable {},
+            onDrawerHeaderToggled = {}
         )
-
         Divider(
             color = Color(0xFF1B1B1D)
         )
         Row(
-            modifier = modifier
+            modifier = Modifier
+                .clickable {}
                 .background(color = MaterialTheme.colors.background)
                 .padding(16.dp)
                 .fillMaxWidth(),
@@ -93,7 +92,7 @@ fun OpenDrawerInExpandedMode(
                 tint = Color(0xFF0079bf)
             )
             Text(
-                modifier = modifier
+                modifier = Modifier
                     .weight(1f)
                     .padding(start = 24.dp),
                 color = Color(0xFF0079bf),
@@ -106,27 +105,26 @@ fun OpenDrawerInExpandedMode(
         )
         DrawerWorkSpaceComponent(
             viewModel = viewModel,
-            modifier = modifier
+            modifier = Modifier
         )
-
         Divider(
             color = Color(0xFF1B1B1D)
         )
         NavigationDrawerItem(
-            modifier = modifier,
+            modifier = Modifier.clickable {},
             heading = "My cards",
             icon = Icons.Outlined.Email,
-        ) {}
+        )
         NavigationDrawerItem(
-            modifier = modifier,
+            modifier = Modifier.clickable {},
             heading = "Settings",
             icon = Icons.Outlined.Settings
-        ) {}
+        )
         NavigationDrawerItem(
-            modifier = modifier,
+            modifier = Modifier.clickable {},
             heading = "Help!",
             icon = Icons.Outlined.Info
-        ) {}
+        )
     }
 }
 

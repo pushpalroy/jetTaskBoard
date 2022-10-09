@@ -1,6 +1,5 @@
 package com.jetapps.jettaskboard.component
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,20 +17,15 @@ import androidx.compose.ui.unit.sp
 fun NavigationDrawerItem(
     modifier: Modifier,
     heading: String,
-    icon: ImageVector,
-    onNavigationDrawerItemClicked: () -> Unit
+    icon: ImageVector
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .padding(16.dp)
-            .fillMaxWidth()
-            .clickable {
-                onNavigationDrawerItemClicked()
-            },
+            .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(imageVector = icon, contentDescription = "Drawer item $heading")
-
         Text(
             modifier = Modifier.padding(start = 24.dp),
             text = heading,

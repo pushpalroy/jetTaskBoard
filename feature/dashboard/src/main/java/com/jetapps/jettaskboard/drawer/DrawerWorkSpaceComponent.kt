@@ -1,5 +1,6 @@
 package com.jetapps.jettaskboard.drawer
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -24,14 +25,14 @@ fun DrawerWorkSpaceComponent(
     ) {
         Text(
             text = "Workspaces",
-            modifier = modifier.padding(bottom = 16.dp),
+            modifier = Modifier.padding(bottom = 16.dp),
             fontSize = 16.sp,
             fontWeight = FontWeight.W500
         )
 
         viewModel.listOfBoards.forEach { items ->
             WorkSpaceItem(
-                modifier = modifier,
+                modifier = Modifier.clickable { },
                 workSpaceHeading = items.title
             )
         }
