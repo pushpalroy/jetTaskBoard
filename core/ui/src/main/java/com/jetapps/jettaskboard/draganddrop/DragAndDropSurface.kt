@@ -1,6 +1,5 @@
 package com.jetapps.jettaskboard.draganddrop
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -93,9 +92,12 @@ fun DragSurface(
               isDragging = true
               itemPosition = currentPosition + it
               draggableItem = content
+
+              // Metadata
               cardDraggedId = cardId
-              cardDraggedListId = cardListId
-              listIdHasCardInBounds = cardListId
+              cardDraggedCurrentListId = cardListId
+              cardDraggedInitialListId = cardListId
+              listIdWithCardInBounds = cardListId
             }
           },
           onDrag = { change, dragAmount ->
@@ -106,9 +108,12 @@ fun DragSurface(
             with(dragNDropState) {
               isDragging = false
               dragOffset = Offset.Zero
-              if (cardDraggedListId != listIdHasCardInBounds) {
-                movingCardData = Pair(cardDraggedId, listIdHasCardInBounds)
-                cardDraggedListId = listIdHasCardInBounds
+
+              // Metadata
+              if (cardDraggedCurrentListId != listIdWithCardInBounds) {
+                // Move card action detected
+                movingCardData = Pair(cardDraggedId, listIdWithCardInBounds)
+                cardDraggedCurrentListId = listIdWithCardInBounds
               }
             }
           },
@@ -116,23 +121,28 @@ fun DragSurface(
             with(dragNDropState) {
               isDragging = false
               dragOffset = Offset.Zero
-              cardDraggedListId = cardListId
-              listIdHasCardInBounds = cardListId
+
+              // Metadata
+              cardDraggedId = -1
+              cardDraggedCurrentListId = -1
+              cardDraggedInitialListId = -1
+              listIdWithCardInBounds = -1
+              movingCardData = DragAndDropState.INITIAL_CARD_LIST_PAIR
             }
           }
         )
       }
   ) {
-    if (dragNDropState.cardDraggedId != cardId) {
-      content()
+
+    // Experimental animation to show empty space while dragging
+    if (dragNDropState.isDragging && dragNDropState.cardDraggedId == cardId) {
+      Box(
+        modifier = Modifier
+          .fillMaxWidth()
+          .height(LocalDensity.current.run { targetHeight.toDp() })
+      )
     } else {
-      AnimatedVisibility(visible = dragNDropState.isDragging) {
-        Box(
-          modifier = Modifier
-            .fillMaxWidth()
-            .height(LocalDensity.current.run { targetHeight.toDp() })
-        )
-      }
+      content()
     }
   }
 }
@@ -155,8 +165,8 @@ fun DropSurface(
         isCurrentDropTarget = rect.contains(dragPosition + dragOffset)
 
         // Changing list id when card moved from one list to another
-        if (isCurrentDropTarget && listId != dragNDropState.cardDraggedListId) {
-          dragNDropState.listIdHasCardInBounds = listId
+        if (isCurrentDropTarget && listId != dragNDropState.cardDraggedCurrentListId) {
+          dragNDropState.listIdWithCardInBounds = listId
         }
       }
     }

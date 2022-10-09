@@ -53,14 +53,14 @@ fun Board(
       getBoardData()
     }
   }
-  LaunchedEffect(boardState.movingCardData) {
+  LaunchedEffect(key1 = boardState.movingCardData) {
     viewModel.apply {
       if (boardState.movingCardData != INITIAL_CARD_LIST_PAIR) {
-        viewModel.moveCardToDifferentList(
+        moveCardToDifferentList(
           cardId = boardState.movingCardData.first,
+          oldListId = boardState.cardDraggedInitialListId,
           newListId = boardState.movingCardData.second
         )
-        boardState.movingCardData = INITIAL_CARD_LIST_PAIR
       }
     }
   }
@@ -72,15 +72,14 @@ fun Board(
       modifier = Modifier
         .fillMaxWidth()
     ) {
-      items(viewModel.lists) {
+      items(viewModel.lists) { list ->
         Lists(
           boardState = boardState,
-          listModel = it,
+          listModel = list,
           onTaskCardClick = navigateToCreateCard,
           onAddCardClick = {
-            viewModel.addNewCardInList(it.id)
+            viewModel.addNewCardInList(list.id)
           },
-          viewModel = viewModel,
           isExpandedScreen = isExpandedScreen
         )
       }
@@ -93,12 +92,11 @@ fun Board(
 fun Lists(
   boardState: DragAndDropState,
   listModel: ListModel,
-  viewModel: TaskBoardViewModel,
   onTaskCardClick: (String) -> Unit,
   onAddCardClick: () -> Unit,
   isExpandedScreen: Boolean,
 ) {
-  val cards = remember { viewModel.cards }
+  val cards = remember { listModel.cards }
 
   // val scope = rememberCoroutineScope()
   // val screenHeight = LocalView.current.rootView.height
@@ -136,22 +134,20 @@ fun Lists(
       LazyColumn(
         modifier = Modifier
       ) {
-        items(cards) {
-          if (it.listId == listModel.id) {
-            DragSurface(
-              modifier = Modifier
-                .fillMaxWidth()
-                .animateItemPlacement(),
-              cardId = it.id,
-              cardListId = it.listId ?: 0
-            ) {
-              TaskCard(
-                modifier = Modifier.fillMaxWidth(),
-                onClick = { onTaskCardClick("1") },
-                card = it,
-                isExpandedScreen = isExpandedScreen
-              )
-            }
+        items(cards) { card ->
+          DragSurface(
+            modifier = Modifier
+              .fillMaxWidth()
+              .animateItemPlacement(),
+            cardId = card.id,
+            cardListId = card.listId ?: 0
+          ) {
+            TaskCard(
+              modifier = Modifier.fillMaxWidth(),
+              onClick = { onTaskCardClick("1") },
+              card = card,
+              isExpandedScreen = isExpandedScreen
+            )
           }
         }
         item {

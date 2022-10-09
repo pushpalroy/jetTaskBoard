@@ -31,8 +31,9 @@ class DragAndDropState constructor(
   var dragOffset by mutableStateOf(Offset.Zero)
 
   var cardDraggedId by mutableStateOf(-1)
-  var cardDraggedListId by mutableStateOf(-1)
-  var listIdHasCardInBounds by mutableStateOf(-1)
+  var cardDraggedInitialListId by mutableStateOf(-1)
+  var cardDraggedCurrentListId by mutableStateOf(-1)
+  var listIdWithCardInBounds by mutableStateOf(-1)
   var movingCardData by mutableStateOf(INITIAL_CARD_LIST_PAIR)
 
   companion object {

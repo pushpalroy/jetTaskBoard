@@ -1,12 +1,13 @@
 package com.jetapps.jettaskboard
 
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.neverEqualPolicy
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jetapps.jettaskboard.model.BoardModel
-import com.jetapps.jettaskboard.model.CardModel
 import com.jetapps.jettaskboard.model.ListModel
 import com.jetapps.jettaskboard.util.Board
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,10 +24,7 @@ class TaskBoardViewModel @Inject constructor(
     private set
 
   private val _lists: MutableList<ListModel> = mutableStateListOf()
-  val lists: List<ListModel> = _lists
-
-  private val _cards: MutableList<CardModel> = mutableStateListOf()
-  val cards: List<CardModel> = _cards
+  val lists: List<ListModel> by mutableStateOf(_lists, neverEqualPolicy())
 
   /**
    * A Board has a list of Lists: Board = f(List)
@@ -46,31 +44,28 @@ class TaskBoardViewModel @Inject constructor(
       if (_lists.isEmpty()) {
         _lists.addAll(board.lists)
       }
-      if (_cards.isEmpty()) {
-        for (list in board.lists) {
-          _cards.addAll(list.cards)
-        }
-      }
     }
   }
 
   fun addNewCardInList(listId: Int) {
     viewModelScope.launch {
-      _cards.add(
-        CardModel(title = "New Card", listId = listId)
-      )
+      // _lists.find { it.id == listId }?.cards?.add(
+      //   CardModel(id = _lists.size + 1, title = "New Card", listId = listId)
+      // )
     }
   }
 
   fun moveCardToDifferentList(
     cardId: Int,
+    oldListId: Int,
     newListId: Int
   ) {
     viewModelScope.launch {
-      val cardToMove = _cards.find { it.id == cardId }
-      _cards.removeIf { it.id == cardToMove?.id }
+      val cardToMove = _lists.find { it.id == oldListId }?.cards?.find { it.id == cardId }
+
       cardToMove?.let { safeCard ->
-        _cards.add(safeCard.copy(listId = newListId))
+        _lists.find { it.id == oldListId }?.cards?.removeIf { it.id == safeCard.id }
+        _lists.find { it.id == newListId }?.cards?.add(safeCard.copy(listId = newListId))
       }
     }
   }
