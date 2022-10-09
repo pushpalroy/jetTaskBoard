@@ -21,8 +21,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.jetapps.jettaskboard.JtbNavDestination
-import com.jetapps.jettaskboard.feature_search.SearchDestination
-import com.jetapps.jettaskboard.feature_search.searchGraph
+import com.jetapps.search.SearchDestination
+import com.jetapps.search.searchGraph
 
 /**
  * Top-level navigation graph. Navigation is organized as explained at

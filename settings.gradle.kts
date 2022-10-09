@@ -1,6 +1,7 @@
 rootProject.name = "JetTaskBoard"
 include (":app")
 include (":feature:dashboard")
+include (":feature:search")
 include (":feature:taskboard")
 include (":feature:card")
 include (":feature:settings")

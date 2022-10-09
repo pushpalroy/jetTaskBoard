@@ -12,9 +12,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.jetapps.jettaskboard.component.BoardCardComponent
+import com.jetapps.jettaskboard.components.BoardCardComponent
 import com.jetapps.jettaskboard.component.Header
-import com.jetapps.jettaskboard.component.WorkshopCard
+import com.jetapps.jettaskboard.components.WorkshopCard
 
 @Composable
 fun DashboardSinglePaneContent(

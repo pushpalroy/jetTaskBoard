@@ -1,5 +1,3 @@
-import Lib.Android.ACCOMPANIST_SYSTEM_UI_CONTROLLER
-
 plugins {
   id(BuildPlugins.ANDROID_LIBRARY_PLUGIN)
   id(BuildPlugins.KOTLIN_ANDROID_PLUGIN)
@@ -78,7 +76,7 @@ dependencies {
   implementation(Lib.Android.CONSTRAINT_LAYOUT_COMPOSE)
   implementation(Lib.Android.ACCOMPANIST_INSETS)
   implementation(Lib.Android.ACCOMPANIST_INSETS_UI)
-  implementation(ACCOMPANIST_SYSTEM_UI_CONTROLLER)
+  implementation(Lib.Android.ACCOMPANIST_SYSTEM_UI_CONTROLLER)
   implementation(Lib.Android.ACCOMPANIST_FLOW_LAYOUTS)
   implementation(Lib.Android.ACCOMPANIST_ADAPTIVE)
   implementation(Lib.Android.COMPOSE_WINDOW_MATRICES)

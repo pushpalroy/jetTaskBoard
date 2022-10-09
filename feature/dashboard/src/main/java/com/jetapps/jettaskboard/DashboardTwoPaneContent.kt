@@ -22,9 +22,9 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
 import com.google.accompanist.adaptive.TwoPane
 import com.google.accompanist.adaptive.calculateDisplayFeatures
-import com.jetapps.jettaskboard.component.BoardCardComponent
+import com.jetapps.jettaskboard.components.BoardCardComponent
 import com.jetapps.jettaskboard.component.Header
-import com.jetapps.jettaskboard.component.WorkshopCard
+import com.jetapps.jettaskboard.components.WorkshopCard
 
 @Composable
 fun DashboardTwoPaneContent(
