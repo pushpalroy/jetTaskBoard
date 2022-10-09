@@ -96,7 +96,7 @@ class TaskBoardViewModel @Inject constructor(savedStateHandle: SavedStateHandle)
 
   fun addNewList() {
     _lists.add(
-      ListModel(title = "New List")
+      ListModel(id = _lists.size + 1, title = "New List")
     )
   }
 

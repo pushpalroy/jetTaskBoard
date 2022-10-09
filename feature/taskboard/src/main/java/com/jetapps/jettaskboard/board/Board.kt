@@ -80,10 +80,16 @@ fun Board(
         Lists(
           boardState = boardState,
           listModel = list,
+          isExpandedScreen = isExpandedScreen,
           onTaskCardClick = navigateToCreateCard,
           onAddCardClick = {
             viewModel.addNewCardInList(list.id)
-          },
+          }
+        )
+      }
+      item {
+        AddNewListButton(
+          viewModel = viewModel,
           isExpandedScreen = isExpandedScreen
         )
       }
@@ -123,8 +129,7 @@ fun Lists(
     Column(
       modifier = Modifier
         .background(
-          color = getBgColor(isInBound, boardState.isDragging),
-          shape = RoundedCornerShape(2)
+          color = getBgColor(isInBound, boardState.isDragging)
         )
         .width(if (isExpandedScreen) 300.dp else 240.dp)
         .padding(if (isExpandedScreen) 8.dp else 4.dp)
@@ -218,6 +223,27 @@ fun ListFooter(
       Icon(imageVector = Filled.Add, contentDescription = "Add")
       Text(modifier = Modifier, fontSize = 10.sp, text = "Add Card")
     }
+  }
+}
+
+@Composable
+fun AddNewListButton(
+  viewModel: TaskBoardViewModel,
+  isExpandedScreen: Boolean
+) {
+  TextButton(
+    modifier = Modifier
+      .padding(16.dp)
+      .width(if (isExpandedScreen) 300.dp else 240.dp),
+    colors = ButtonDefaults.textButtonColors(
+      contentColor = Color.White,
+      backgroundColor = Color(0xFF383838)
+    ),
+    contentPadding = PaddingValues(vertical = 16.dp),
+    onClick = { viewModel.addNewList() }
+  ) {
+    Icon(imageVector = Filled.Add, contentDescription = "Add")
+    Text(modifier = Modifier, fontSize = 12.sp, text = "Add List")
   }
 }
 
