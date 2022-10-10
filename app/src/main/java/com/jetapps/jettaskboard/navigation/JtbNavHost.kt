@@ -64,26 +64,27 @@ fun JtbNavHost(
       },
       navigateToSearchScreen = {
         onNavigateToDestination(
-            SearchDestination,
-            SearchDestination.route
+            SearchDestination, SearchDestination.route
         )
       },
-      nestedGraphs = {
-        taskBoardGraph(
-          isExpandedScreen = isExpandedScreen,
-          onBackClick = onBackClick,
-          navigateToCreateCard = {
-            onNavigateToDestination(
-              CardDetailsDestination, CardDetailsDestination.route
-            )
-          }
-        )
-        cardGraph(
-          isExpandedScreen = isExpandedScreen,
-          onBackClick = onBackClick
-        )
-      }
+      nestedGraphs = {}
     )
+
+    taskBoardGraph(
+        isExpandedScreen = isExpandedScreen,
+        onBackClick = onBackClick,
+        navigateToCreateCard = {
+          onNavigateToDestination(
+              CardDetailsDestination, CardDetailsDestination.route
+          )
+        }
+    )
+
+    cardGraph(
+        isExpandedScreen = isExpandedScreen,
+        onBackClick = onBackClick
+    )
+
     createBoardGraph(
       onBackClick = onBackClick
     )

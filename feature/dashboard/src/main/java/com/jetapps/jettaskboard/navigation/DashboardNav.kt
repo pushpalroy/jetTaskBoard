@@ -35,19 +35,30 @@ fun NavGraphBuilder.dashboardGraph(
   nestedGraphs: NavGraphBuilder.() -> Unit,
   isExpandedScreen: Boolean,
 ) {
-  navigation(
-    route = DashboardDestination.route,
-    startDestination = DashboardDestination.destination
-  ) {
-    composable(route = DashboardDestination.destination) {
-      DashboardRoute(
+  composable(route = DashboardDestination.route) {
+    DashboardRoute(
         navigateToTaskBoard = navigateToTaskBoard,
         navigateToCreateCard = navigateToCreateCard,
         navigateToCreateBoard = navigateToCreateBoard,
         navigateToSearchScreen = navigateToSearchScreen,
         isExpandedScreen = isExpandedScreen
-      )
-    }
-    nestedGraphs()
+    )
   }
+
+  // If a nested graph is needed here
+  // navigation(
+  //   route = DashboardDestination.route,
+  //   startDestination = DashboardDestination.destination
+  // ) {
+  //   composable(route = DashboardDestination.destination) {
+  //     DashboardRoute(
+  //       navigateToTaskBoard = navigateToTaskBoard,
+  //       navigateToCreateCard = navigateToCreateCard,
+  //       navigateToCreateBoard = navigateToCreateBoard,
+  //       navigateToSearchScreen = navigateToSearchScreen,
+  //       isExpandedScreen = isExpandedScreen
+  //     )
+  //   }
+  //   nestedGraphs()
+  // }
 }

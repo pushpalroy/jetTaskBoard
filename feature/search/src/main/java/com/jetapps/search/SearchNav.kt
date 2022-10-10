@@ -22,12 +22,4 @@ fun NavGraphBuilder.searchGraph(
             navigateToBoardScreen = {}
         )
     }
-    composable(route = SearchDestination.route) {
-        SearchRoute(
-            isExpandedScreen = isExpandedScreen,
-            onNavigateUp = onBackClick,
-            navigateToCardScreen = {},
-            navigateToBoardScreen = {}
-        )
-    }
 }
