@@ -1,0 +1,69 @@
+name: android workflow
+
+on: pull_request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_BOT_TOKEN }}
+
+    steps:
+
+      - uses: act10ns/slack@v1
+        id : slack_message_start
+        with:
+          status: starting
+          message: Starting Debug build and upload for build number {{ env.GITHUB_RUN_NUMBER }} on branch {{env.GITHUB_HEAD_REF}}
+        if: always()
+
+      # 1: Code Checkout
+      - name: Checkout code
+        id: checkout_code
+        uses: actions/checkout@v2
+
+      # 2: Setup Java
+      - name: Setup JDK 11
+        id: setup_jdk
+        uses: actions/setup-java@v2
+        with:
+          distribution: "zulu"
+          java-version: 11
+
+      # 3: Caching Gradle Packages
+      - uses: actions/cache@v3
+        name: Cache Gradle for quicker builds
+        id: caching_gradle
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/buildSrc/**/*.kt') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      # 4: Grant execute permission for gradlew
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      # 5: Build APK
+      - name: Build APK
+        if : always()
+        run: bash ./gradlew assembleDebug --stacktrace
+
+      #6: Upload Build
+      - name: Upload APK
+        if : always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: apk
+          path: app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 5
+
+
+      - uses: act10ns/slack@v1
+        id: slack_message_end
+        with:
+          status: ${{ job.status }}
+          steps: ${{ toJson(steps) }}
+        if: always()
