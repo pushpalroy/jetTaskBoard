@@ -9,7 +9,7 @@ fun JtbApp(
   appState: JtbAppState = rememberJtbAppState(),
   isExpandedScreen: Boolean,
 ) {
-  JtbTheme {
+  JtbTheme(darkTheme = true) {
     JtbNavHost(
       navController = appState.navController,
       onNavigateToDestination = appState::navigate,
