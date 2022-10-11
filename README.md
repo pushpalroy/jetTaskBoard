@@ -25,13 +25,15 @@
       </a>
   </p>
 
-## Board with drag and drop
+### Board with drag and drop
+
 <video src="https://user-images.githubusercontent.com/19844292/195022680-f15e907d-0e55-4d22-8bcc-bfdbb6a5ef83.mp4"></video>
 
-## Adaptive app
+### Adaptive screens
+
 <video src="https://user-images.githubusercontent.com/19844292/195041698-7384a20c-85df-4ee2-9d82-ad57d8fab8d2.mp4"></video>
 
-### Stack
+### Tech stack
 
 | Tools | Link |
 |     :---      |          :---: |
@@ -42,13 +44,13 @@
 | 🌐 Material Design | [Material Design](https://developer.android.com/jetpack/androidx/releases/compose-material) |
 | 🌊 Coroutines | [Kotlin Coroutines](https://developer.android.com/kotlin/coroutines) |
 
-## 🏛️ Architecture
+### 🏛️ Architecture
 
 JetTaskBoard follows the principles of Clean Architecture with Android Architecture Components.
 
 <p align="right">[<a href="#top">Back to top</a>]</p>
 
-## 📷 Screenshots (Tablet)
+### 📷 Screenshots (Tablet)
 
 <table style="width:100%">
   <tr>
@@ -65,7 +67,7 @@ JetTaskBoard follows the principles of Clean Architecture with Android Architect
   </tr>
 </table>
 
-## 📷 Screenshots (Phone)
+### 📷 Screenshots (Phone)
 
 <table style="width:100%">
   <tr>
@@ -83,6 +85,7 @@ JetTaskBoard follows the principles of Clean Architecture with Android Architect
 </table>
 
 ### Status: 👨‍💻 In progress
+
   <p>JetTaskBoard is under active development.</p>
 
 <p align="right">[<a href="#top">Back to top</a>]</p>
