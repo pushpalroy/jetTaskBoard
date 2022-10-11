@@ -27,6 +27,7 @@ jobs:
         id: setup_jdk
         uses: actions/setup-java@v2
         with:
+          distribution: "zulu"
           java-version: 11
 
       # 3: Caching Gradle Packages
