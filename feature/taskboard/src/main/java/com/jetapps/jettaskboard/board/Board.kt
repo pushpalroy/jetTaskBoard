@@ -34,7 +34,6 @@ import androidx.compose.ui.unit.sp
 import com.jetapps.jettaskboard.TaskBoardViewModel
 import com.jetapps.jettaskboard.components.TaskCard
 import com.jetapps.jettaskboard.draganddrop.DragAndDropState
-import com.jetapps.jettaskboard.draganddrop.DragAndDropState.Companion.INITIAL_CARD_LIST_PAIR
 import com.jetapps.jettaskboard.draganddrop.DragAndDropSurface
 import com.jetapps.jettaskboard.draganddrop.DragSurface
 import com.jetapps.jettaskboard.draganddrop.DropSurface
@@ -58,14 +57,12 @@ fun Board(
   }
 
   LaunchedEffect(key1 = boardState.movingCardData) {
-    viewModel.apply {
-      if (boardState.movingCardData != INITIAL_CARD_LIST_PAIR) {
-        moveCardToDifferentList(
-          cardId = boardState.movingCardData.first,
-          oldListId = boardState.cardDraggedInitialListId,
-          newListId = boardState.movingCardData.second
-        )
-      }
+    if (boardState.hasCardMoved()) {
+      viewModel.moveCardToDifferentList(
+        cardId = boardState.movingCardData.first,
+        oldListId = boardState.cardDraggedInitialListId,
+        newListId = boardState.movingCardData.second
+      )
     }
   }
 
@@ -106,18 +103,6 @@ fun Lists(
   onAddCardClick: () -> Unit,
   isExpandedScreen: Boolean,
 ) {
-  // val scope = rememberCoroutineScope()
-  // val screenHeight = LocalView.current.rootView.height
-  // Always scroll to bottom when size changes
-  // LaunchedEffect(
-  //   key1 = cards.size,
-  //   block = {
-  //     scope.launch {
-  //       scrollState.scrollBy(screenHeight.toFloat())
-  //     }
-  //   }
-  // )
-
   DropSurface(
     modifier = Modifier
       .padding(start = 16.dp, end = 0.dp, top = 16.dp, bottom = 8.dp)
@@ -130,7 +115,7 @@ fun Lists(
     Column(
       modifier = Modifier
         .background(
-          color = getBgColor(isInBound, boardState.isDragging)
+          color = getDropSurfaceBgColor(isInBound, boardState.isDragging)
         )
         .width(if (isExpandedScreen) 300.dp else 240.dp)
         .padding(if (isExpandedScreen) 8.dp else 4.dp)
@@ -249,7 +234,11 @@ fun AddNewListButton(
   }
 }
 
-fun getBgColor(
+/**
+ * Returns the color for background of the drop surface,based on
+ * whether a drop surface is in bounds, when a card is hovered on it.
+ */
+fun getDropSurfaceBgColor(
   isInBound: Boolean,
   isDragging: Boolean
 ): Color {

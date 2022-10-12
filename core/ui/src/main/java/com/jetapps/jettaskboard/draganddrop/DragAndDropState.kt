@@ -39,6 +39,10 @@ class DragAndDropState constructor(
   companion object {
     val INITIAL_CARD_LIST_PAIR = Pair(-1, -1)
   }
+
+  fun hasCardMoved(): Boolean {
+    return movingCardData != INITIAL_CARD_LIST_PAIR
+  }
 }
 
 internal val LocalDragAndDropState = compositionLocalOf { DragAndDropState() }
