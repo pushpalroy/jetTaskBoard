@@ -1,6 +1,6 @@
 package com.jetapps.jettaskboard.zoomable
 
-import androidx.compose.animation.core.AnimationSpec
+import androidx.compose.animation.core.AnimationSpec // ktlint-disable import-ordering
 import androidx.compose.animation.core.AnimationState
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.SpringSpec
@@ -43,121 +43,123 @@ import kotlin.math.sqrt
  * @property notTransformed `true` if [scale] is `1`, [offset] is [Offset.Zero] and [rotation] is `0`
  */
 class ZoomableState(
-  public var scale: MutableState<Float>,
-  public var offset: MutableState<Offset>,
-  public var rotation: MutableState<Float>,
-  public val rotationBehavior: Rotation,
-  onTransformation: ZoomableState.(zoomChange: Float, panChange: Offset, rotationChange: Float) -> Unit
+    public var scale: MutableState<Float>,
+    public var offset: MutableState<Offset>,
+    public var rotation: MutableState<Float>,
+    public val rotationBehavior: Rotation,
+    onTransformation: ZoomableState.(zoomChange: Float, panChange: Offset, rotationChange: Float) -> Unit
 ) : TransformableState {
 
-  private val notTransformed: Boolean
-    get() {
-      return scale.value in (1 - 1.0E-3f)..(1 + 1.0E-3f) && offset.value.getDistanceSquared() in -1.0E-6f..1.0E-6f && rotation.value in -1.0E-3f..1.0E-3f
+    private val notTransformed: Boolean
+        get() {
+            return scale.value in (1 - 1.0E-3f)..(1 + 1.0E-3f) && offset.value.getDistanceSquared() in -1.0E-6f..1.0E-6f && rotation.value in -1.0E-3f..1.0E-3f
+        }
+
+    private val transformScope: TransformScope = object : TransformScope {
+        override fun transformBy(
+            zoomChange: Float,
+            panChange: Offset,
+            rotationChange: Float
+        ) =
+            onTransformation(zoomChange, panChange, rotationChange)
     }
 
-  private val transformScope: TransformScope = object : TransformScope {
-    override fun transformBy(
-      zoomChange: Float,
-      panChange: Offset,
-      rotationChange: Float
-    ) =
-      onTransformation(zoomChange, panChange, rotationChange)
-  }
+    private val transformMutex = MutatorMutex()
 
-  private val transformMutex = MutatorMutex()
+    private val isTransformingState = mutableStateOf(false)
 
-  private val isTransformingState = mutableStateOf(false)
-
-  override suspend fun transform(
-    transformPriority: MutatePriority,
-    block: suspend TransformScope.() -> Unit
-  ): Unit = coroutineScope {
-    transformMutex.mutateWith(transformScope, transformPriority) {
-      isTransformingState.value = true
-      try {
-        block()
-      } finally {
-        isTransformingState.value = false
-      }
+    override suspend fun transform(
+        transformPriority: MutatePriority,
+        block: suspend TransformScope.() -> Unit
+    ): Unit = coroutineScope {
+        transformMutex.mutateWith(transformScope, transformPriority) {
+            isTransformingState.value = true
+            try {
+                block()
+            } finally {
+                isTransformingState.value = false
+            }
+        }
     }
-  }
 
-  override val isTransformInProgress: Boolean
-    get() = isTransformingState.value
+    override val isTransformInProgress: Boolean
+        get() = isTransformingState.value
 
-  suspend fun animateBy(
-    zoomChange: Float,
-    panChange: Offset,
-    rotationChange: Float,
-    animationSpec: AnimationSpec<Float> = SpringSpec(
-      dampingRatio = 0.5f,
-      stiffness = Spring.StiffnessLow
-    )
-  ) {
-    val baseScale = scale.value
-    var previous = 0f
-    transform {
-      AnimationState(initialValue = previous).animateTo(1f, animationSpec) {
-        val delta = this.value - previous
-        previous = this.value
-        transformBy(
-          zoomChange = (baseScale * (1 + (zoomChange - 1) * this.value)) / scale.value,
-          panChange = panChange * delta,
-          rotationChange = delta * rotationChange
+    suspend fun animateBy(
+        zoomChange: Float,
+        panChange: Offset,
+        rotationChange: Float,
+        animationSpec: AnimationSpec<Float> = SpringSpec(
+            dampingRatio = 0.5f,
+            stiffness = Spring.StiffnessLow
         )
-      }
+    ) {
+        val baseScale = scale.value
+        var previous = 0f
+        transform {
+            AnimationState(initialValue = previous).animateTo(1f, animationSpec) {
+                val delta = this.value - previous
+                previous = this.value
+                transformBy(
+                    zoomChange = (baseScale * (1 + (zoomChange - 1) * this.value)) / scale.value,
+                    panChange = panChange * delta,
+                    rotationChange = delta * rotationChange
+                )
+            }
+        }
     }
-  }
 
-  suspend fun animateZoomToPosition(
-    zoomChange: Float,
-    position: Offset,
-    currentComposableCenter: Offset = Offset.Zero
-  ) {
-    val offsetBuffer = offset.value
+    suspend fun animateZoomToPosition(
+        zoomChange: Float,
+        position: Offset,
+        currentComposableCenter: Offset = Offset.Zero
+    ) {
+        val offsetBuffer = offset.value
 
-    val x0 = position.x - currentComposableCenter.x
-    val y0 = position.y - currentComposableCenter.y
+        val x0 = position.x - currentComposableCenter.x
+        val y0 = position.y - currentComposableCenter.y
 
-    val hyp0 = sqrt(x0 * x0 + y0 * y0)
-    val hyp1 = zoomChange * hyp0 * (if (x0 > 0) {
-      1f
-    } else {
-      -1f
-    })
+        val hyp0 = sqrt(x0 * x0 + y0 * y0)
+        val hyp1 = zoomChange * hyp0 * (
+            if (x0 > 0) {
+                1f
+            } else {
+                -1f
+            }
+            )
 
-    val alpha0 = atan(y0 / x0)
+        val alpha0 = atan(y0 / x0)
 
-    val x1 = cos(alpha0) * hyp1
-    val y1 = sin(alpha0) * hyp1
+        val x1 = cos(alpha0) * hyp1
+        val y1 = sin(alpha0) * hyp1
 
-    val transformOffset =
-      position - (currentComposableCenter - offsetBuffer) - Offset(x1, y1)
+        val transformOffset =
+            position - (currentComposableCenter - offsetBuffer) - Offset(x1, y1)
 
-    animateBy(zoomChange = zoomChange, panChange = transformOffset, rotationChange = 0f)
-  }
-
-  /**
-   * This enum specifies rotation behaviour for a [ZoomableState]
-   *
-   * Can be [ALWAYS_ENABLED], [LOCK_ROTATION_ON_ZOOM_PAN] or [DISABLED]
-   */
-  public enum class Rotation {
-    /**
-     * Rotating the touch points (your fingers) will always result in rotation of the composable
-     */
-    ALWAYS_ENABLED,
+        animateBy(zoomChange = zoomChange, panChange = transformOffset, rotationChange = 0f)
+    }
 
     /**
-     * Rotation is allowed only if touch slop is detected for rotation before pan or zoom motions. If not, pan and zoom gestures will be detected, but rotation gestures will not be.
+     * This enum specifies rotation behaviour for a [ZoomableState]
+     *
+     * Can be [ALWAYS_ENABLED], [LOCK_ROTATION_ON_ZOOM_PAN] or [DISABLED]
      */
-    LOCK_ROTATION_ON_ZOOM_PAN,
+    public enum class Rotation {
+        /**
+         * Rotating the touch points (your fingers) will always result in rotation of the composable
+         */
+        ALWAYS_ENABLED,
 
-    /**
-     * Rotation gestures will not be detected
-     */
-    DISABLED
-  }
+        /**
+         * Rotation is allowed only if touch slop is detected for rotation before pan or zoom motions. If not, pan and zoom gestures will be detected, but rotation gestures will not be.
+         */
+        LOCK_ROTATION_ON_ZOOM_PAN,
+
+        /**
+         * Rotation gestures will not be detected
+         */
+        DISABLED
+    }
 }
 
 /**
@@ -176,27 +178,27 @@ class ZoomableState(
  */
 @Composable
 fun rememberZoomableState(
-  initialZoom: Float = 1f,
-  initialOffset: Offset = Offset.Zero,
-  initialRotation: Float = 0f,
-  rotationBehavior: ZoomableState.Rotation = LOCK_ROTATION_ON_ZOOM_PAN,
-  onTransformation: ZoomableState.(zoomChange: Float, panChange: Offset, rotationChange: Float) -> Unit = { zoomChange, panChange, rotationChange ->
-    scale.value *= zoomChange
-    offset.value += panChange
-    rotation.value = (rotation.value + rotationChange + 360 + 180) % 360 - 180
-  }
+    initialZoom: Float = 1f,
+    initialOffset: Offset = Offset.Zero,
+    initialRotation: Float = 0f,
+    rotationBehavior: ZoomableState.Rotation = LOCK_ROTATION_ON_ZOOM_PAN,
+    onTransformation: ZoomableState.(zoomChange: Float, panChange: Offset, rotationChange: Float) -> Unit = { zoomChange, panChange, rotationChange ->
+        scale.value *= zoomChange
+        offset.value += panChange
+        rotation.value = (rotation.value + rotationChange + 360 + 180) % 360 - 180
+    }
 ): ZoomableState {
-  val zoomR = remember { mutableStateOf(initialZoom) }
-  val panR = remember { mutableStateOf(initialOffset) }
-  val rotationR = remember { mutableStateOf(initialRotation) }
-  val lambdaState = rememberUpdatedState(newValue = onTransformation)
-  return remember {
-    ZoomableState(
-      zoomR,
-      panR,
-      rotationR,
-      rotationBehavior,
-      lambdaState.value::invoke
-    )
-  }
+    val zoomR = remember { mutableStateOf(initialZoom) }
+    val panR = remember { mutableStateOf(initialOffset) }
+    val rotationR = remember { mutableStateOf(initialRotation) }
+    val lambdaState = rememberUpdatedState(newValue = onTransformation)
+    return remember {
+        ZoomableState(
+            zoomR,
+            panR,
+            rotationR,
+            rotationBehavior,
+            lambdaState.value::invoke
+        )
+    }
 }

@@ -44,7 +44,6 @@ fun Modifier.detectReorder(state: ReorderableState<*>) =
         }
     )
 
-
 fun Modifier.detectReorderAfterLongPress(state: ReorderableState<*>) =
     this.then(
         Modifier.pointerInput(Unit) {
