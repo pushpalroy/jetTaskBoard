@@ -17,7 +17,7 @@ import com.jetapps.search.data.getAllSearchType
 fun SearchExpandedChipGroup(
     allSearchType: List<SearchType> = getAllSearchType(),
     selectedCar: SearchType? = null,
-    onSelectedChanged: (String) -> Unit = {},
+    onSelectedChanged: (String) -> Unit = {}
 ) {
     Box(
         modifier = Modifier
@@ -31,7 +31,7 @@ fun SearchExpandedChipGroup(
                     isSelected = selectedCar == it,
                     onSelectionChanged = { selectedItem ->
                         onSelectedChanged(selectedItem)
-                    },
+                    }
                 )
             }
         }

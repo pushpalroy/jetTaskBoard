@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 fun ExpandedScreenChip(
     name: String = "Empty Chip",
     isSelected: Boolean = false,
-    onSelectionChanged: (String) -> Unit = {},
+    onSelectionChanged: (String) -> Unit = {}
 ) {
     Surface(
         modifier = Modifier

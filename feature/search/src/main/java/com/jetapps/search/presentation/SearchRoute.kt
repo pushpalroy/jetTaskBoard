@@ -52,7 +52,7 @@ fun SearchRoute(
                         modifier = Modifier
                             .padding(8.dp),
                         imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "navigate_up",
+                        contentDescription = "navigate_up"
                     )
                 }
             }

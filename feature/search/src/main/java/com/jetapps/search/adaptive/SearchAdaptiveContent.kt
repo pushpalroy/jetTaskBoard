@@ -11,7 +11,7 @@ import com.jetapps.search.presentation.SearchScreenViewModel
 fun SearchAdaptiveContent(
     isScreenExpanded: Boolean = false,
     viewModel: SearchScreenViewModel,
-    navigateUp: () -> Unit,
+    navigateUp: () -> Unit
 ) {
     val selectSearchType: MutableState<SearchType?> = remember {
         mutableStateOf(SearchType.BOARD_TYPE)

@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 fun Chip(
     name: String = "Empty Chip",
     isSelected: Boolean = false,
-    onSelectionChanged: (String) -> Unit = {},
+    onSelectionChanged: (String) -> Unit = {}
 ) {
     Surface(
         modifier = Modifier
@@ -28,17 +28,18 @@ fun Chip(
         shape = RoundedCornerShape(16.dp),
         color = if (isSelected) MaterialTheme.colors.secondary else MaterialTheme.colors.primary
     ) {
-        Row(modifier = Modifier
-            .padding(
-                horizontal = 12.dp,
-                vertical = 4.dp
-            )
-            .toggleable(
-                value = isSelected,
-                onValueChange = {
-                    onSelectionChanged(name)
-                }
-            )
+        Row(
+            modifier = Modifier
+                .padding(
+                    horizontal = 12.dp,
+                    vertical = 4.dp
+                )
+                .toggleable(
+                    value = isSelected,
+                    onValueChange = {
+                        onSelectionChanged(name)
+                    }
+                )
         ) {
             if (isSelected) {
                 Icon(
