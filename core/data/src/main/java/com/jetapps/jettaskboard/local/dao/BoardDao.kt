@@ -9,9 +9,9 @@ import com.jetapps.jettaskboard.local.entity.BoardEntity
 @Dao
 interface BoardDao {
 
-  @Query("SELECT * FROM boardTable")
-  fun getAllBoards(): List<BoardEntity>
+    @Query("SELECT * FROM boardTable")
+    fun getAllBoards(): List<BoardEntity>
 
-  @Insert(onConflict = OnConflictStrategy.REPLACE)
-  fun insertBoard(board: BoardEntity)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertBoard(board: BoardEntity)
 }

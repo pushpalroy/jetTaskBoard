@@ -12,9 +12,9 @@ import javax.inject.Singleton
 @Module
 class DispatcherModule {
 
-  @Provides
-  @Singleton
-  fun providesCoroutineDispatcher(): CoroutineDispatcherProvider {
-    return RealCoroutineDispatcherProvider()
-  }
+    @Provides
+    @Singleton
+    fun providesCoroutineDispatcher(): CoroutineDispatcherProvider {
+        return RealCoroutineDispatcherProvider()
+    }
 }

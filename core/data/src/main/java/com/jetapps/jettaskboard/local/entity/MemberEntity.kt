@@ -5,12 +5,12 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(
-  tableName = "memberTable"
+    tableName = "memberTable"
 )
 data class MemberEntity(
-  @PrimaryKey val id: String,
-  @ColumnInfo(name = "member_name")
-  val memberName: String,
-  @ColumnInfo(name = "member_photo_url")
-  val memberPhotoUrl: String
+    @PrimaryKey val id: String,
+    @ColumnInfo(name = "member_name")
+    val memberName: String,
+    @ColumnInfo(name = "member_photo_url")
+    val memberPhotoUrl: String
 )

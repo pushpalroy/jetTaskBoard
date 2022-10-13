@@ -5,12 +5,12 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(
-  tableName = "boardTable"
+    tableName = "boardTable"
 )
 data class BoardEntity(
-  @PrimaryKey val id: String,
-  val title: String,
-  val description: String,
-  @ColumnInfo(name = "work_space_id")
-  val workSpaceId: String,
+    @PrimaryKey val id: String,
+    val title: String,
+    val description: String,
+    @ColumnInfo(name = "work_space_id")
+    val workSpaceId: String
 )

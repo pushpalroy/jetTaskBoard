@@ -9,9 +9,9 @@ import com.jetapps.jettaskboard.local.entity.LabelEntity
 @Dao
 interface LabelDao {
 
-  @Query("SELECT * FROM labelTable")
-  fun getAllLabels(): List<LabelEntity>
+    @Query("SELECT * FROM labelTable")
+    fun getAllLabels(): List<LabelEntity>
 
-  @Insert(onConflict = OnConflictStrategy.REPLACE)
-  fun insertLabel(label: LabelEntity)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertLabel(label: LabelEntity)
 }

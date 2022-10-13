@@ -5,14 +5,14 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(
-  tableName = "attachmentTable"
+    tableName = "attachmentTable"
 )
 data class AttachmentEntity(
-  @PrimaryKey val id: String,
-  @ColumnInfo(name = "attachment_name")
-  val attachmentName: String,
-  @ColumnInfo(name = "attachment_url")
-  val attachmentUrl: String,
-  @ColumnInfo(name = "attachment_type")
-  val attachmentType: String
+    @PrimaryKey val id: String,
+    @ColumnInfo(name = "attachment_name")
+    val attachmentName: String,
+    @ColumnInfo(name = "attachment_url")
+    val attachmentUrl: String,
+    @ColumnInfo(name = "attachment_type")
+    val attachmentType: String
 )

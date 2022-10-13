@@ -17,28 +17,28 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
-  @Provides
-  @Singleton
-  fun provideDatabase(@ApplicationContext context: Context): JtbDatabase {
-    return Room.inMemoryDatabaseBuilder(
-      context,
-      JtbDatabase::class.java,
-    ).fallbackToDestructiveMigration().allowMainThreadQueries().build()
-  }
+    @Provides
+    @Singleton
+    fun provideDatabase(@ApplicationContext context: Context): JtbDatabase {
+        return Room.inMemoryDatabaseBuilder(
+            context,
+            JtbDatabase::class.java
+        ).fallbackToDestructiveMigration().allowMainThreadQueries().build()
+    }
 
-  @Provides
-  @Singleton
-  fun providesBoardDao(database: JtbDatabase): BoardDao = database.boardDao()
+    @Provides
+    @Singleton
+    fun providesBoardDao(database: JtbDatabase): BoardDao = database.boardDao()
 
-  @Provides
-  @Singleton
-  fun providesCardDao(database: JtbDatabase): CardDao = database.cardDao()
+    @Provides
+    @Singleton
+    fun providesCardDao(database: JtbDatabase): CardDao = database.cardDao()
 
-  @Provides
-  @Singleton
-  fun providesLabelDao(database: JtbDatabase): LabelDao = database.labelDao()
+    @Provides
+    @Singleton
+    fun providesLabelDao(database: JtbDatabase): LabelDao = database.labelDao()
 
-  @Provides
-  @Singleton
-  fun providesListDao(database: JtbDatabase): ListDao = database.listDao()
+    @Provides
+    @Singleton
+    fun providesListDao(database: JtbDatabase): ListDao = database.listDao()
 }

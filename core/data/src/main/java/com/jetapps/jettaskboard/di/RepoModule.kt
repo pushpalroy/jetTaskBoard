@@ -17,13 +17,15 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object RepoModule {
 
-  @Provides
-  @Singleton
-  fun provideCardRepo(
-    cardDao: CardDao,
-    entityMapper: EntityMapper<CardModel, CardEntity>,
-    dispatcherProvider: CoroutineDispatcherProvider
-  ): CardRepo = CardRepoImpl(
-    cardDao, entityMapper, dispatcherProvider
-  )
+    @Provides
+    @Singleton
+    fun provideCardRepo(
+        cardDao: CardDao,
+        entityMapper: EntityMapper<CardModel, CardEntity>,
+        dispatcherProvider: CoroutineDispatcherProvider
+    ): CardRepo = CardRepoImpl(
+        cardDao,
+        entityMapper,
+        dispatcherProvider
+    )
 }
