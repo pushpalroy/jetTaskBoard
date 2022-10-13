@@ -37,7 +37,7 @@ tasks.register("clean").configure {
     delete(rootProject.buildDir)
 }
 
-// apply(from = teamPropsFile("git-hooks.gradle.kts"))
+apply(from = teamPropsFile("git-hooks.gradle.kts"))
 
 fun teamPropsFile(propsFile: String): File {
     val teamPropsDir = file("team-props")
