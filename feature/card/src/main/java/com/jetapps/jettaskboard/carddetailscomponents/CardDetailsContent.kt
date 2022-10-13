@@ -46,9 +46,8 @@ import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 fun CardDetailsContent(
     scrollState: ScrollState,
     cardDetails: CardDetail,
-    viewModel: CardViewModel,
+    viewModel: CardViewModel
 ) {
-
     val configuration = LocalConfiguration.current
 
     var imageUri: Uri? by remember {
@@ -76,11 +75,10 @@ fun CardDetailsContent(
             fontWeight = FontWeight.Bold
         )
 
-
         Text(
             modifier = Modifier.padding(horizontal = 16.dp),
             text = "${(cardDetails.boardName) ?: "Praxis"} in list ${(cardDetails.listName) ?: "Backlog"}",
-            fontSize = 16.sp,
+            fontSize = 16.sp
         )
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -132,11 +130,11 @@ fun CardDetailsContent(
                     // Do something with the date
                     if (viewModel.isTopText.value) viewModel.startDateText.value =
                         "Starts on ${it.dayOfMonth} ${
-                            (it.month).toString().lowercase()
+                        (it.month).toString().lowercase()
                         }, ${it.year}"
                     if (viewModel.isBottomText.value) viewModel.dueDateText.value =
                         "Due on ${it.dayOfMonth} ${
-                            (it.month).toString().lowercase()
+                        (it.month).toString().lowercase()
                         }, ${it.year}"
                 }
             }
@@ -173,5 +171,4 @@ fun CardDetailsContent(
             }
         }
     }
-
 }

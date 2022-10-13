@@ -78,7 +78,6 @@ fun ExpandedCardDetailContent(
         },
         displayFeatures = calculateDisplayFeatures(activity = context as Activity)
     )
-
 }
 
 @OptIn(ExperimentalPermissionsApi::class)
@@ -89,7 +88,6 @@ fun RightPane(
     viewModel: CardViewModel,
     context: Context
 ) {
-
     val galleryPermissionStatus =
         rememberPermissionState(permission = Manifest.permission.READ_EXTERNAL_STORAGE)
 
@@ -112,7 +110,6 @@ fun RightPane(
             .verticalScroll(rightScrollState)
             .padding(16.dp)
     ) {
-
         val members by remember { mutableStateOf(cardDetails.authorName ?: "Members...") }
         ItemRow(
             leadingIcon = {
@@ -143,7 +140,6 @@ fun RightPane(
                 dialogState.show()
             }
         ) {
-
             MaterialDialog(
                 dialogState = dialogState,
                 buttons = {
@@ -155,15 +151,14 @@ fun RightPane(
                     // Do something with the date
                     if (viewModel.isTopText.value) viewModel.startDateText.value =
                         "Starts on ${it.dayOfMonth} ${
-                            (it.month).toString().lowercase()
+                        (it.month).toString().lowercase()
                         }, ${it.year}"
                     if (viewModel.isBottomText.value) viewModel.dueDateText.value =
                         "Due on ${it.dayOfMonth} ${
-                            (it.month).toString().lowercase()
+                        (it.month).toString().lowercase()
                         }, ${it.year}"
                 }
             }
-
         }
 
         ItemRow(
@@ -182,12 +177,10 @@ fun RightPane(
                 } else {
                     launcher.launch("image/*")
                 }
-
             }
         )
 
         ImageAttachments(viewModel, context, galleryPermissionStatus, imageUri)
-
 
         Divider()
     }
@@ -224,7 +217,7 @@ fun LeftPane(leftScrollState: ScrollState, cardDetails: CardDetail, viewModel: C
             Text(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 text = "${(cardDetails.boardName) ?: "Praxis"} in list ${(cardDetails.listName) ?: "Backlog"}",
-                fontSize = 16.sp,
+                fontSize = 16.sp
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -248,5 +241,4 @@ fun LeftPane(leftScrollState: ScrollState, cardDetails: CardDetail, viewModel: C
                 .width(1.dp)
         )
     }
-
 }

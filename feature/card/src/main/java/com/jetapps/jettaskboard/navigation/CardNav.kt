@@ -23,20 +23,20 @@ import com.jetapps.jettaskboard.CreateCardRoute
 import com.jetapps.jettaskboard.JtbNavDestination
 
 object CreateCardDestination : JtbNavDestination {
-  override val route = "create_card_route"
-  override val destination = "create_card_destination"
+    override val route = "create_card_route"
+    override val destination = "create_card_destination"
 }
 
 object CardDetailsDestination : JtbNavDestination {
-  override val route = "card_details_route"
-  override val destination = "card_details_destination"
+    override val route = "card_details_route"
+    override val destination = "card_details_destination"
 }
 
 fun NavGraphBuilder.cardGraph(isExpandedScreen: Boolean, onBackClick: () -> Unit) {
-  composable(route = CreateCardDestination.route) {
-    CreateCardRoute(isExpandedScreen = isExpandedScreen, onCancelClick = onBackClick)
-  }
-  composable(route = CardDetailsDestination.route) {
-    CardDetailsRoute(isExpandedScreen, onCancelClick = onBackClick)
-  }
+    composable(route = CreateCardDestination.route) {
+        CreateCardRoute(isExpandedScreen = isExpandedScreen, onCancelClick = onBackClick)
+    }
+    composable(route = CardDetailsDestination.route) {
+        CardDetailsRoute(isExpandedScreen, onCancelClick = onBackClick)
+    }
 }
