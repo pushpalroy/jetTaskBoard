@@ -43,7 +43,7 @@ fun CreateFormDropDown(
     headingText: String,
     modifier: Modifier = Modifier,
     contentMap: Map<String, String>,
-    initiallyOpened: Boolean = false,
+    initiallyOpened: Boolean = false
 ) {
     var isOpen by remember { mutableStateOf(initiallyOpened) }
 
@@ -94,10 +94,11 @@ fun CreateFormDropDown(
                     modifier = Modifier
                 )
                 Icon(
-                    imageVector = if (!isOpen)
+                    imageVector = if (!isOpen) {
                         Icons.Default.KeyboardArrowDown
-                    else
-                        Icons.Default.KeyboardArrowUp,
+                    } else {
+                        Icons.Default.KeyboardArrowUp
+                    },
                     contentDescription = "Open or close the drop down",
                     tint = Color.White,
                     modifier = Modifier
@@ -159,8 +160,7 @@ fun CreateFormDropDown(
         }
 
         selectMenuItem.let { selectedItem ->
-            if (selectedItem.isNotEmpty()){
-
+            if (selectedItem.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
@@ -178,7 +178,7 @@ fun CreateBoardDropDown(
     headingText: String,
     modifier: Modifier = Modifier,
     contentMap: Map<Color, String>,
-    initiallyOpened: Boolean = false,
+    initiallyOpened: Boolean = false
 ) {
     var isOpen by remember { mutableStateOf(initiallyOpened) }
 
@@ -223,10 +223,11 @@ fun CreateBoardDropDown(
                     modifier = Modifier
                 )
                 Icon(
-                    imageVector = if (!isOpen)
+                    imageVector = if (!isOpen) {
                         Icons.Default.KeyboardArrowDown
-                    else
-                        Icons.Default.KeyboardArrowUp,
+                    } else {
+                        Icons.Default.KeyboardArrowUp
+                    },
                     contentDescription = "Open or close the drop down",
                     tint = Color.White,
                     modifier = Modifier
@@ -260,7 +261,7 @@ fun CreateBoardDropDown(
                 ) {
                     Row(
                         modifier = Modifier
-                            .padding(8.dp),
+                            .padding(8.dp)
                     ) {
                         Card(
                             modifier = modifier
@@ -268,7 +269,7 @@ fun CreateBoardDropDown(
                                 .size(16.dp),
                             shape = RoundedCornerShape(4.dp),
                             backgroundColor = itemKey as Color
-                        ){}
+                        ) {}
                         if (contentMap.values.isNotEmpty()) {
                             Text(
                                 modifier = modifier
