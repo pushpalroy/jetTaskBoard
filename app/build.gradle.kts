@@ -26,7 +26,8 @@ android {
             isDebuggable = true
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android.txt"), "proguard-common.txt",
+                getDefaultProguardFile("proguard-android.txt"),
+                "proguard-common.txt",
                 "proguard-specific.txt"
             )
         }
@@ -135,4 +136,8 @@ dependencies {
     testImplementation(TestLib.MOCKK)
     androidTestImplementation(Lib.Android.COMPOSE_JUNIT)
     debugImplementation(Lib.Android.COMPOSE_TEST_MANIFEST)
+}
+ktlint {
+    android.set(true)
+    outputColorName.set("RED")
 }
