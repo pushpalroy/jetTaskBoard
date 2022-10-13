@@ -31,7 +31,7 @@ fun BoardCardComponent(
     modifier: Modifier = Modifier,
     height: Dp = 120.dp,
     backgroundImageUrl: String,
-    placeHolderImage: Painter = painterResource(R.drawable.temp_place_holder),
+    placeHolderImage: Painter = painterResource(R.drawable.temp_place_holder)
 ) {
     // Todo : Remove Card : (Review)
     Card(
