@@ -22,15 +22,15 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
 import com.google.accompanist.adaptive.TwoPane
 import com.google.accompanist.adaptive.calculateDisplayFeatures
-import com.jetapps.jettaskboard.components.BoardCardComponent
 import com.jetapps.jettaskboard.component.Header
+import com.jetapps.jettaskboard.components.BoardCardComponent
 import com.jetapps.jettaskboard.components.WorkshopCard
 
 @Composable
 fun DashboardTwoPaneContent(
     paddingValues: PaddingValues,
     viewModel: DashboardViewModel,
-    navigateToTaskBoard: (String) -> Unit = {},
+    navigateToTaskBoard: (String) -> Unit = {}
 ) {
     val context = LocalContext.current
     TwoPane(
@@ -66,7 +66,9 @@ fun LeftPane(
         Modifier.padding(paddingValues)
     ) {
         Header(
-            modifier = Modifier, title = "Starred Boards", onMenuItemClicked = {}
+            modifier = Modifier,
+            title = "Starred Boards",
+            onMenuItemClicked = {}
         )
         Row {
             LazyVerticalGrid(
@@ -75,9 +77,9 @@ fun LeftPane(
                     .fillMaxHeight()
                     .fillMaxWidth(0.999f),
                 columns = Fixed(1),
-                contentPadding = PaddingValues(4.dp),
+                contentPadding = PaddingValues(4.dp)
             ) {
-                if (viewModel.listOfBoards.isNotEmpty()){
+                if (viewModel.listOfBoards.isNotEmpty()) {
                     items(viewModel.listOfBoards.subList(0, 5)) { boardItem ->
                         BoardCardComponent(
                             modifier = Modifier.clickable { navigateToTaskBoard("") },
@@ -107,12 +109,14 @@ fun RightPane(
         Modifier.padding(paddingValues)
     ) {
         Header(
-            modifier = Modifier, title = "Trello workspace", showIcon = true
+            modifier = Modifier,
+            title = "Trello workspace",
+            showIcon = true
         )
         LazyColumn(
             modifier = Modifier
                 .fillMaxHeight()
-                .padding(top = 4.dp),
+                .padding(top = 4.dp)
         ) {
             items(viewModel.listOfBoards) {
                 WorkshopCard(

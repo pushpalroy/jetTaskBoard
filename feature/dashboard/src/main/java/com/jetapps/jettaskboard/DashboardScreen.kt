@@ -45,182 +45,181 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun DashboardRoute(
-  modifier: Modifier = Modifier,
-  viewModel: DashboardViewModel = hiltViewModel(),
-  navigateToTaskBoard: (String) -> Unit = {},
-  navigateToCreateCard: (String) -> Unit = {},
-  navigateToCreateBoard: (String) -> Unit = {},
-  navigateToSearchScreen: (String) -> Unit = {},
-  isExpandedScreen: Boolean
+    modifier: Modifier = Modifier,
+    viewModel: DashboardViewModel = hiltViewModel(),
+    navigateToTaskBoard: (String) -> Unit = {},
+    navigateToCreateCard: (String) -> Unit = {},
+    navigateToCreateBoard: (String) -> Unit = {},
+    navigateToSearchScreen: (String) -> Unit = {},
+    isExpandedScreen: Boolean
 ) {
+    var isMenuClickedInExpandedMode by remember { mutableStateOf(false) }
 
-  var isMenuClickedInExpandedMode by remember { mutableStateOf(false) }
-
-  LaunchedEffect(Unit) {
-    viewModel.apply {
-      getBoardListData()
+    LaunchedEffect(Unit) {
+        viewModel.apply {
+            getBoardListData()
+        }
     }
-  }
 
-  Surface(
-    modifier = modifier.fillMaxSize(),
-    color = MaterialTheme.colors.background
-  ) {
-    val scaffoldState = rememberSizeAwareScaffoldState(isExpandedScreen)
-    val scope = rememberCoroutineScope()
+    Surface(
+        modifier = modifier.fillMaxSize(),
+        color = MaterialTheme.colors.background
+    ) {
+        val scaffoldState = rememberSizeAwareScaffoldState(isExpandedScreen)
+        val scope = rememberCoroutineScope()
 
-    Scaffold(
-      scaffoldState = scaffoldState,
-      modifier = Modifier,
-      topBar = {
-        DashboardAppBar(
-          isExpandedScreen = isExpandedScreen,
-          onMenuIconClick = {
-            scope.launch {
-              if (isExpandedScreen.not()) {
-                scaffoldState.drawerState.open()
-              } else {
-                isMenuClickedInExpandedMode = isMenuClickedInExpandedMode.not()
-              }
+        Scaffold(
+            scaffoldState = scaffoldState,
+            modifier = Modifier,
+            topBar = {
+                DashboardAppBar(
+                    isExpandedScreen = isExpandedScreen,
+                    onMenuIconClick = {
+                        scope.launch {
+                            if (isExpandedScreen.not()) {
+                                scaffoldState.drawerState.open()
+                            } else {
+                                isMenuClickedInExpandedMode = isMenuClickedInExpandedMode.not()
+                            }
+                        }
+                    },
+                    onSearchIconClicked = {
+                        navigateToSearchScreen("")
+                    },
+                    onNotificationIconClicked = {}
+                )
+            },
+            // Gestures are enabled only on smaller and medium screens
+            drawerGesturesEnabled = isExpandedScreen.not(),
+            drawerShape = JtbDrawerShape(),
+            drawerContent = {
+                // Modal drawer is available only on smaller and medium screens
+                if (isExpandedScreen.not()) {
+                    JtbDrawer(
+                        modifier = Modifier.fillMaxSize(),
+                        viewModel = viewModel,
+                        isExpandedScreen = isExpandedScreen
+                    )
+                }
+            },
+            floatingActionButtonPosition = FabPosition.End,
+            floatingActionButton = {
+                MultiFab(
+                    navigateToCreateCard,
+                    navigateToCreateBoard
+                )
             }
-          },
-          onSearchIconClicked = {
-            navigateToSearchScreen("")
-          },
-          onNotificationIconClicked = {}
-        )
-      },
-      // Gestures are enabled only on smaller and medium screens
-      drawerGesturesEnabled = isExpandedScreen.not(),
-      drawerShape = JtbDrawerShape(),
-      drawerContent = {
-        // Modal drawer is available only on smaller and medium screens
-        if (isExpandedScreen.not()) {
-          JtbDrawer(
-            modifier = Modifier.fillMaxSize(),
-            viewModel = viewModel,
-            isExpandedScreen = isExpandedScreen
-          )
-        }
-      },
-      floatingActionButtonPosition = FabPosition.End,
-      floatingActionButton = {
-        MultiFab(
-          navigateToCreateCard,
-          navigateToCreateBoard
-        )
-      }
-    ) { scaffoldPadding ->
+        ) { scaffoldPadding ->
 
-      val permanentNavDrawerWidth by animateDpAsState(
-        targetValue = if (isMenuClickedInExpandedMode) 80.dp else 320.dp,
-        animationSpec = SpringSpec(
-          dampingRatio = 0.5f,
-          stiffness = Spring.StiffnessLow
-        )
-      )
-      Row(Modifier.fillMaxSize()) {
-        // Show permanent drawer only for large screens
-        if (isExpandedScreen) {
-          Column(
-            Modifier.width(permanentNavDrawerWidth)
-          ) {
-            Spacer(modifier = Modifier.height(56.dp))
-            JtbDrawer(
-              modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(),
-              viewModel = viewModel,
-              isExpandedScreen = true,
-              isMenuClickedInExpandedMode = isMenuClickedInExpandedMode
+            val permanentNavDrawerWidth by animateDpAsState(
+                targetValue = if (isMenuClickedInExpandedMode) 80.dp else 320.dp,
+                animationSpec = SpringSpec(
+                    dampingRatio = 0.5f,
+                    stiffness = Spring.StiffnessLow
+                )
             )
-          }
+            Row(Modifier.fillMaxSize()) {
+                // Show permanent drawer only for large screens
+                if (isExpandedScreen) {
+                    Column(
+                        Modifier.width(permanentNavDrawerWidth)
+                    ) {
+                        Spacer(modifier = Modifier.height(56.dp))
+                        JtbDrawer(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .fillMaxHeight(),
+                            viewModel = viewModel,
+                            isExpandedScreen = true,
+                            isMenuClickedInExpandedMode = isMenuClickedInExpandedMode
+                        )
+                    }
+                }
+                AdaptiveDashboardContent(
+                    viewModel = viewModel,
+                    isExpandedScreen = isExpandedScreen,
+                    contentPadding = scaffoldPadding,
+                    navigateToTaskBoard = navigateToTaskBoard
+                )
+            }
         }
-        AdaptiveDashboardContent(
-          viewModel = viewModel,
-          isExpandedScreen = isExpandedScreen,
-          contentPadding = scaffoldPadding,
-          navigateToTaskBoard = navigateToTaskBoard
-        )
-      }
     }
-  }
 }
 
 @Composable
 fun AdaptiveDashboardContent(
-  isExpandedScreen: Boolean,
-  contentPadding: PaddingValues,
-  viewModel: DashboardViewModel,
-  navigateToTaskBoard: (String) -> Unit = {},
+    isExpandedScreen: Boolean,
+    contentPadding: PaddingValues,
+    viewModel: DashboardViewModel,
+    navigateToTaskBoard: (String) -> Unit = {}
 ) {
-  if (isExpandedScreen.not()) {
-    DashboardSinglePaneContent(
-      paddingValues = contentPadding,
-      viewModel = viewModel,
-      navigateToTaskBoard = navigateToTaskBoard
-    )
-  } else {
-    DashboardTwoPaneContent(
-      paddingValues = contentPadding,
-      viewModel = viewModel,
-      navigateToTaskBoard = navigateToTaskBoard
-    )
-  }
+    if (isExpandedScreen.not()) {
+        DashboardSinglePaneContent(
+            paddingValues = contentPadding,
+            viewModel = viewModel,
+            navigateToTaskBoard = navigateToTaskBoard
+        )
+    } else {
+        DashboardTwoPaneContent(
+            paddingValues = contentPadding,
+            viewModel = viewModel,
+            navigateToTaskBoard = navigateToTaskBoard
+        )
+    }
 }
 
 @Composable
 private fun rememberSizeAwareScaffoldState(
-  isExpandedScreen: Boolean
+    isExpandedScreen: Boolean
 ): ScaffoldState {
-  val commonSnackBarHostState = remember { SnackbarHostState() }
-  val compactScaffoldState = rememberScaffoldState(
-    drawerState = rememberDrawerState(DrawerValue.Closed),
-    snackbarHostState = commonSnackBarHostState
-  )
-  val expandedScaffoldState = rememberScaffoldState(
-    drawerState = DrawerState(DrawerValue.Closed),
-    snackbarHostState = commonSnackBarHostState
-  )
-  return if (isExpandedScreen) {
-    expandedScaffoldState
-  } else {
-    compactScaffoldState
-  }
+    val commonSnackBarHostState = remember { SnackbarHostState() }
+    val compactScaffoldState = rememberScaffoldState(
+        drawerState = rememberDrawerState(DrawerValue.Closed),
+        snackbarHostState = commonSnackBarHostState
+    )
+    val expandedScaffoldState = rememberScaffoldState(
+        drawerState = DrawerState(DrawerValue.Closed),
+        snackbarHostState = commonSnackBarHostState
+    )
+    return if (isExpandedScreen) {
+        expandedScaffoldState
+    } else {
+        compactScaffoldState
+    }
 }
 
 @Composable
 private fun MultiFab(
-  navigateToCreateCard: (String) -> Unit = {},
-  navigateToCreateBoard: (String) -> Unit = {}
+    navigateToCreateCard: (String) -> Unit = {},
+    navigateToCreateBoard: (String) -> Unit = {}
 ) {
-  MultiFloatingActionButton(
-    fabIcon = FabIcon(
-      iconRes = drawable.ic_edit,
-      iconRotate = 25f
-    ),
-    fabOption = FabOption(
-      iconTint = Color.White,
-      showLabels = true
-    ),
-    items = listOf(
-      MultiFabItem(
-        id = 1,
-        iconRes = drawable.dashboard_icon,
-        label = "Board"
-      ),
-      MultiFabItem(
-        id = 2,
-        iconRes = drawable.card_icon,
-        label = "Card"
-      )
-    ),
-    onFabItemClicked = { item ->
-      if (item.id == 1) {
-        navigateToCreateBoard("")
-      } else {
-        navigateToCreateCard("")
-      }
-    }
-  )
+    MultiFloatingActionButton(
+        fabIcon = FabIcon(
+            iconRes = drawable.ic_edit,
+            iconRotate = 25f
+        ),
+        fabOption = FabOption(
+            iconTint = Color.White,
+            showLabels = true
+        ),
+        items = listOf(
+            MultiFabItem(
+                id = 1,
+                iconRes = drawable.dashboard_icon,
+                label = "Board"
+            ),
+            MultiFabItem(
+                id = 2,
+                iconRes = drawable.card_icon,
+                label = "Card"
+            )
+        ),
+        onFabItemClicked = { item ->
+            if (item.id == 1) {
+                navigateToCreateBoard("")
+            } else {
+                navigateToCreateCard("")
+            }
+        }
+    )
 }

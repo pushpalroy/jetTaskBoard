@@ -23,42 +23,42 @@ import com.jetapps.jettaskboard.DashboardRoute
 import com.jetapps.jettaskboard.JtbNavDestination
 
 object DashboardDestination : JtbNavDestination {
-  override val route = "dashboard_route"
-  override val destination = "dashboard_destination"
+    override val route = "dashboard_route"
+    override val destination = "dashboard_destination"
 }
 
 fun NavGraphBuilder.dashboardGraph(
-  navigateToTaskBoard: (String) -> Unit,
-  navigateToCreateCard: (String) -> Unit,
-  navigateToCreateBoard: (String) -> Unit,
-  navigateToSearchScreen: (String) -> Unit,
-  nestedGraphs: NavGraphBuilder.() -> Unit,
-  isExpandedScreen: Boolean,
+    navigateToTaskBoard: (String) -> Unit,
+    navigateToCreateCard: (String) -> Unit,
+    navigateToCreateBoard: (String) -> Unit,
+    navigateToSearchScreen: (String) -> Unit,
+    nestedGraphs: NavGraphBuilder.() -> Unit,
+    isExpandedScreen: Boolean
 ) {
-  composable(route = DashboardDestination.route) {
-    DashboardRoute(
-        navigateToTaskBoard = navigateToTaskBoard,
-        navigateToCreateCard = navigateToCreateCard,
-        navigateToCreateBoard = navigateToCreateBoard,
-        navigateToSearchScreen = navigateToSearchScreen,
-        isExpandedScreen = isExpandedScreen
-    )
-  }
+    composable(route = DashboardDestination.route) {
+        DashboardRoute(
+            navigateToTaskBoard = navigateToTaskBoard,
+            navigateToCreateCard = navigateToCreateCard,
+            navigateToCreateBoard = navigateToCreateBoard,
+            navigateToSearchScreen = navigateToSearchScreen,
+            isExpandedScreen = isExpandedScreen
+        )
+    }
 
-  // If a nested graph is needed here
-  // navigation(
-  //   route = DashboardDestination.route,
-  //   startDestination = DashboardDestination.destination
-  // ) {
-  //   composable(route = DashboardDestination.destination) {
-  //     DashboardRoute(
-  //       navigateToTaskBoard = navigateToTaskBoard,
-  //       navigateToCreateCard = navigateToCreateCard,
-  //       navigateToCreateBoard = navigateToCreateBoard,
-  //       navigateToSearchScreen = navigateToSearchScreen,
-  //       isExpandedScreen = isExpandedScreen
-  //     )
-  //   }
-  //   nestedGraphs()
-  // }
+    // If a nested graph is needed here
+    // navigation(
+    //   route = DashboardDestination.route,
+    //   startDestination = DashboardDestination.destination
+    // ) {
+    //   composable(route = DashboardDestination.destination) {
+    //     DashboardRoute(
+    //       navigateToTaskBoard = navigateToTaskBoard,
+    //       navigateToCreateCard = navigateToCreateCard,
+    //       navigateToCreateBoard = navigateToCreateBoard,
+    //       navigateToSearchScreen = navigateToSearchScreen,
+    //       isExpandedScreen = isExpandedScreen
+    //     )
+    //   }
+    //   nestedGraphs()
+    // }
 }

@@ -5,16 +5,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 
 sealed class MultiFabState {
-  object Collapsed : MultiFabState()
-  object Expand : MultiFabState()
+    object Collapsed : MultiFabState()
+    object Expand : MultiFabState()
 
-  fun toggleValue() = if (isExpanded()) {
-    Collapsed
-  } else {
-    Expand
-  }
+    fun toggleValue() = if (isExpanded()) {
+        Collapsed
+    } else {
+        Expand
+    }
 
-  fun isExpanded() = this == Expand
+    fun isExpanded() = this == Expand
 }
 
 @Composable

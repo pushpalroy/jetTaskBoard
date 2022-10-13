@@ -6,16 +6,16 @@ import androidx.compose.runtime.Stable
 
 @Immutable
 interface FabIcon {
-  @Stable
-  val iconRes: Int
+    @Stable
+    val iconRes: Int
 
-  @Stable
-  val iconRotate: Float?
+    @Stable
+    val iconRotate: Float?
 }
 
 private class FabIconImpl(
-  override val iconRes: Int,
-  override val iconRotate: Float?
+    override val iconRes: Int,
+    override val iconRotate: Float?
 ) : FabIcon
 
 /**
@@ -25,7 +25,7 @@ private class FabIconImpl(
  * @param iconRotate if is not null, the [iconRes] rotates as much as [iconRotate] when [MultiFloatingActionButton] is in [MultiFabState.Expand] state.
  */
 fun FabIcon(
-  @DrawableRes iconRes: Int,
-  iconRotate: Float? = null
+    @DrawableRes iconRes: Int,
+    iconRotate: Float? = null
 ): FabIcon =
-  FabIconImpl(iconRes = iconRes, iconRotate = iconRotate)
+    FabIconImpl(iconRes = iconRes, iconRotate = iconRotate)
