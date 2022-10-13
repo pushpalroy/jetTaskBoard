@@ -32,113 +32,113 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun TaskBoardRoute(
-  onBackClick: () -> Unit,
-  modifier: Modifier = Modifier,
-  isExpandedScreen: Boolean,
-  navigateToCreateCard: (String) -> Unit = {},
-  viewModel: TaskBoardViewModel = hiltViewModel()
+    onBackClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    isExpandedScreen: Boolean,
+    navigateToCreateCard: (String) -> Unit = {},
+    viewModel: TaskBoardViewModel = hiltViewModel()
 ) {
-  val scaffoldState = rememberScaffoldState()
-  val zoomableState = rememberZoomableState()
-  val coroutineScope = rememberCoroutineScope()
+    val scaffoldState = rememberScaffoldState()
+    val zoomableState = rememberZoomableState()
+    val coroutineScope = rememberCoroutineScope()
 
-  Scaffold(
-    scaffoldState = scaffoldState,
-    topBar = {
-      TopAppBar(
-        onBackClick = onBackClick,
-        title = viewModel.boardInfo.value.second
-      )
-    },
-    floatingActionButton = {
-      Column(
-        modifier = Modifier,
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-      ) {
-        FAB(
-          onClick = {},
-          R.drawable.ic_zoom_in
-        )
-        FAB(
-          onClick = {
-            if (zoomableState.scale.value != 1f) {
-              coroutineScope.launch {
-                zoomableState.animateBy(
-                  zoomChange = 1 / zoomableState.scale.value,
-                  panChange = -zoomableState.offset.value,
-                  rotationChange = -zoomableState.rotation.value
+    Scaffold(
+        scaffoldState = scaffoldState,
+        topBar = {
+            TopAppBar(
+                onBackClick = onBackClick,
+                title = viewModel.boardInfo.value.second
+            )
+        },
+        floatingActionButton = {
+            Column(
+                modifier = Modifier,
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                FAB(
+                    onClick = {},
+                    R.drawable.ic_zoom_in
                 )
-              }
+                FAB(
+                    onClick = {
+                        if (zoomableState.scale.value != 1f) {
+                            coroutineScope.launch {
+                                zoomableState.animateBy(
+                                    zoomChange = 1 / zoomableState.scale.value,
+                                    panChange = -zoomableState.offset.value,
+                                    rotationChange = -zoomableState.rotation.value
+                                )
+                            }
+                        }
+                    },
+                    R.drawable.ic_zoom_out
+                )
             }
-          },
-          R.drawable.ic_zoom_out
-        )
-      }
-    }
-  ) {
-    Surface(
-      modifier = modifier
-        .fillMaxSize(),
-      color = DefaultTaskBoardBGColor
-    ) {
-      Box(
-        modifier = Modifier
-          .fillMaxSize()
-      ) {
-        Image(
-          painter = painterResource(R.drawable.bg_board),
-          contentDescription = "background",
-          contentScale = ContentScale.Crop,
-          modifier = Modifier
-            .matchParentSize()
-        )
-        Zoomable(
-          coroutineScope = coroutineScope,
-          zoomableState = zoomableState
-        ) {
-          Board(
-            modifier = Modifier.fillMaxSize(),
-            navigateToCreateCard = navigateToCreateCard,
-            viewModel = viewModel,
-            isExpandedScreen = isExpandedScreen
-          )
         }
-      }
+    ) {
+        Surface(
+            modifier = modifier
+                .fillMaxSize(),
+            color = DefaultTaskBoardBGColor
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                Image(
+                    painter = painterResource(R.drawable.bg_board),
+                    contentDescription = "background",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .matchParentSize()
+                )
+                Zoomable(
+                    coroutineScope = coroutineScope,
+                    zoomableState = zoomableState
+                ) {
+                    Board(
+                        modifier = Modifier.fillMaxSize(),
+                        navigateToCreateCard = navigateToCreateCard,
+                        viewModel = viewModel,
+                        isExpandedScreen = isExpandedScreen
+                    )
+                }
+            }
+        }
     }
-  }
 }
 
 @Composable
 fun TopAppBar(
-  onBackClick: () -> Unit,
-  title: String
+    onBackClick: () -> Unit,
+    title: String
 ) {
-  TopAppBar(
-    navigationIcon = {
-      IconButton(
-        onClick = onBackClick
-      ) {
-        Icon(
-          Icons.Default.ArrowBack,
-          contentDescription = "Back"
-        )
-      }
-    },
-    title = { Text(text = title) }
-  )
+    TopAppBar(
+        navigationIcon = {
+            IconButton(
+                onClick = onBackClick
+            ) {
+                Icon(
+                    Icons.Default.ArrowBack,
+                    contentDescription = "Back"
+                )
+            }
+        },
+        title = { Text(text = title) }
+    )
 }
 
 @Composable
 fun FAB(
-  onClick: () -> Unit,
-  painter: Int
+    onClick: () -> Unit,
+    painter: Int
 ) {
-  FloatingActionButton(onClick = onClick) {
-    Icon(
-      modifier = Modifier,
-      painter = painterResource(id = painter),
-      tint = Color.White,
-      contentDescription = null
-    )
-  }
+    FloatingActionButton(onClick = onClick) {
+        Icon(
+            modifier = Modifier,
+            painter = painterResource(id = painter),
+            tint = Color.White,
+            contentDescription = null
+        )
+    }
 }
