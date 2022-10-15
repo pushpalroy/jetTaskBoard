@@ -35,8 +35,8 @@ fun LabelCheckBox(color: Color, isSelected: Boolean, onClick: () -> Unit) {
     ) {
         if (isSelected) {
             Row(
-                horizontalArrangement = Arrangement.End,
-                ) {
+                horizontalArrangement = Arrangement.End
+            ) {
                 Icon(
                     Icons.Default.Check,
                     contentDescription = "Color Selected",
@@ -47,7 +47,6 @@ fun LabelCheckBox(color: Color, isSelected: Boolean, onClick: () -> Unit) {
                         .testTag("label_check_icon")
                 )
             }
-
         }
     }
 }

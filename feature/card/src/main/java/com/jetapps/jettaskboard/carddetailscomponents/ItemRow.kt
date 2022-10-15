@@ -20,11 +20,13 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun ItemRow(
-    leadingIcon: @Composable () -> Unit,
+    leadingIcon: @Composable
+    () -> Unit,
     text: String,
     trailingIcon: ImageVector? = null,
     onClick: () -> Unit = {},
-    content: @Composable () -> Unit = {}
+    content: @Composable
+    () -> Unit = {}
 ) {
     Column {
         Divider()
@@ -32,7 +34,8 @@ fun ItemRow(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { onClick() }, verticalAlignment = Alignment.CenterVertically
+                .clickable { onClick() },
+            verticalAlignment = Alignment.CenterVertically
         ) {
             leadingIcon()
             Text(text = text, modifier = Modifier.weight(5f))
@@ -60,12 +63,12 @@ fun TimeItemRow(
     showUpperDivider: Boolean = true,
     onStartDateClick: () -> Unit,
     onDueDateClick: () -> Unit,
-    content: @Composable () -> Unit
+    content: @Composable
+    () -> Unit
 ) {
     Box() {
-
         Column {
-            if(showUpperDivider) {
+            if (showUpperDivider) {
                 Divider()
             }
 

@@ -21,7 +21,7 @@ fun SearchSinglePaneContent(
     viewModel: SearchScreenViewModel,
     navigateToBoardScreen: (String) -> Unit,
     selectSearchType: MutableState<SearchType?>,
-    navigateToCardScreen: (String) -> Unit,
+    navigateToCardScreen: (String) -> Unit
 ) {
     Column(
         modifier = androidx.compose.ui.Modifier

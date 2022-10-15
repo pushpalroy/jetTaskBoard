@@ -39,7 +39,8 @@ private val LightColorPalette = lightColors(
 @Composable
 fun JtbTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit
+    content: @Composable
+    () -> Unit
 ) {
     val systemUiController = rememberSystemUiController()
 

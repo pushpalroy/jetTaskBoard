@@ -30,7 +30,7 @@ class CardViewModel @Inject constructor() : ViewModel() {
         LabelColor(LabelPeach),
         LabelColor(LabelOrange),
         LabelColor(LabelViolet),
-        LabelColor(LabelBlue),
+        LabelColor(LabelBlue)
     )
 
     val selectedColors = mutableStateListOf<Color>()

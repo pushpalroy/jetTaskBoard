@@ -10,20 +10,20 @@ import androidx.compose.ui.graphics.Color
 
 @Immutable
 interface FabOption {
-  @Stable
-  val iconTint: Color
+    @Stable
+    val iconTint: Color
 
-  @Stable
-  val backgroundTint: Color
+    @Stable
+    val backgroundTint: Color
 
-  @Stable
-  val showLabels: Boolean
+    @Stable
+    val showLabels: Boolean
 }
 
 private class FabOptionImpl(
-  override val iconTint: Color,
-  override val backgroundTint: Color,
-  override val showLabels: Boolean
+    override val iconTint: Color,
+    override val backgroundTint: Color,
+    override val showLabels: Boolean
 ) : FabOption
 
 /**
@@ -32,8 +32,8 @@ private class FabOptionImpl(
 @SuppressLint("ComposableNaming")
 @Composable
 fun FabOption(
-  backgroundTint: Color = MaterialTheme.colors.secondary,
-  iconTint: Color = contentColorFor(backgroundTint),
-  showLabels: Boolean = false
+    backgroundTint: Color = MaterialTheme.colors.secondary,
+    iconTint: Color = contentColorFor(backgroundTint),
+    showLabels: Boolean = false
 ): FabOption =
-  FabOptionImpl(iconTint = iconTint, backgroundTint = backgroundTint, showLabels = showLabels)
+    FabOptionImpl(iconTint = iconTint, backgroundTint = backgroundTint, showLabels = showLabels)

@@ -49,7 +49,7 @@ fun MotionTopBar(
     isExpandedScreen: Boolean,
     onCancelClick: () -> Unit,
     coverImageUrl: String?,
-    title: String?,
+    title: String?
 ) {
     val context = LocalContext.current
     val motionScene = remember {
@@ -80,7 +80,6 @@ fun MotionTopBar(
                 .fillMaxWidth()
                 .height(motionHeight)
         ) {
-
             Box(
                 modifier = Modifier
                     .layoutId("box")
@@ -109,7 +108,7 @@ fun MotionTopBar(
                                     Color.Black.copy(
                                         alpha = .3f
                                     ),
-                                    Color.Transparent,
+                                    Color.Transparent
                                 )
                             )
                         )
@@ -120,7 +119,7 @@ fun MotionTopBar(
                 text = "Backlog",
                 color = Color.White,
                 modifier = Modifier.layoutId("item_name"),
-                fontSize = 24.sp,
+                fontSize = 24.sp
             )
             CoverTab(modifier = Modifier.layoutId("cover_tab"))
 

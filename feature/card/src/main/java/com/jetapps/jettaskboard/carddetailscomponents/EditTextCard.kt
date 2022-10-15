@@ -19,7 +19,6 @@ import com.jetapps.jettaskboard.feature.card.R
 
 @Composable
 fun EditTextCard(viewModel: CardViewModel, isExpanded: Boolean = false) {
-
     Row(modifier = Modifier.fillMaxWidth()) {
         Icon(
             modifier = Modifier.padding(16.dp),
@@ -31,7 +30,7 @@ fun EditTextCard(viewModel: CardViewModel, isExpanded: Boolean = false) {
             modifier = Modifier
                 .background(Color.Transparent)
                 .padding(end = 16.dp)
-                .height(if (isExpanded) {80.dp } else {56.dp})
+                .height(if (isExpanded) { 80.dp } else { 56.dp })
                 .fillMaxWidth(),
             value = viewModel.inputValue.value,
             onValueChange = {

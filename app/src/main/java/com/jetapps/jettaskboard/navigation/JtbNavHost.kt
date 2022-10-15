@@ -33,65 +33,70 @@ import com.jetapps.search.searchGraph
  */
 @Composable
 fun JtbNavHost(
-  navController: NavHostController,
-  onNavigateToDestination: (JtbNavDestination, String) -> Unit,
-  onBackClick: () -> Unit,
-  modifier: Modifier = Modifier,
-  startDestination: String = DashboardDestination.route,
-  isExpandedScreen: Boolean
+    navController: NavHostController,
+    onNavigateToDestination: (JtbNavDestination, String) -> Unit,
+    onBackClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    startDestination: String = DashboardDestination.route,
+    isExpandedScreen: Boolean
 ) {
-  NavHost(
-    navController = navController,
-    startDestination = startDestination,
-    modifier = modifier,
-  ) {
-    dashboardGraph(
-      isExpandedScreen = isExpandedScreen,
-      navigateToTaskBoard = {
-        onNavigateToDestination(
-          TaskBoardDestination, TaskBoardDestination.route
+    NavHost(
+        navController = navController,
+        startDestination = startDestination,
+        modifier = modifier
+    ) {
+        dashboardGraph(
+            isExpandedScreen = isExpandedScreen,
+            navigateToTaskBoard = {
+                onNavigateToDestination(
+                    TaskBoardDestination,
+                    TaskBoardDestination.route
+                )
+            },
+            navigateToCreateCard = {
+                onNavigateToDestination(
+                    CreateCardDestination,
+                    CreateCardDestination.route
+                )
+            },
+            navigateToCreateBoard = {
+                onNavigateToDestination(
+                    CreateBoardDestination,
+                    CreateBoardDestination.route
+                )
+            },
+            navigateToSearchScreen = {
+                onNavigateToDestination(
+                    SearchDestination,
+                    SearchDestination.route
+                )
+            },
+            nestedGraphs = {}
         )
-      },
-      navigateToCreateCard = {
-        onNavigateToDestination(
-          CreateCardDestination, CreateCardDestination.route
+
+        taskBoardGraph(
+            isExpandedScreen = isExpandedScreen,
+            onBackClick = onBackClick,
+            navigateToCreateCard = {
+                onNavigateToDestination(
+                    CardDetailsDestination,
+                    CardDetailsDestination.route
+                )
+            }
         )
-      },
-      navigateToCreateBoard = {
-        onNavigateToDestination(
-          CreateBoardDestination, CreateBoardDestination.route
+
+        cardGraph(
+            isExpandedScreen = isExpandedScreen,
+            onBackClick = onBackClick
         )
-      },
-      navigateToSearchScreen = {
-        onNavigateToDestination(
-            SearchDestination, SearchDestination.route
+
+        createBoardGraph(
+            onBackClick = onBackClick
         )
-      },
-      nestedGraphs = {}
-    )
 
-    taskBoardGraph(
-        isExpandedScreen = isExpandedScreen,
-        onBackClick = onBackClick,
-        navigateToCreateCard = {
-          onNavigateToDestination(
-              CardDetailsDestination, CardDetailsDestination.route
-          )
-        }
-    )
-
-    cardGraph(
-        isExpandedScreen = isExpandedScreen,
-        onBackClick = onBackClick
-    )
-
-    createBoardGraph(
-      onBackClick = onBackClick
-    )
-
-    searchGraph(
-      isExpandedScreen = isExpandedScreen,
-      onBackClick = onBackClick
-    )
-  }
+        searchGraph(
+            isExpandedScreen = isExpandedScreen,
+            onBackClick = onBackClick
+        )
+    }
 }

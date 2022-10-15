@@ -14,21 +14,21 @@ import com.jetapps.jettaskboard.local.entity.ListEntity
 import com.jetapps.jettaskboard.local.entity.MemberEntity
 
 @Database(
-  entities = [
-    CardEntity::class,
-    ListEntity::class,
-    BoardEntity::class,
-    LabelEntity::class,
-    MemberEntity::class,
-    AttachmentEntity::class
-  ],
-  version = 1,
-  exportSchema = false
+    entities = [
+        CardEntity::class,
+        ListEntity::class,
+        BoardEntity::class,
+        LabelEntity::class,
+        MemberEntity::class,
+        AttachmentEntity::class
+    ],
+    version = 1,
+    exportSchema = false
 )
 abstract class JtbDatabase : RoomDatabase() {
 
-  abstract fun boardDao(): BoardDao
-  abstract fun listDao(): ListDao
-  abstract fun cardDao(): CardDao
-  abstract fun labelDao(): LabelDao
+    abstract fun boardDao(): BoardDao
+    abstract fun listDao(): ListDao
+    abstract fun cardDao(): CardDao
+    abstract fun labelDao(): LabelDao
 }

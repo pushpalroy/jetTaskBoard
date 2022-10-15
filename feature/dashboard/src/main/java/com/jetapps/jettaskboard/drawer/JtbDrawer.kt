@@ -47,12 +47,14 @@ fun JtbDrawer(
     ) {
         if (isExpandedScreen.not()) {
             OpenDrawerInExpandedMode(
-                Modifier, viewModel
+                Modifier,
+                viewModel
             )
         } else {
             if (isMenuClickedInExpandedMode.not()) {
                 OpenDrawerInExpandedMode(
-                    Modifier, viewModel
+                    Modifier,
+                    viewModel
                 )
             } else {
                 ClosedDrawerInExpandedMode(
@@ -66,7 +68,7 @@ fun JtbDrawer(
 @Composable
 fun OpenDrawerInExpandedMode(
     modifier: Modifier = Modifier,
-    viewModel: DashboardViewModel,
+    viewModel: DashboardViewModel
 ) {
     Column(
         modifier = modifier
@@ -113,7 +115,7 @@ fun OpenDrawerInExpandedMode(
         NavigationDrawerItem(
             modifier = Modifier.clickable {},
             heading = "My cards",
-            icon = Icons.Outlined.Email,
+            icon = Icons.Outlined.Email
         )
         NavigationDrawerItem(
             modifier = Modifier.clickable {},

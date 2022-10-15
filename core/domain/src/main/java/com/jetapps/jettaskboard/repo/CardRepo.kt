@@ -5,9 +5,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface CardRepo {
 
-  suspend fun addCard(cardModel: CardModel)
+    suspend fun addCard(cardModel: CardModel)
 
-  suspend fun fetchCards(
-    boardId: String
-  ): Flow<List<CardModel>>
+    suspend fun fetchCards(
+        boardId: String
+    ): Flow<List<CardModel>>
 }

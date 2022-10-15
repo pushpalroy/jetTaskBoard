@@ -51,16 +51,18 @@ fun Modifier.reorderable(
                     onDrag = { change, dragAmount ->
                         change.consume()
                         state.onDrag(dragAmount.x.toInt(), dragAmount.y.toInt())
-                    })
+                    }
+                )
             }
         }
-    })
+    }
+)
 
 internal suspend fun PointerInputScope.detectDrag(
     down: PointerId,
     onDragEnd: () -> Unit = { },
     onDragCancel: () -> Unit = { },
-    onDrag: (change: PointerInputChange, dragAmount: Offset) -> Unit,
+    onDrag: (change: PointerInputChange, dragAmount: Offset) -> Unit
 ) {
     awaitPointerEventScope {
         if (

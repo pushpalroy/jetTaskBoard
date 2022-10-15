@@ -20,7 +20,7 @@ fun getAllSearchType(): List<SearchType> {
         CARD_TYPE,
         MEMBER_TYPE,
         LABEL_TYPE,
-        TICKET_TYPE,
+        TICKET_TYPE
     )
 }
 

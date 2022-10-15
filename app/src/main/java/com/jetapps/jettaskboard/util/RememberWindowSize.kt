@@ -15,7 +15,7 @@ import androidx.window.layout.WindowMetricsCalculator
 @Composable
 fun Activity.rememberWindowSize(): Size {
     val configuration = LocalConfiguration.current
-    // WindowMetricsCalculator implicitly depends on the configuration 
+    // WindowMetricsCalculator implicitly depends on the configuration
     // through the activity, so re-calculate it upon changes.
     val windowMetrics = remember(configuration) {
         WindowMetricsCalculator.getOrCreate()

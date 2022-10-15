@@ -15,7 +15,7 @@
  */
 package com.jetapps.jettaskboard.reorderable
 
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.getValue // ktlint-disable import-ordering
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
@@ -34,7 +34,6 @@ import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
 import kotlin.math.min
 import kotlin.math.sign
-
 
 abstract class ReorderableState<T>(
     private val scope: CoroutineScope,
@@ -195,11 +194,11 @@ abstract class ReorderableState<T>(
         val centerY = (top + bottom) / 2
         visibleItemsInfo.fastForEach { item ->
             if (
-                item.itemIndex == draggingItemIndex
-                || item.bottom < top
-                || item.top > bottom
-                || item.right < left
-                || item.left > right
+                item.itemIndex == draggingItemIndex ||
+                item.bottom < top ||
+                item.top > bottom ||
+                item.right < left ||
+                item.left > right
             ) {
                 return@fastForEach
             }
@@ -302,7 +301,6 @@ abstract class ReorderableState<T>(
             .let { interpolateOutOfBoundsScroll((endOffset - startOffset).toInt(), it, time, maxScroll) }
     }
 
-
     companion object {
         private const val ACCELERATION_LIMIT_TIME_MS: Long = 1500
         private val EaseOutQuadInterpolator: (Float) -> (Float) = {
@@ -317,7 +315,7 @@ abstract class ReorderableState<T>(
             viewSize: Int,
             viewSizeOutOfBounds: Float,
             time: Long,
-            maxScroll: Float,
+            maxScroll: Float
         ): Float {
             if (viewSizeOutOfBounds == 0f) return 0f
             val outOfBoundsRatio = min(1f, 1f * viewSizeOutOfBounds.absoluteValue / viewSize)

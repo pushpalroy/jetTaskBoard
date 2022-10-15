@@ -1,6 +1,5 @@
 package com.jetapps.jettaskboard.component
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -19,7 +18,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun WorkSpaceItem(
     modifier: Modifier,
-    workSpaceHeading: String?,
+    workSpaceHeading: String?
 ) {
     Row(
         modifier = modifier
@@ -27,7 +26,6 @@ fun WorkSpaceItem(
             .padding(vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-
         Icon(
             imageVector = Icons.Outlined.Person,
             contentDescription = "WorkSpace Item"

@@ -10,22 +10,22 @@ import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.withContext
 
 class CardRepoImpl(
-  private val cardDao: CardDao,
-  private val entityMapper: EntityMapper<CardModel, CardEntity>,
-  private val dispatcherProvider: CoroutineDispatcherProvider
+    private val cardDao: CardDao,
+    private val entityMapper: EntityMapper<CardModel, CardEntity>,
+    private val dispatcherProvider: CoroutineDispatcherProvider
 ) : CardRepo {
 
-  override suspend fun addCard(cardModel: CardModel) {
-    withContext(dispatcherProvider.io) {
-      cardDao.insertCard(entityMapper.mapToData(cardModel))
+    override suspend fun addCard(cardModel: CardModel) {
+        withContext(dispatcherProvider.io) {
+            cardDao.insertCard(entityMapper.mapToData(cardModel))
+        }
     }
-  }
 
-  override suspend fun fetchCards(boardId: String): Flow<List<CardModel>> {
-    return withContext(dispatcherProvider.io) {
-      cardDao.getAllCardsForBoard(boardId)
-    }.mapLatest { cardEntityList ->
-      cardEntityList.map { entityMapper.mapToDomain(it) }
+    override suspend fun fetchCards(boardId: String): Flow<List<CardModel>> {
+        return withContext(dispatcherProvider.io) {
+            cardDao.getAllCardsForBoard(boardId)
+        }.mapLatest { cardEntityList ->
+            cardEntityList.map { entityMapper.mapToDomain(it) }
+        }
     }
-  }
 }

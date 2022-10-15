@@ -13,13 +13,13 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object UseCaseModule {
 
-  @Provides
-  @Singleton
-  fun provideFetchCardsUseCase(cardRepo: CardRepo): FetchCardsUseCase =
-    FetchCardsUseCase(cardRepo)
+    @Provides
+    @Singleton
+    fun provideFetchCardsUseCase(cardRepo: CardRepo): FetchCardsUseCase =
+        FetchCardsUseCase(cardRepo)
 
-  @Provides
-  @Singleton
-  fun provideAddCardUseCase(cardRepo: CardRepo): AddCardUseCase =
-    AddCardUseCase(cardRepo)
+    @Provides
+    @Singleton
+    fun provideAddCardUseCase(cardRepo: CardRepo): AddCardUseCase =
+        AddCardUseCase(cardRepo)
 }

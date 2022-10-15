@@ -40,15 +40,16 @@ fun CardDetailsRoute(
                 )
             }
         ) {
-            if (!isExpandedScreen)
+            if (!isExpandedScreen) {
                 CardDetailsContent(scrollState, CardDetail(), viewModel)
-            else
+            } else {
                 ExpandedCardDetailContent(
                     expandedLeftScrollState,
                     expandedRightScrollState,
                     CardDetail(),
                     viewModel
                 )
+            }
         }
     }
 }

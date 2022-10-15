@@ -34,7 +34,7 @@ fun Header(
             .fillMaxWidth()
     ) {
         Row(
-            modifier = Modifier,
+            modifier = Modifier
         ) {
             Text(
                 modifier = modifier

@@ -1,6 +1,5 @@
 package com.jetapps.jettaskboard.carddetailscomponents
 
-
 import android.content.Context
 import android.graphics.ImageDecoder
 import android.net.Uri
@@ -33,7 +32,7 @@ fun ImageAttachments(
     viewModel: CardViewModel,
     context: Context,
     galleryPermissionStatus: PermissionState,
-    imageUri: Uri?,
+    imageUri: Uri?
 ) {
     when (galleryPermissionStatus.status) {
         PermissionStatus.Granted -> {
@@ -85,9 +84,10 @@ fun ImageAttachments(
                         Text("To use this app's functionalities, you need to give us the permission.")
                     },
                     confirmButton = {
-                        Button(onClick = {
-                            galleryPermissionStatus.launchPermissionRequest()
-                        }
+                        Button(
+                            onClick = {
+                                galleryPermissionStatus.launchPermissionRequest()
+                            }
                         ) {
                             Text("Give Permission")
                         }

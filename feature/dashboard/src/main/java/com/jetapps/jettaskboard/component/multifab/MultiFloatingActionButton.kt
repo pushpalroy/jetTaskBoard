@@ -31,95 +31,95 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun MultiFloatingActionButton(
-  modifier: Modifier = Modifier,
-  items: List<MultiFabItem>,
-  fabState: MutableState<MultiFabState> = rememberMultiFabState(),
-  fabIcon: FabIcon,
-  fabOption: FabOption = FabOption(),
-  onFabItemClicked: (fabItem: MultiFabItem) -> Unit,
-  stateChanged: (fabState: MultiFabState) -> Unit = {}
+    modifier: Modifier = Modifier,
+    items: List<MultiFabItem>,
+    fabState: MutableState<MultiFabState> = rememberMultiFabState(),
+    fabIcon: FabIcon,
+    fabOption: FabOption = FabOption(),
+    onFabItemClicked: (fabItem: MultiFabItem) -> Unit,
+    stateChanged: (fabState: MultiFabState) -> Unit = {}
 ) {
-  val rotation by animateFloatAsState(
-    if (fabState.value == MultiFabState.Expand) fabIcon.iconRotate ?: 0f else 0f
-  )
+    val rotation by animateFloatAsState(
+        if (fabState.value == MultiFabState.Expand) fabIcon.iconRotate ?: 0f else 0f
+    )
 
-  Column(
-    modifier = modifier.wrapContentSize(),
-    horizontalAlignment = Alignment.End
-  ) {
-    AnimatedVisibility(
-      visible = fabState.value.isExpanded(),
-      enter = fadeIn() + expandVertically(),
-      exit = fadeOut()
+    Column(
+        modifier = modifier.wrapContentSize(),
+        horizontalAlignment = Alignment.End
     ) {
-      LazyColumn(
-        modifier = Modifier.wrapContentSize(),
-        horizontalAlignment = Alignment.End,
-        verticalArrangement = Arrangement.spacedBy(15.dp)
-      ) {
-        items(items = items, key = { it.id }) { item ->
-          MiniFabItem(
-            item = item,
-            fabOption = fabOption,
-            onFabItemClicked = onFabItemClicked
-          )
+        AnimatedVisibility(
+            visible = fabState.value.isExpanded(),
+            enter = fadeIn() + expandVertically(),
+            exit = fadeOut()
+        ) {
+            LazyColumn(
+                modifier = Modifier.wrapContentSize(),
+                horizontalAlignment = Alignment.End,
+                verticalArrangement = Arrangement.spacedBy(15.dp)
+            ) {
+                items(items = items, key = { it.id }) { item ->
+                    MiniFabItem(
+                        item = item,
+                        fabOption = fabOption,
+                        onFabItemClicked = onFabItemClicked
+                    )
+                }
+
+                item {} // for spacing
+            }
         }
-
-        item {} // for spacing
-      }
+        FloatingActionButton(
+            onClick = {
+                fabState.value = fabState.value.toggleValue()
+                stateChanged(fabState.value)
+            },
+            backgroundColor = fabOption.backgroundTint,
+            contentColor = fabOption.iconTint
+        ) {
+            Icon(
+                painter = painterResource(fabIcon.iconRes),
+                modifier = Modifier.rotate(rotation),
+                contentDescription = null,
+                tint = fabOption.iconTint
+            )
+        }
     }
-    FloatingActionButton(
-      onClick = {
-        fabState.value = fabState.value.toggleValue()
-        stateChanged(fabState.value)
-      },
-      backgroundColor = fabOption.backgroundTint,
-      contentColor = fabOption.iconTint
-    ) {
-      Icon(
-        painter = painterResource(fabIcon.iconRes),
-        modifier = Modifier.rotate(rotation),
-        contentDescription = null,
-        tint = fabOption.iconTint
-      )
-    }
-  }
 }
 
 @Composable
 private fun MiniFabItem(
-  item: MultiFabItem,
-  fabOption: FabOption,
-  onFabItemClicked: (item: MultiFabItem) -> Unit
+    item: MultiFabItem,
+    fabOption: FabOption,
+    onFabItemClicked: (item: MultiFabItem) -> Unit
 ) {
-  Row(
-    modifier = Modifier
-      .wrapContentSize()
-      .padding(end = 10.dp),
-    horizontalArrangement = Arrangement.spacedBy(10.dp),
-    verticalAlignment = Alignment.CenterVertically
-  ) {
-    if (fabOption.showLabels) {
-      Text(
-        item.label,
-        fontSize = 12.sp,
-        fontWeight = FontWeight.Bold,
+    Row(
         modifier = Modifier
-          .background(color = MaterialTheme.colors.surface)
-          .padding(horizontal = 6.dp, vertical = 4.dp)
-      )
-    }
-    FloatingActionButton(
-      modifier = Modifier.size(40.dp),
-      onClick = { onFabItemClicked(item) },
-      backgroundColor = fabOption.backgroundTint,
-      contentColor = fabOption.iconTint
+            .wrapContentSize()
+            .padding(end = 10.dp),
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-      Icon(
-        painter = painterResource(item.iconRes),
-        contentDescription = null,
-        tint = fabOption.iconTint
-      )
+        if (fabOption.showLabels) {
+            Text(
+                item.label,
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .background(color = MaterialTheme.colors.surface)
+                    .padding(horizontal = 6.dp, vertical = 4.dp)
+            )
+        }
+        FloatingActionButton(
+            modifier = Modifier.size(40.dp),
+            onClick = { onFabItemClicked(item) },
+            backgroundColor = fabOption.backgroundTint,
+            contentColor = fabOption.iconTint
+        ) {
+            Icon(
+                painter = painterResource(item.iconRes),
+                contentDescription = null,
+                tint = fabOption.iconTint
+            )
+        }
     }
-  }
 }

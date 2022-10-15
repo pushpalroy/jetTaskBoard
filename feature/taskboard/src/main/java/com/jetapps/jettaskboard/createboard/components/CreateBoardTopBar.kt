@@ -10,7 +10,7 @@ import androidx.compose.material.icons.filled.Clear
 import androidx.compose.runtime.Composable
 
 @Composable
-fun CreateBoardTopBar(title: String, onCancelClick : () -> Unit) {
+fun CreateBoardTopBar(title: String, onCancelClick: () -> Unit) {
     TopAppBar(
         title = { Text(title) },
         navigationIcon = {
