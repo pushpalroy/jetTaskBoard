@@ -1,5 +1,7 @@
 package com.jetapps.jettaskboard.drawer
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,8 +19,10 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.KeyboardArrowDown
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -28,8 +32,14 @@ import com.jetapps.jettaskboard.components.CoilAsyncImage
 @Composable
 fun DrawerHeader(
     onDrawerHeaderToggled: () -> Unit,
-    modifier: Modifier
+    modifier: Modifier,
+    isDrawerContentExpanded: Boolean = false
 ) {
+    val rotateArrowState by animateFloatAsState(
+        targetValue = if (isDrawerContentExpanded) 180f else 0f,
+        tween(350)
+    )
+
     Box(
         modifier = modifier
             .background(color = MaterialTheme.colors.background)
@@ -68,7 +78,9 @@ fun DrawerHeader(
                     Icon(
                         imageVector = Icons.Outlined.KeyboardArrowDown,
                         contentDescription = "Drop Down",
-                        modifier = Modifier.size(24.dp)
+                        modifier = Modifier
+                            .rotate(rotateArrowState)
+                            .size(24.dp)
                     )
                 }
             }

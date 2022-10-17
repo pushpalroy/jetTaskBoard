@@ -8,6 +8,8 @@ val Purple200 = Color(0xFFBB86FC)
 val Purple500 = Color(0xFF6200EE)
 val Purple700 = Color(0xFF3700B3)
 val Teal200 = Color(0xFF03DAC5)
+val drawer_dark_surface = Color(0xFF2C2C2E)
+val divider_color = Color(0xFF1B1B1D)
 
 
 val md_theme_light_primary = Color(0xFFBF0031)
@@ -63,6 +65,7 @@ val md_theme_dark_inverseOnSurface = Color(0xFF201A1A)
 val md_theme_dark_inverseSurface = Color(0xFFECE0DF)
 val md_theme_dark_inversePrimary = Color(0xFFBF0031)
 val md_theme_dark_surfaceTint = Color(0xFFFFB3B4)
+
 
 val LabelGreen = Color(0xFF7BC96C)
 val LabelYellow = Color(0xFFF5DD29)
