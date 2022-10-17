@@ -93,6 +93,30 @@ JetTaskBoard follows the principles of Clean Architecture with Android Architect
 
 <p align="right">[<a href="#top">Back to top</a>]</p>
 
+### 🧲 App module graph
+
+![JetModuleGraph](https://user-images.githubusercontent.com/10808436/196190216-abb9437d-dd0b-4c93-bf77-70696a4d2bc6.png)
+
+
+### ✅ Lint
+
+This project uses [ktlint](https://github.com/jlleitschuh/ktlint-gradle)
+
+
+### 💬 Want to discuss?
+
+Have any questions, doubts or want to present your opinions, views? You're always welcome. You can [start discussions](https://github.com/pushpalroy/jetTaskBoard/discussions).
+
+### 🤝 Contributors
+
+See our rockstar contributors :smile:
+
+[![jetTaskBoard Contributors](https://contrib.rocks/image?repo=pushpalroy/jetTaskBoard)](https://github.com/pushpalroy/jetTaskBoard/graphs/contributors)
+
+### Find this project useful ? ❤️
+
+- Support it by clicking the ⭐️ button on the upper right of this page. ✌️
+
 ### License
 ```
 MIT License
