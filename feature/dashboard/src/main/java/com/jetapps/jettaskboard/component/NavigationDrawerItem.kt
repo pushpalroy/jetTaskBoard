@@ -23,7 +23,7 @@ fun NavigationDrawerItem(
         modifier = modifier
             .padding(16.dp)
             .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(imageVector = icon, contentDescription = "Drawer item $heading")
         Text(

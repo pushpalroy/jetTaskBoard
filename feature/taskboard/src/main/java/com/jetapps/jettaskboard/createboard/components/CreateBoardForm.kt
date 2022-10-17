@@ -21,25 +21,25 @@ fun CreateBoardForm() {
         val workspaceList = mapOf(
             "Praxis" to "Demo Application to learn latest android best practices",
             "Praxis-Flutter" to "Demo Application to learn latest Flutter best practices",
-            "Trello Clone" to "Trello Clone built using Compose.",
+            "Trello Clone" to "Trello Clone built using Compose."
         )
 
         val visibilityList = mapOf(
             "Workspace" to "Anyone to the users Workspace can see this board",
             "Public" to "The board is public. It's visible to anyone with the link and will show up to anyone with google link",
-            "Private" to "the board is private. Only people added to the board can view and edit it",
+            "Private" to "the board is private. Only people added to the board can view and edit it"
         )
 
         CreateFormEditText(hint = "Board Name")
 
         CreateFormDropDown(
             headingText = "Workspace",
-            contentMap = workspaceList,
+            contentMap = workspaceList
         )
 
         CreateFormDropDown(
             headingText = "Visibility",
-            contentMap = visibilityList,
+            contentMap = visibilityList
         )
     }
 }

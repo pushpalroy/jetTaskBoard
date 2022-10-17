@@ -5,5 +5,5 @@ import com.jetapps.jettaskboard.repo.CardRepo
 import javax.inject.Inject
 
 class AddCardUseCase @Inject constructor(private val cardRepo: CardRepo) : UseCase<Unit, CardModel> {
-  suspend operator fun invoke(cardModel: CardModel) = cardRepo.addCard(cardModel)
+    suspend operator fun invoke(cardModel: CardModel) = cardRepo.addCard(cardModel)
 }

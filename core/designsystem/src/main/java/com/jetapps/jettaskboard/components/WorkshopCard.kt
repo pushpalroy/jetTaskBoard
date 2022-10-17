@@ -28,7 +28,7 @@ fun WorkshopCard(
     Row(
         modifier = modifier
             .padding(vertical = 6.dp, horizontal = 16.dp),
-        verticalAlignment = Alignment.CenterVertically,
+        verticalAlignment = Alignment.CenterVertically
     ) {
         CoilAsyncImage(
             imageUrl = imageUrl,

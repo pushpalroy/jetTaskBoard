@@ -23,7 +23,7 @@ fun LazyVerticalGridBoardList(
             .padding(top = 4.dp, bottom = 8.dp)
             .fillMaxSize(),
         columns = GridCells.Adaptive(minSize = 150.dp),
-        contentPadding = PaddingValues(4.dp),
+        contentPadding = PaddingValues(4.dp)
     ) {
         if (boardList.isNotEmpty()) {
             items(boardList.subList(0, 5)) { boardItem ->

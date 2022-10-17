@@ -14,7 +14,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 abstract class MappersModule {
 
-  @Binds
-  @Singleton
-  abstract fun bindCardMapper(cardMapper: CardMapper): EntityMapper<CardModel, CardEntity>
+    @Binds
+    @Singleton
+    abstract fun bindCardMapper(cardMapper: CardMapper): EntityMapper<CardModel, CardEntity>
 }

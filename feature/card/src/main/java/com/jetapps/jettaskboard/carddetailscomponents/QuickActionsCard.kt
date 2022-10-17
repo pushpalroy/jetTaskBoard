@@ -34,7 +34,6 @@ import com.jetapps.jettaskboard.feature.card.R
 
 @Composable
 fun QuickActionsCard(isExpanded: Boolean = false) {
-
     val showQuickActions = rememberSaveable { mutableStateOf(false) }
     val rotate by animateFloatAsState(
         targetValue = if (showQuickActions.value) 180f else 0f,
@@ -48,9 +47,8 @@ fun QuickActionsCard(isExpanded: Boolean = false) {
                     .fillMaxWidth()
                     .testTag("quick_action_card")
                     .clickable { showQuickActions.value = !showQuickActions.value },
-                horizontalArrangement = Arrangement.SpaceBetween,
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-
                 Text(
                     modifier = Modifier
                         .padding(16.dp),
@@ -59,12 +57,12 @@ fun QuickActionsCard(isExpanded: Boolean = false) {
                     textAlign = TextAlign.Start
                 )
 
-
                 Icon(
                     modifier = Modifier
                         .padding(16.dp)
                         .rotate(rotate),
-                    imageVector = Icons.Default.ArrowDropDown, contentDescription = "expand",
+                    imageVector = Icons.Default.ArrowDropDown,
+                    contentDescription = "expand"
                 )
             }
         }
@@ -78,8 +76,7 @@ fun QuickActionsCard(isExpanded: Boolean = false) {
                 Row(modifier = Modifier.fillMaxWidth()) {
                     QuickActionChip(
                         modifier = Modifier.weight(1f)
-                            .testTag("quick_action_chip")
-                        ,
+                            .testTag("quick_action_chip"),
                         leadingIcon = {
                             Icon(
                                 imageVector = Icons.Default.CheckCircle,
@@ -87,7 +84,8 @@ fun QuickActionsCard(isExpanded: Boolean = false) {
                                 Modifier.size(16.dp),
                                 tint = if (isSystemInDarkTheme()) Color.Black else Color.White
                             )
-                        }, title = "Add CheckList"
+                        },
+                        title = "Add CheckList"
                     )
 
                     QuickActionChip(
@@ -99,9 +97,9 @@ fun QuickActionsCard(isExpanded: Boolean = false) {
                                 Modifier.size(16.dp),
                                 tint = if (isSystemInDarkTheme()) Color.Black else Color.White
                             )
-                        }, title = "Add Attachment"
+                        },
+                        title = "Add Attachment"
                     )
-
                 }
 
                 Row {
@@ -114,7 +112,8 @@ fun QuickActionsCard(isExpanded: Boolean = false) {
                                 Modifier.size(16.dp),
                                 tint = if (isSystemInDarkTheme()) Color.Black else Color.White
                             )
-                        }, title = "Add Members"
+                        },
+                        title = "Add Members"
                     )
 
                     Spacer(modifier = Modifier.weight(1f))

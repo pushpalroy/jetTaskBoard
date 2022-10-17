@@ -71,7 +71,7 @@ fun JtbDrawer(
 @Composable
 fun OpenDrawerInExpandedMode(
     modifier: Modifier = Modifier,
-    viewModel: DashboardViewModel,
+    viewModel: DashboardViewModel
 ) {
     Column(
         modifier = modifier

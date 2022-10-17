@@ -1,8 +1,10 @@
+![](https://user-images.githubusercontent.com/110823088/195292319-a23c6bc7-ca92-4c11-8917-efe216d26c63.png)
+
 <div id="top"></div>
 
-## JetTaskBoard - Adaptive Trello Clone
+## 📋 JetTaskBoard - Android Trello clone
 
-  <p align="left"> A clone of Android Trello app in Android with adaptive screens built using Jetpack compose. </p>
+  <p align="left"> A clone of Android Trello app with adaptive UI built using Jetpack compose. The application is responsive to adapt to a wide range of screen sizes. The demo is shown on a 13.5" inch Freeform emulator.</p>
 
   <p align="left">
       <a href = "https://developer.android.com/jetpack/androidx/versions/all-channel#february_23_2022">
@@ -33,24 +35,25 @@
 
 <video src="https://user-images.githubusercontent.com/19844292/195041698-7384a20c-85df-4ee2-9d82-ad57d8fab8d2.mp4"></video>
 
-### Tech stack
+### 👨‍💻 Tech stack
 
-| Tools | Link |
-|     :---      |          :---: |
-| 🤖 Kotlin | [Kotlin](https://kotlinlang.org) |
-| 💚 Jetpack Compose | [Jetpack Compose](https://developer.android.com/jetpack/compose) |
-| 🏛 Architecture Components | [Android Architecture Components](https://developer.android.com/topic/libraries/architecture) |
-| 💉 Dagger Hilt | [Dagger Hilt](https://developer.android.com/training/dependency-injection/hilt-android) |
-| 🌐 Material Design | [Material Design](https://developer.android.com/jetpack/androidx/releases/compose-material) |
-| 🌊 Coroutines | [Kotlin Coroutines](https://developer.android.com/kotlin/coroutines) |
+| Tools                      |                                                                       Link                                                                        |
+|:---------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------:|
+| 🤖 Kotlin                  |                                                         [Kotlin](https://kotlinlang.org)                                                          |
+| 💚 Jetpack Compose         |                                         [Jetpack Compose](https://developer.android.com/jetpack/compose)                                          |
+| 🏛 Architecture Components |                           [Android Architecture Components](https://developer.android.com/topic/libraries/architecture)                           |
+| 💉 Dagger Hilt             |                              [Dagger Hilt](https://developer.android.com/training/dependency-injection/hilt-android)                              |
+| 🌐 Material Design         |                            [Material Design](https://developer.android.com/jetpack/androidx/releases/compose-material)                            |
+| 🌊 Coroutines              |                                       [Kotlin Coroutines](https://developer.android.com/kotlin/coroutines)                                        |
+| 🪟 Window size classes     | [Support for different screen sizes](https://developer.android.com/guide/topics/large-screens/support-different-screen-sizes#window_size_classes) |
 
-### 🏛️ Architecture
+### ⚒️ Architecture
 
 JetTaskBoard follows the principles of Clean Architecture with Android Architecture Components.
 
 <p align="right">[<a href="#top">Back to top</a>]</p>
 
-### 📷 Screenshots (Tablet)
+### 🖥️  Screenshots (Tablet)
 
 <table style="width:100%">
   <tr>
@@ -67,7 +70,7 @@ JetTaskBoard follows the principles of Clean Architecture with Android Architect
   </tr>
 </table>
 
-### 📷 Screenshots (Phone)
+### 📱 Screenshots (Phone)
 
 <table style="width:100%">
   <tr>
@@ -84,8 +87,28 @@ JetTaskBoard follows the principles of Clean Architecture with Android Architect
   </tr>
 </table>
 
-### Status: 👨‍💻 In progress
+### Status: 👩‍💻 In progress
 
   <p>JetTaskBoard is under active development.</p>
 
 <p align="right">[<a href="#top">Back to top</a>]</p>
+
+### License
+```
+MIT License
+
+Copyright (c) 2022 Pushpal Roy
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
+documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
+the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and 
+to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial 
+portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO 
+THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+```

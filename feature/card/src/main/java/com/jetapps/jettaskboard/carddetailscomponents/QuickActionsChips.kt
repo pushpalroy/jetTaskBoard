@@ -15,22 +15,29 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun QuickActionChip(modifier: Modifier, leadingIcon: @Composable () -> Unit, title: String) {
+fun QuickActionChip(
+    modifier: Modifier,
+    leadingIcon: @Composable
+    () -> Unit,
+    title: String
+) {
     Card(
         backgroundColor = if (isSystemInDarkTheme()) Color.White else Color.Black,
         modifier = modifier
             .padding(start = 4.dp, end = 4.dp, bottom = 10.dp),
-        shape = RoundedCornerShape(12.dp)) {
+        shape = RoundedCornerShape(12.dp)
+    ) {
         Row(
             modifier = Modifier
                 .padding(16.dp)
         ) {
             leadingIcon()
             Spacer(modifier = Modifier.width(6.dp))
-            Text(text = title,
+            Text(
+                text = title,
                 color = if (isSystemInDarkTheme()) Color.Black else Color.White,
-                fontSize = 12.sp)
+                fontSize = 12.sp
+            )
         }
     }
-
 }

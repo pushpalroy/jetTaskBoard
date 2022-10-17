@@ -19,7 +19,7 @@ fun CardListResult(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 4.dp),
+            .padding(top = 4.dp)
     ) {
         items(cardList) {
             WorkshopCard(

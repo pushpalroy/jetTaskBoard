@@ -53,13 +53,15 @@ fun DrawerHeader(
 
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = "Trello Org", fontWeight = FontWeight.Bold,
+                text = "Trello Org",
+                fontWeight = FontWeight.Bold,
                 style = TextStyle(fontSize = 16.sp)
             )
 
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = "@trello", style = TextStyle(fontSize = 14.sp)
+                text = "@trello",
+                style = TextStyle(fontSize = 14.sp)
             )
 
             Row(

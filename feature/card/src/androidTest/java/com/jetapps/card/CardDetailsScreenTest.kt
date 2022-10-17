@@ -97,7 +97,6 @@ class CardDetailsScreenTest {
         composeTestRule.onNodeWithTag("label_text", useUnmergedTree = true).assertDoesNotExist()
     }
 
-
     @Test
     fun startDateClick_showsCalendar() {
         composeTestRule.onNodeWithTag("time_item_row").assertIsDisplayed()

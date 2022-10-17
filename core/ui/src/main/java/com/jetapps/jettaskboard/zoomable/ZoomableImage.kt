@@ -25,26 +25,26 @@ import kotlinx.coroutines.CoroutineScope
  */
 @Composable
 fun ZoomableImage(
-  coroutineScope: CoroutineScope,
-  zoomableState: ZoomableState,
-  bitmap: ImageBitmap,
-  modifier: Modifier = Modifier,
-  contentDescription: String? = null,
-  onSwipeLeft: () -> Unit = {},
-  onSwipeRight: () -> Unit = {},
-  dragGesturesEnabled: ZoomableState.() -> Boolean = { true },
-  onDoubleTap: ((Offset) -> Unit)? = null
+    coroutineScope: CoroutineScope,
+    zoomableState: ZoomableState,
+    bitmap: ImageBitmap,
+    modifier: Modifier = Modifier,
+    contentDescription: String? = null,
+    onSwipeLeft: () -> Unit = {},
+    onSwipeRight: () -> Unit = {},
+    dragGesturesEnabled: ZoomableState.() -> Boolean = { true },
+    onDoubleTap: ((Offset) -> Unit)? = null
 ) {
-  Zoomable(
-    coroutineScope = coroutineScope,
-    zoomableState = zoomableState,
-    onSwipeLeft = onSwipeLeft,
-    onSwipeRight = onSwipeRight,
-    dragGesturesEnabled = dragGesturesEnabled,
-    onDoubleTap = onDoubleTap
-  ) {
-    Image(bitmap = bitmap, contentDescription = contentDescription, modifier = modifier)
-  }
+    Zoomable(
+        coroutineScope = coroutineScope,
+        zoomableState = zoomableState,
+        onSwipeLeft = onSwipeLeft,
+        onSwipeRight = onSwipeRight,
+        dragGesturesEnabled = dragGesturesEnabled,
+        onDoubleTap = onDoubleTap
+    ) {
+        Image(bitmap = bitmap, contentDescription = contentDescription, modifier = modifier)
+    }
 }
 
 /**
@@ -62,30 +62,30 @@ fun ZoomableImage(
  */
 @Composable
 fun ZoomableImage(
-  coroutineScope: CoroutineScope,
-  zoomableState: ZoomableState,
-  imageVector: ImageVector,
-  modifier: Modifier = Modifier,
-  contentDescription: String? = null,
-  onSwipeLeft: () -> Unit = {},
-  onSwipeRight: () -> Unit = {},
-  dragGesturesEnabled: ZoomableState.() -> Boolean = { true },
-  onDoubleTap: ((Offset) -> Unit)? = null
+    coroutineScope: CoroutineScope,
+    zoomableState: ZoomableState,
+    imageVector: ImageVector,
+    modifier: Modifier = Modifier,
+    contentDescription: String? = null,
+    onSwipeLeft: () -> Unit = {},
+    onSwipeRight: () -> Unit = {},
+    dragGesturesEnabled: ZoomableState.() -> Boolean = { true },
+    onDoubleTap: ((Offset) -> Unit)? = null
 ) {
-  Zoomable(
-    coroutineScope = coroutineScope,
-    zoomableState = zoomableState,
-    onSwipeLeft = onSwipeLeft,
-    onSwipeRight = onSwipeRight,
-    dragGesturesEnabled = dragGesturesEnabled,
-    onDoubleTap = onDoubleTap
-  ) {
-    Image(
-      imageVector = imageVector,
-      contentDescription = contentDescription,
-      modifier = modifier
-    )
-  }
+    Zoomable(
+        coroutineScope = coroutineScope,
+        zoomableState = zoomableState,
+        onSwipeLeft = onSwipeLeft,
+        onSwipeRight = onSwipeRight,
+        dragGesturesEnabled = dragGesturesEnabled,
+        onDoubleTap = onDoubleTap
+    ) {
+        Image(
+            imageVector = imageVector,
+            contentDescription = contentDescription,
+            modifier = modifier
+        )
+    }
 }
 
 /**
@@ -103,26 +103,26 @@ fun ZoomableImage(
  */
 @Composable
 fun ZoomableImage(
-  coroutineScope: CoroutineScope,
-  zoomableState: ZoomableState,
-  painter: Painter,
-  modifier: Modifier = Modifier,
-  contentDescription: String? = null,
-  onSwipeLeft: () -> Unit = {},
-  onSwipeRight: () -> Unit = {},
-  dragGesturesEnabled: ZoomableState.() -> Boolean = { true },
-  onDoubleTap: ((Offset) -> Unit)? = null
+    coroutineScope: CoroutineScope,
+    zoomableState: ZoomableState,
+    painter: Painter,
+    modifier: Modifier = Modifier,
+    contentDescription: String? = null,
+    onSwipeLeft: () -> Unit = {},
+    onSwipeRight: () -> Unit = {},
+    dragGesturesEnabled: ZoomableState.() -> Boolean = { true },
+    onDoubleTap: ((Offset) -> Unit)? = null
 ) {
-  Zoomable(
-    coroutineScope = coroutineScope,
-    zoomableState = zoomableState,
-    onSwipeLeft = onSwipeLeft,
-    onSwipeRight = onSwipeRight,
-    dragGesturesEnabled = dragGesturesEnabled,
-    onDoubleTap = onDoubleTap
-  ) {
-    Image(painter = painter, contentDescription = contentDescription, modifier = modifier)
-  }
+    Zoomable(
+        coroutineScope = coroutineScope,
+        zoomableState = zoomableState,
+        onSwipeLeft = onSwipeLeft,
+        onSwipeRight = onSwipeRight,
+        dragGesturesEnabled = dragGesturesEnabled,
+        onDoubleTap = onDoubleTap
+    ) {
+        Image(painter = painter, contentDescription = contentDescription, modifier = modifier)
+    }
 }
 
 /**
@@ -136,20 +136,22 @@ fun ZoomableImage(
  */
 @Composable
 fun EasyZoomableImage(
-  bitmap: ImageBitmap,
-  modifier: Modifier = Modifier,
-  contentDescription: String? = null,
-  onSwipeLeft: () -> Unit = {},
-  onSwipeRight: () -> Unit = {}
+    bitmap: ImageBitmap,
+    modifier: Modifier = Modifier,
+    contentDescription: String? = null,
+    onSwipeLeft: () -> Unit = {},
+    onSwipeRight: () -> Unit = {}
 ) {
-  val coroutineScope = rememberCoroutineScope()
-  val zoomableState = rememberZoomableState()
-  Zoomable(
-    coroutineScope = coroutineScope, zoomableState = zoomableState, onSwipeLeft = onSwipeLeft,
-    onSwipeRight = onSwipeRight
-  ) {
-    Image(bitmap = bitmap, contentDescription = contentDescription, modifier = modifier)
-  }
+    val coroutineScope = rememberCoroutineScope()
+    val zoomableState = rememberZoomableState()
+    Zoomable(
+        coroutineScope = coroutineScope,
+        zoomableState = zoomableState,
+        onSwipeLeft = onSwipeLeft,
+        onSwipeRight = onSwipeRight
+    ) {
+        Image(bitmap = bitmap, contentDescription = contentDescription, modifier = modifier)
+    }
 }
 
 /**
@@ -163,25 +165,27 @@ fun EasyZoomableImage(
  */
 @Composable
 fun EasyZoomableImage(
-  imageVector: ImageVector,
-  modifier: Modifier = Modifier,
-  contentDescription: String? = null,
-  onSwipeLeft: () -> Unit = {},
-  onSwipeRight: () -> Unit = {}
+    imageVector: ImageVector,
+    modifier: Modifier = Modifier,
+    contentDescription: String? = null,
+    onSwipeLeft: () -> Unit = {},
+    onSwipeRight: () -> Unit = {}
 ) {
-  val coroutineScope = rememberCoroutineScope()
-  val zoomableState = rememberZoomableState()
+    val coroutineScope = rememberCoroutineScope()
+    val zoomableState = rememberZoomableState()
 
-  Zoomable(
-    coroutineScope = coroutineScope, zoomableState = zoomableState, onSwipeLeft = onSwipeLeft,
-    onSwipeRight = onSwipeRight
-  ) {
-    Image(
-      imageVector = imageVector,
-      contentDescription = contentDescription,
-      modifier = modifier
-    )
-  }
+    Zoomable(
+        coroutineScope = coroutineScope,
+        zoomableState = zoomableState,
+        onSwipeLeft = onSwipeLeft,
+        onSwipeRight = onSwipeRight
+    ) {
+        Image(
+            imageVector = imageVector,
+            contentDescription = contentDescription,
+            modifier = modifier
+        )
+    }
 }
 
 /**
@@ -195,20 +199,20 @@ fun EasyZoomableImage(
  */
 @Composable
 public fun EasyZoomableImage(
-  painter: Painter,
-  modifier: Modifier = Modifier,
-  contentDescription: String? = null,
-  onSwipeLeft: () -> Unit = {},
-  onSwipeRight: () -> Unit = {}
+    painter: Painter,
+    modifier: Modifier = Modifier,
+    contentDescription: String? = null,
+    onSwipeLeft: () -> Unit = {},
+    onSwipeRight: () -> Unit = {}
 ) {
-  val coroutineScope = rememberCoroutineScope()
-  val zoomableState = rememberZoomableState()
-  Zoomable(
-    coroutineScope = coroutineScope,
-    zoomableState = zoomableState,
-    onSwipeLeft = onSwipeLeft,
-    onSwipeRight = onSwipeRight
-  ) {
-    Image(painter = painter, contentDescription = contentDescription, modifier = modifier)
-  }
+    val coroutineScope = rememberCoroutineScope()
+    val zoomableState = rememberZoomableState()
+    Zoomable(
+        coroutineScope = coroutineScope,
+        zoomableState = zoomableState,
+        onSwipeLeft = onSwipeLeft,
+        onSwipeRight = onSwipeRight
+    ) {
+        Image(painter = painter, contentDescription = contentDescription, modifier = modifier)
+    }
 }

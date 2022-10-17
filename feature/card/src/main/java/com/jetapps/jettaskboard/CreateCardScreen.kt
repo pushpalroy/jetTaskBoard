@@ -61,7 +61,7 @@ fun CreateCardRoute(
                     IconButton(onClick = onCancelClick) {
                         Icon(
                             Icons.Default.Close,
-                            contentDescription = "",
+                            contentDescription = ""
                         )
                     }
                 },
@@ -70,10 +70,9 @@ fun CreateCardRoute(
                     IconButton(onClick = { /*TODO*/ }) {
                         Icon(
                             Icons.Default.Check,
-                            contentDescription = "",
+                            contentDescription = ""
                         )
                     }
-
                 }
             )
         }
@@ -108,24 +107,23 @@ fun CreateCardContent(viewModel: CardViewModel) {
             val boardList = mapOf(
                 DefaultTaskBoardBGColor to "Praxis",
                 SecondaryColor to "Discord Clone",
-                LabelOrange to "Trello Workspace",
+                LabelOrange to "Trello Workspace"
             )
 
             val visibilityList = mapOf(
                 "ToDo Items" to "",
                 "Doing" to "",
-                "Done" to "",
+                "Done" to ""
             )
-
 
             CreateBoardDropDown(
                 headingText = "Board",
-                contentMap = boardList,
+                contentMap = boardList
             )
 
             CreateFormDropDown(
                 headingText = "List",
-                contentMap = visibilityList,
+                contentMap = visibilityList
             )
         }
 
@@ -145,20 +143,20 @@ fun CreateCardTwoPaneContent(viewModel: CardViewModel) {
                 val boardList = mapOf(
                     DefaultTaskBoardBGColor to "Praxis",
                     SecondaryColor to "Discord Clone",
-                    LabelOrange to "Trello Workspace",
+                    LabelOrange to "Trello Workspace"
                 )
                 val visibilityList = mapOf(
                     "ToDo Items" to "",
                     "Doing" to "",
-                    "Done" to "",
+                    "Done" to ""
                 )
                 CreateBoardDropDown(
                     headingText = "Board",
-                    contentMap = boardList,
+                    contentMap = boardList
                 )
                 CreateFormDropDown(
                     headingText = "List",
-                    contentMap = visibilityList,
+                    contentMap = visibilityList
                 )
             }
         },
@@ -183,7 +181,7 @@ fun CardInfoBox(viewModel: CardViewModel) {
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .background(MaterialTheme.colors.background),
+            .background(MaterialTheme.colors.background)
     ) {
         Box(
             modifier = Modifier
@@ -193,7 +191,6 @@ fun CardInfoBox(viewModel: CardViewModel) {
                 .clip(RoundedCornerShape(8.dp))
                 .background(MaterialTheme.colors.surface)
         ) {
-
             Column {
                 TextField(
                     modifier = Modifier
@@ -262,11 +259,11 @@ fun CardInfoBox(viewModel: CardViewModel) {
                             // Do something with the date
                             if (viewModel.isTopText.value) viewModel.startDateText.value =
                                 "Starts on ${it.dayOfMonth} ${
-                                    (it.month).toString().lowercase()
+                                (it.month).toString().lowercase()
                                 }, ${it.year}"
                             if (viewModel.isBottomText.value) viewModel.dueDateText.value =
                                 "Due on ${it.dayOfMonth} ${
-                                    (it.month).toString().lowercase()
+                                (it.month).toString().lowercase()
                                 }, ${it.year}"
                         }
                     }
@@ -283,11 +280,9 @@ fun CardInfoBox(viewModel: CardViewModel) {
                     text = "ATTACHMENTS",
                     trailingIcon = Icons.Default.Add,
                     onClick = {
-
                     }
                 )
             }
-
         }
     }
 }

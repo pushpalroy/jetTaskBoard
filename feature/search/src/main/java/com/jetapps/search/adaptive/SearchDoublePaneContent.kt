@@ -39,7 +39,7 @@ fun SearchDoublePaneContent(
     navigateToBoardScreen: (String) -> Unit,
     selectSearchType: MutableState<SearchType?>,
     navigateToCardScreen: (String) -> Unit,
-    navigateUp: () -> Unit,
+    navigateUp: () -> Unit
 ) {
     val context = LocalContext.current
 
@@ -72,7 +72,7 @@ fun SearchLeftPane(
     modifier: Modifier = Modifier,
     viewModel: SearchScreenViewModel,
     navigateUp: () -> Unit,
-    selectSearchType: MutableState<SearchType?>,
+    selectSearchType: MutableState<SearchType?>
 ) {
     Column(
         modifier = modifier

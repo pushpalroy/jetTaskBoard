@@ -61,7 +61,6 @@ fun LabelRow(viewModel: CardViewModel) {
                             shape = RoundedCornerShape(8.dp)
                         ) {}
                     }
-
                 }
             }
             Icon(
@@ -72,7 +71,6 @@ fun LabelRow(viewModel: CardViewModel) {
                 imageVector = Icons.Default.ArrowDropDown,
                 contentDescription = "Trailing Icon"
             )
-
         }
 
         AnimatedVisibility(visible = viewModel.isLabelRowClicked.value) {

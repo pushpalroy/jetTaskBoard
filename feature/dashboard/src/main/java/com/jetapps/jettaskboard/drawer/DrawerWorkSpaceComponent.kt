@@ -16,7 +16,7 @@ import com.jetapps.jettaskboard.component.WorkSpaceItem
 @Composable
 fun DrawerWorkSpaceComponent(
     viewModel: DashboardViewModel,
-    modifier: Modifier,
+    modifier: Modifier
 ) {
     Column(
         modifier = modifier

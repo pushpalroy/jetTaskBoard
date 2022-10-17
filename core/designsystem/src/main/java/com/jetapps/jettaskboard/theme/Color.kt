@@ -11,7 +11,6 @@ val Teal200 = Color(0xFF03DAC5)
 val drawer_dark_surface = Color(0xFF2C2C2E)
 val divider_color = Color(0xFF1B1B1D)
 
-
 val md_theme_light_primary = Color(0xFFBF0031)
 val md_theme_light_onPrimary = Color(0xFFFFFFFF)
 val md_theme_light_primaryContainer = Color(0xFFFFDAD9)

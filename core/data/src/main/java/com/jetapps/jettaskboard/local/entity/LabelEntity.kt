@@ -5,12 +5,12 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(
-  tableName = "labelTable"
+    tableName = "labelTable"
 )
 data class LabelEntity(
-  @PrimaryKey val id: String,
-  @ColumnInfo(name = "label_name")
-  val labelName: String,
-  @ColumnInfo(name = "label_color")
-  val labelColor: String
+    @PrimaryKey val id: String,
+    @ColumnInfo(name = "label_name")
+    val labelName: String,
+    @ColumnInfo(name = "label_color")
+    val labelColor: String
 )

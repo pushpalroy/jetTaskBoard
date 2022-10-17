@@ -24,6 +24,6 @@ import com.jetapps.jettaskboard.JtbNavDestination
  * next within a single destination will be handled directly in composables.
  */
 data class TopLevelDestination(
-  override val route: String,
-  override val destination: String
+    override val route: String,
+    override val destination: String
 ) : JtbNavDestination
