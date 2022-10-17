@@ -19,7 +19,7 @@ class DashboardViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    var toggleDrawerContent = mutableStateOf(false)
+    var toggleDrawerContent = mutableStateOf(true)
 
     private val _listOfBoards: MutableList<Board> = mutableStateListOf()
     val listOfBoards: List<Board> = _listOfBoards
