@@ -67,6 +67,7 @@ dependencies {
     implementation(project(":core:navigation"))
     implementation(project(":core:common"))
     implementation(project(":core:designsystem"))
+    implementation(project(":core:ui"))
 
     implementation("androidx.compose.material3:material3:1.0.0-beta03")
     implementation("androidx.compose.material3:material3-window-size-class:1.0.0-beta03")

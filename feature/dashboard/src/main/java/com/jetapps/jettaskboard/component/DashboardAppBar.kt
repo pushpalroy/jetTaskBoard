@@ -10,17 +10,15 @@ import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import com.jetapps.jettaskboard.loadingcomponents.TrelloNotificationAnimationIcon
 
-/**
- * Todo: Check if `actions` is used as per best practices
- * Todo: Add Small animation to the Search and Notification
- */
 @Composable
 fun DashboardAppBar(
     isExpandedScreen: Boolean,
     onMenuIconClick: () -> Unit,
     onSearchIconClicked: () -> Unit,
-    onNotificationIconClicked: () -> Unit
+    onNotificationIconClicked: () -> Unit,
+    notificationCount: Int = 0
 ) {
     TopAppBar(
         title = {
@@ -44,9 +42,8 @@ fun DashboardAppBar(
             }
 
             IconButton(onClick = onNotificationIconClicked) {
-                Icon(
-                    imageVector = Icons.Outlined.Notifications,
-                    contentDescription = "Notification"
+                TrelloNotificationAnimationIcon(
+                    notificationCounts = 11
                 )
             }
         }
