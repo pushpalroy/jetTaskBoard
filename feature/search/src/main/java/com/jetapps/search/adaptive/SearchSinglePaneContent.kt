@@ -56,11 +56,11 @@ fun SearchSinglePaneContent(
             }
 
             SearchType.MEMBER_TYPE -> {
-                EmptySearchResultScreen {}
+                EmptySearchResultScreen(showLoader = false){}
             }
 
             SearchType.LABEL_TYPE -> {
-                EmptySearchResultScreen {}
+                EmptySearchResultScreen(showLoader = true){}
             }
 
             SearchType.TICKET_TYPE -> {

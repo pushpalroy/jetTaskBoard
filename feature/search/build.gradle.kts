@@ -64,6 +64,7 @@ dependencies {
     implementation(project(":core:domain"))
     implementation(project(":core:navigation"))
     implementation(project(":core:common"))
+    implementation(project(":core:ui"))
     implementation(project(":core:designsystem"))
 
     implementation("androidx.compose.material3:material3:1.0.0-beta03")
