@@ -1,5 +1,6 @@
 package com.jetapps.jettaskboard.drawer
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -29,6 +30,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jetapps.jettaskboard.DashboardViewModel
 import com.jetapps.jettaskboard.component.NavigationDrawerItem
+import com.jetapps.jettaskboard.theme.divider_color
+import com.jetapps.jettaskboard.theme.drawer_dark_surface
 
 @Composable
 fun JtbDrawer(
@@ -43,18 +46,18 @@ fun JtbDrawer(
         modifier = modifier
             .verticalScroll(scrollState)
             .fillMaxHeight()
-            .background(color = Color(0xFF2c2c2e))
+            .background(color = drawer_dark_surface)
     ) {
         if (isExpandedScreen.not()) {
             OpenDrawerInExpandedMode(
-                Modifier,
-                viewModel
+                modifier = Modifier,
+                viewModel = viewModel
             )
         } else {
             if (isMenuClickedInExpandedMode.not()) {
                 OpenDrawerInExpandedMode(
-                    Modifier,
-                    viewModel
+                    modifier = Modifier,
+                    viewModel = viewModel
                 )
             } else {
                 ClosedDrawerInExpandedMode(
@@ -75,58 +78,69 @@ fun OpenDrawerInExpandedMode(
     ) {
         DrawerHeader(
             modifier = Modifier.clickable {},
-            onDrawerHeaderToggled = {}
+            onDrawerHeaderToggled = {
+                viewModel.toggleDrawerContent.value = !(viewModel.toggleDrawerContent.value)
+            },
+            isDrawerContentExpanded = viewModel.toggleDrawerContent.value
         )
-        Divider(
-            color = Color(0xFF1B1B1D)
-        )
-        Row(
-            modifier = Modifier
-                .clickable {}
-                .background(color = MaterialTheme.colors.background)
-                .padding(16.dp)
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                imageVector = Icons.Outlined.Home,
-                contentDescription = "Board Icon Desc",
-                tint = Color(0xFF0079bf)
-            )
-            Text(
+
+        Divider(color = divider_color)
+
+        AnimatedVisibility(visible = viewModel.toggleDrawerContent.value) {
+            Column(
                 modifier = Modifier
-                    .weight(1f)
-                    .padding(start = 24.dp),
-                color = Color(0xFF0079bf),
-                text = "Boards",
-                fontSize = 16.sp
-            )
+            ) {
+                Row(
+                    modifier = Modifier
+                        .clickable {}
+                        .background(color = MaterialTheme.colors.background)
+                        .padding(16.dp)
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.Home,
+                        contentDescription = "Board Icon Desc",
+                        tint = Color(0xFF0079bf)
+                    )
+                    Text(
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(start = 24.dp),
+                        color = Color(0xFF0079bf),
+                        text = "Boards",
+                        fontSize = 16.sp
+                    )
+                }
+
+                Divider(color = divider_color)
+
+                DrawerWorkSpaceComponent(
+                    viewModel = viewModel,
+                    modifier = Modifier
+                )
+
+                Divider(color = divider_color)
+
+                NavigationDrawerItem(
+                    modifier = Modifier.clickable {},
+                    heading = "My cards",
+                    icon = Icons.Outlined.Email,
+                )
+
+                NavigationDrawerItem(
+                    modifier = Modifier.clickable {},
+                    heading = "Settings",
+                    icon = Icons.Outlined.Settings
+                )
+
+                NavigationDrawerItem(
+                    modifier = Modifier.clickable {},
+                    heading = "Help!",
+                    icon = Icons.Outlined.Info
+                )
+            }
         }
-        Divider(
-            color = Color(0xFF1B1B1D)
-        )
-        DrawerWorkSpaceComponent(
-            viewModel = viewModel,
-            modifier = Modifier
-        )
-        Divider(
-            color = Color(0xFF1B1B1D)
-        )
-        NavigationDrawerItem(
-            modifier = Modifier.clickable {},
-            heading = "My cards",
-            icon = Icons.Outlined.Email
-        )
-        NavigationDrawerItem(
-            modifier = Modifier.clickable {},
-            heading = "Settings",
-            icon = Icons.Outlined.Settings
-        )
-        NavigationDrawerItem(
-            modifier = Modifier.clickable {},
-            heading = "Help!",
-            icon = Icons.Outlined.Info
-        )
     }
 }
 

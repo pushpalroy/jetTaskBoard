@@ -1,5 +1,7 @@
 package com.jetapps.jettaskboard
 
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.mutableStateListOf // ktlint-disable import-ordering
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -16,6 +18,8 @@ import javax.inject.Inject
 class DashboardViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
+
+    var toggleDrawerContent = mutableStateOf(true)
 
     private val _listOfBoards: MutableList<Board> = mutableStateListOf()
     val listOfBoards: List<Board> = _listOfBoards
