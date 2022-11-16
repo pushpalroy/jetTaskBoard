@@ -77,6 +77,12 @@ dependencies {
     api(Lib.Di.hiltAndroid)
     kapt(Lib.Di.hiltAndroidCompiler)
 
+    /** Networking **/
+    implementation(Lib.Networking.RETROFIT)
+    implementation(Lib.Networking.RETROFIT_GSON)
+    implementation(Lib.Networking.LOGGING)
+    implementation(Lib.Serialization.GSON)
+
     /* Testing */
     testImplementation(TestLib.JUNIT)
     testImplementation(TestLib.CORE_TEST)

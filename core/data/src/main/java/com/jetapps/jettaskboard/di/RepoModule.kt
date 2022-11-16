@@ -5,8 +5,13 @@ import com.jetapps.jettaskboard.local.dao.CardDao
 import com.jetapps.jettaskboard.local.entity.CardEntity
 import com.jetapps.jettaskboard.mapper.EntityMapper
 import com.jetapps.jettaskboard.model.CardModel
+import com.jetapps.jettaskboard.model.ChangeBackgroundPhotoModel
+import com.jetapps.jettaskboard.model.RandomPhotoItemDataModel
+import com.jetapps.jettaskboard.remote.data_source.PhotoNetworkDataSource
 import com.jetapps.jettaskboard.repo.CardRepo
 import com.jetapps.jettaskboard.repo.CardRepoImpl
+import com.jetapps.jettaskboard.repo.PhotoRepo
+import com.jetapps.jettaskboard.repo.PhotoRepoImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,5 +32,17 @@ object RepoModule {
         cardDao,
         entityMapper,
         dispatcherProvider
+    )
+
+    @Provides
+    @Singleton
+    fun providePhotoRepo(
+        photoNetworkResource: PhotoNetworkDataSource,
+        entityMapper: EntityMapper<ChangeBackgroundPhotoModel, RandomPhotoItemDataModel>,
+        dispatcherProvider: CoroutineDispatcherProvider
+    ): PhotoRepo = PhotoRepoImpl(
+        photoNetwork = photoNetworkResource,
+        dispatcherProvider = dispatcherProvider,
+        entityMapper = entityMapper
     )
 }

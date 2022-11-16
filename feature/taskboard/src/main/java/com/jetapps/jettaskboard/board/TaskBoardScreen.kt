@@ -1,10 +1,12 @@
 package com.jetapps.jettaskboard.board
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -14,15 +16,23 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.jetapps.jettaskboard.TaskBoardViewModel
 import com.jetapps.jettaskboard.feature.taskboard.R
 import com.jetapps.jettaskboard.theme.DefaultTaskBoardBGColor
@@ -36,6 +46,7 @@ fun TaskBoardRoute(
     modifier: Modifier = Modifier,
     isExpandedScreen: Boolean,
     navigateToCreateCard: (String) -> Unit = {},
+    navigateToChangeBackgroundScreen: (String) -> Unit = {},
     viewModel: TaskBoardViewModel = hiltViewModel()
 ) {
     val scaffoldState = rememberScaffoldState()
@@ -47,7 +58,10 @@ fun TaskBoardRoute(
         topBar = {
             TopAppBar(
                 onBackClick = onBackClick,
-                title = viewModel.boardInfo.value.second
+                title = viewModel.boardInfo.value.second,
+                navigateToChangeBackgroundScreen = { passedString ->
+                    navigateToChangeBackgroundScreen(passedString)
+                }
             )
         },
         floatingActionButton = {
@@ -75,23 +89,29 @@ fun TaskBoardRoute(
                 )
             }
         }
-    ) {
+    ) { scaffoldPaddingValues ->
         Surface(
             modifier = modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .padding(scaffoldPaddingValues),
             color = DefaultTaskBoardBGColor
         ) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
             ) {
-                Image(
-                    painter = painterResource(R.drawable.bg_board),
-                    contentDescription = "background",
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-5veDO7LoHERrqFQTmhXJpfqs7BCZcDhdfNrIOJeFcGTLby00YJeJNq2x6WDroym1ydU&usqp=CAU")
+                        .crossfade(true)
+                        .build(),
+                    placeholder = painterResource(R.drawable.bg_board),
+                    contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .matchParentSize()
                 )
+
                 Zoomable(
                     coroutineScope = coroutineScope,
                     zoomableState = zoomableState
@@ -111,8 +131,13 @@ fun TaskBoardRoute(
 @Composable
 fun TopAppBar(
     onBackClick: () -> Unit,
-    title: String
+    title: String,
+    navigateToChangeBackgroundScreen: (String) -> Unit
 ) {
+    var displayTaskBoardToolbarMenuState by remember {
+        mutableStateOf(false)
+    }
+
     TopAppBar(
         navigationIcon = {
             IconButton(
@@ -124,7 +149,29 @@ fun TopAppBar(
                 )
             }
         },
-        title = { Text(text = title) }
+        title = { Text(text = title) },
+        actions = {
+            IconButton(onClick = {
+                displayTaskBoardToolbarMenuState = !displayTaskBoardToolbarMenuState
+            }) {
+                Icon(imageVector = Icons.Default.MoreVert, contentDescription = "Toolbar Menu Icon")
+            }
+
+            // DropDown
+            DropdownMenu(
+                expanded = displayTaskBoardToolbarMenuState,
+                onDismissRequest = {
+                    displayTaskBoardToolbarMenuState = false
+                }) {
+                DropdownMenuItem(
+                    onClick = {
+                        navigateToChangeBackgroundScreen("")
+                    }
+                ) {
+                    Text(text = "Change Background")
+                }
+            }
+        }
     )
 }
 
