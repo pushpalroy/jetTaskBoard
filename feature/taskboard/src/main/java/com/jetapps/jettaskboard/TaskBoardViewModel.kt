@@ -10,14 +10,19 @@ import androidx.lifecycle.viewModelScope
 import com.jetapps.jettaskboard.model.BoardModel
 import com.jetapps.jettaskboard.model.CardModel
 import com.jetapps.jettaskboard.model.ListModel
+import com.jetapps.jettaskboard.usecase.board.GetLatestBackgroundImgUrlUseCase
 import com.jetapps.jettaskboard.util.Board
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class TaskBoardViewModel @Inject constructor(savedStateHandle: SavedStateHandle) : ViewModel() {
+class TaskBoardViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
+    private val getLatestBackgroundImgUrlUseCase: GetLatestBackgroundImgUrlUseCase
+) : ViewModel() {
 
     /**
      * Holds the information of the [Board], a pair of ID and title.
@@ -39,6 +44,22 @@ class TaskBoardViewModel @Inject constructor(savedStateHandle: SavedStateHandle)
      * used to run recomposition whenever the new card is added.
      */
     var totalCards by mutableStateOf(0)
+    var latestBackgroundImgUri by mutableStateOf("")
+
+    init {
+        getLatestBackgroundImgUri()
+    }
+
+    /**
+     * Get the cached latest Board Background Img URI
+     */
+    private fun getLatestBackgroundImgUri() = viewModelScope.launch {
+        getLatestBackgroundImgUrlUseCase.invoke().collectLatest { imageUri ->
+            imageUri?.let { safeImageUri ->
+                latestBackgroundImgUri = safeImageUri
+            }
+        }
+    }
 
     /**
      * A Board has a list of Lists: Board = f(List)

@@ -102,7 +102,7 @@ fun TaskBoardRoute(
             ) {
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
-                        .data("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-5veDO7LoHERrqFQTmhXJpfqs7BCZcDhdfNrIOJeFcGTLby00YJeJNq2x6WDroym1ydU&usqp=CAU")
+                        .data(viewModel.latestBackgroundImgUri)
                         .crossfade(true)
                         .build(),
                     placeholder = painterResource(R.drawable.bg_board),

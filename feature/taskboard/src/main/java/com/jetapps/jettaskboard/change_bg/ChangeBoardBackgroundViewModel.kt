@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jetapps.jettaskboard.model.ChangeBackgroundPhotoModel
+import com.jetapps.jettaskboard.usecase.board.UpdateTaskBoardBackgroundImgUriUseCase
 import com.jetapps.jettaskboard.usecase.network.GetRandomPhotoListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -12,7 +13,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ChangeBoardBackgroundViewModel @Inject constructor(
-    private val getRandomPhotoListUseCase: GetRandomPhotoListUseCase
+    private val getRandomPhotoListUseCase: GetRandomPhotoListUseCase,
+    private val updateTaskBoardBackgroundImgUriUseCase: UpdateTaskBoardBackgroundImgUriUseCase
 ) : ViewModel() {
 
     private var _screenState = mutableStateOf(ChangeBackgroundScreenState.STATIC_SCREEN)
@@ -29,5 +31,9 @@ class ChangeBoardBackgroundViewModel @Inject constructor(
        getRandomPhotoListUseCase.invoke().let {
            _randomPhotoList.value = it
        }
+    }
+
+    fun updateLatestBoardBgImgUri(imageUri : String) = viewModelScope.launch {
+        updateTaskBoardBackgroundImgUriUseCase.invoke(imageUri)
     }
 }

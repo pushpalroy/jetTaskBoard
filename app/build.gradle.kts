@@ -125,6 +125,10 @@ dependencies {
     implementation(Lib.Room.roomKtx)
     implementation(Lib.Room.roomPaging)
 
+    /* Datastore */
+    implementation(Lib.Android.JETPACK_DATASTORE)
+    implementation(Lib.Android.JETPACK_DATASTORE_PREFERENCE_CORE)
+
     /*Testing*/
     testImplementation(TestLib.JUNIT)
     testImplementation(TestLib.CORE_TEST)

@@ -69,7 +69,9 @@ fun ChangeBoardBackgroundRoute(
                         GridPhotoScreen(
                             photoList = safeRandomPhotoList,
                             onImageSelected = { selectedImageUrl ->
-                                // Store it to the Data Store
+                                changeBoardBackgroundViewModel.updateLatestBoardBgImgUri(
+                                    selectedImageUrl
+                                )
                             })
                     }
                 }
