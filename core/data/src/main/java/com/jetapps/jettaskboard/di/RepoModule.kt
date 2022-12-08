@@ -7,7 +7,8 @@ import com.jetapps.jettaskboard.local.entity.CardEntity
 import com.jetapps.jettaskboard.mapper.EntityMapper
 import com.jetapps.jettaskboard.model.CardModel
 import com.jetapps.jettaskboard.model.ChangeBackgroundPhotoModel
-import com.jetapps.jettaskboard.model.RandomPhotoItemDataModel
+import com.jetapps.jettaskboard.model.random.RandomPhotoItemDataModel
+import com.jetapps.jettaskboard.model.search.ResultImageDataModel
 import com.jetapps.jettaskboard.remote.data_source.PhotoNetworkDataSource
 import com.jetapps.jettaskboard.repo.BoardRepo
 import com.jetapps.jettaskboard.repo.BoardRepoImpl
@@ -41,12 +42,14 @@ object RepoModule {
     @Singleton
     fun providePhotoRepo(
         photoNetworkResource: PhotoNetworkDataSource,
-        entityMapper: EntityMapper<ChangeBackgroundPhotoModel, RandomPhotoItemDataModel>,
+        randomPhotoMapper: EntityMapper<ChangeBackgroundPhotoModel, RandomPhotoItemDataModel>,
+        searchPhotoMapper : EntityMapper<ChangeBackgroundPhotoModel,ResultImageDataModel>,
         dispatcherProvider: CoroutineDispatcherProvider
     ): PhotoRepo = PhotoRepoImpl(
         photoNetwork = photoNetworkResource,
         dispatcherProvider = dispatcherProvider,
-        entityMapper = entityMapper
+        randomPhotoMapper = randomPhotoMapper,
+        searchPhotoMapper = searchPhotoMapper
     )
 
     @Provides

@@ -1,6 +1,10 @@
-package com.jetapps.jettaskboard.model
+package com.jetapps.jettaskboard.model.random
 
 import com.google.gson.annotations.SerializedName
+import com.jetapps.jettaskboard.model.common.LinkDataModel
+import com.jetapps.jettaskboard.model.common.SponsorshipDataModel
+import com.jetapps.jettaskboard.model.common.UrlDataModel
+import com.jetapps.jettaskboard.model.common.UserDataModel
 
 data class RandomPhotoItemDataModel(
     @SerializedName("id")

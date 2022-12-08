@@ -1,15 +1,15 @@
-package com.jetapps.jettaskboard.model
+package com.jetapps.jettaskboard.model.common
 
 
 import com.google.gson.annotations.SerializedName
 
 data class SocialDataModel(
     @SerializedName("instagram_username")
-    var instagramUsername: String?,
+    val instagramUsername: String? = null,
     @SerializedName("portfolio_url")
-    var portfolioUrl: String?,
+    val portfolioUrl: String? = null,
     @SerializedName("twitter_username")
-    var twitterUsername: String?,
+    val twitterUsername: String? = null,
     @SerializedName("paypal_email")
-    var paypalEmail: Any?
+    val paypalEmail: Any? = null
 )

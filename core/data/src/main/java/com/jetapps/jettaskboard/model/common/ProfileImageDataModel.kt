@@ -1,13 +1,12 @@
-package com.jetapps.jettaskboard.model
-
+package com.jetapps.jettaskboard.model.common
 
 import com.google.gson.annotations.SerializedName
 
 data class ProfileImageDataModel(
     @SerializedName("small")
-    var small: String?,
+    val small: String? = null,
     @SerializedName("medium")
-    var medium: String?,
+    val medium: String? = null,
     @SerializedName("large")
-    var large: String?
+    val large: String? = null
 )

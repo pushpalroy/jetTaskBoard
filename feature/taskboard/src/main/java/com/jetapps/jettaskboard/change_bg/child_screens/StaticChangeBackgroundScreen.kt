@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jetapps.jettaskboard.change_bg.ChangeBackgroundScreenState
 import com.jetapps.jettaskboard.component.StaticImagePlaceHolderCard
+import com.jetapps.jettaskboard.feature.taskboard.R
 
 @Composable
 fun StaticChangeBackgroundScreen(
@@ -54,7 +55,8 @@ fun StaticChangeBackgroundScreen(
                         ChangeBackgroundScreenState.PHOTO_SCREEN
                     )
                 },
-                subTitle = "Photos"
+                subTitle = "Photos",
+                drawableId = R.drawable.photo_collection_img
             )
 
             Spacer(modifier = Modifier.width(12.dp))
@@ -66,7 +68,8 @@ fun StaticChangeBackgroundScreen(
                         ChangeBackgroundScreenState.COLORS_SCREEN
                     )
                 },
-                subTitle = "Colors"
+                subTitle = "Colors",
+                drawableId = R.drawable.color_collection_img
             )
         }
 
@@ -85,20 +88,35 @@ fun StaticChangeBackgroundScreen(
             fontSize = 24.sp
         )
 
-        Box(
+        Row(
             modifier = Modifier
-                .fillMaxWidth(0.9f)
-                .padding(8.dp)
-                .height(120.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .background(MaterialTheme.colors.onBackground),
-            contentAlignment = Alignment.Center
+                .fillMaxWidth()
+                .padding(8.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            Icon(
-                modifier = Modifier.align(Alignment.Center),
-                imageVector = Icons.Default.Add,
-                tint = Color.Black,
-                contentDescription = "Add Custom Image Background Icon"
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .height(120.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(MaterialTheme.colors.onBackground),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    modifier = Modifier.align(Alignment.Center),
+                    imageVector = Icons.Default.Add,
+                    tint = Color.Black,
+                    contentDescription = "Add Custom Image Background Icon"
+                )
+            }
+
+            Spacer(modifier = Modifier.width(12.dp))
+
+            StaticImagePlaceHolderCard(
+                modifier = Modifier.weight(1f),
+                onImageClicked = {},
+                subTitle = "",
+                drawableId = R.drawable.bg_board
             )
         }
     }

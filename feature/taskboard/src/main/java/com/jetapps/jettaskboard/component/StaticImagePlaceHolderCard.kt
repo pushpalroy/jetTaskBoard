@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
@@ -19,39 +21,38 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.jetapps.jettaskboard.feature.taskboard.R
 
 @Composable
 fun StaticImagePlaceHolderCard(
     modifier: Modifier = Modifier,
     onImageClicked: (type: String) -> Unit,
-    subTitle: String
+    subTitle: String,
+    drawableId: Int
 ) {
-    Card(
-        modifier = modifier
-            .background(Color.Transparent)
-            .clickable {
-            onImageClicked(subTitle)
-        },
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
-        Column(
+        Card(
             modifier = Modifier
-                .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+                .background(Color.Transparent)
+                .clickable {
+                    onImageClicked(subTitle)
+                },
         ) {
             Image(
-                painter = painterResource(R.drawable.bg_board),
+                painter = painterResource(drawableId),
                 contentDescription = "background",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .height(120.dp)
                     .clip(RoundedCornerShape(8.dp)),
             )
-
-            Spacer(modifier = Modifier.height(4.dp))
-
-            Text(text = subTitle)
         }
+
+        Spacer(modifier = Modifier.height(4.dp))
+
+        Text(text = subTitle)
     }
 }

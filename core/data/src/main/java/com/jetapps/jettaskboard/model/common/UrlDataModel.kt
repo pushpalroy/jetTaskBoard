@@ -1,19 +1,19 @@
-package com.jetapps.jettaskboard.model
+package com.jetapps.jettaskboard.model.common
 
 
 import com.google.gson.annotations.SerializedName
 
 data class UrlDataModel(
     @SerializedName("raw")
-    var raw: String?,
+    val raw: String? = null,
     @SerializedName("full")
-    var full: String?,
+    val full: String? = null,
     @SerializedName("regular")
-    var regular: String?,
+    val regular: String? = null,
     @SerializedName("small")
-    var small: String?,
+    val small: String? = null,
     @SerializedName("thumb")
-    var thumb: String?,
+    val thumb: String? = null,
     @SerializedName("small_s3")
-    var smallS3: String?
+    val smallS3: String? = null
 )

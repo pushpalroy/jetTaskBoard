@@ -1,21 +1,20 @@
-package com.jetapps.jettaskboard.model
-
+package com.jetapps.jettaskboard.model.common
 
 import com.google.gson.annotations.SerializedName
 
 data class LinksDataModel(
     @SerializedName("self")
-    var self: String?,
+    val self: String? = null,
     @SerializedName("html")
-    var html: String?,
+    val html: String? = null,
     @SerializedName("photos")
-    var photos: String?,
+    val photos: String? = null,
     @SerializedName("likes")
-    var likes: String?,
+    val likes: String? = null,
     @SerializedName("portfolio")
-    var portfolio: String?,
+    val portfolio: String? = null,
     @SerializedName("following")
-    var following: String?,
+    val following: String? = null,
     @SerializedName("followers")
-    var followers: String?
+    val followers: String? = null
 )

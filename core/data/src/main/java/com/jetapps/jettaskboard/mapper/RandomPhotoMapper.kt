@@ -1,7 +1,7 @@
 package com.jetapps.jettaskboard.mapper
 
 import com.jetapps.jettaskboard.model.ChangeBackgroundPhotoModel
-import com.jetapps.jettaskboard.model.RandomPhotoItemDataModel
+import com.jetapps.jettaskboard.model.random.RandomPhotoItemDataModel
 import javax.inject.Inject
 
 class RandomPhotoMapper @Inject constructor() : EntityMapper<ChangeBackgroundPhotoModel, RandomPhotoItemDataModel> {

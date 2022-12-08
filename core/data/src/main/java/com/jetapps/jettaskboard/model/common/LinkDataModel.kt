@@ -1,15 +1,14 @@
-package com.jetapps.jettaskboard.model
-
+package com.jetapps.jettaskboard.model.common
 
 import com.google.gson.annotations.SerializedName
 
 data class LinkDataModel(
     @SerializedName("self")
-    var self: String?,
+    val self: String? = null,
     @SerializedName("html")
-    var html: String?,
+    val html: String? = null,
     @SerializedName("download")
-    var download: String?,
+    val download: String? = null,
     @SerializedName("download_location")
-    var downloadLocation: String?
+    val downloadLocation: String? = null
 )
