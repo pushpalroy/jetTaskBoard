@@ -125,6 +125,11 @@ object Lib {
         private const val TIMBER_VERSION = "5.0.1"
         const val TIMBER = "com.jakewharton.timber:timber:$TIMBER_VERSION"
     }
+
+    object Glance {
+            private const val GLANCE_VERSION = "1.0.0-alpha05"
+            const val GLANCE = "androidx.glance:glance-appwidget:$GLANCE_VERSION"
+        }
 }
 
 object TestLib {
