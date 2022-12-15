@@ -1,3 +1,4 @@
 <resources>
-  <string name="app_name">JetTaskBoard</string>
+    <string name="app_name">JetTaskBoard</string>
+    <string name="my_widget_description">JTB Info Widget</string>
 </resources>

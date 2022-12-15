@@ -8,5 +8,7 @@
     android:minResizeHeight="50dp"
     android:maxResizeHeight="200dp"
     android:resizeMode="horizontal|vertical"
-    android:widgetCategory="home_screen">
+    android:widgetCategory="home_screen"
+    android:previewLayout="@layout/four_by_one_preview_layout"
+    android:description="@string/my_widget_description">
 </appwidget-provider>
