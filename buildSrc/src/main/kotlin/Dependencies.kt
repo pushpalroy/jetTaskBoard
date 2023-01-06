@@ -41,6 +41,7 @@ object Lib {
         private const val WINDOW_METRICES_VERSION = "1.0.0"
         private const val ACTIVITY_VERSION = "1.6.0"
         private const val ACCOMPANIST_ADAPTIVE_VERSION = "0.26.4-beta"
+        private const val DATASTORE_VERSION = "1.0.0"
 
         const val APP_COMPAT = "androidx.appcompat:appcompat:1.4.1"
 
@@ -76,6 +77,9 @@ object Lib {
         const val COMPOSE_PLUCK = "com.himanshoe:pluck:1.0.0-RC2"
 
         const val DESIGN_SYSTEMS = ":core:designsystem"
+
+        const val JETPACK_DATASTORE = "androidx.datastore:datastore-preferences:$DATASTORE_VERSION"
+        const val JETPACK_DATASTORE_PREFERENCE_CORE = "androidx.datastore:datastore-preferences-core:$DATASTORE_VERSION"
     }
 
     object Di {

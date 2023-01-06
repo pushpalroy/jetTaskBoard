@@ -13,13 +13,15 @@ object TaskBoardDestination : JtbNavDestination {
 fun NavGraphBuilder.taskBoardGraph(
     isExpandedScreen: Boolean,
     navigateToCreateCard: (String) -> Unit = {},
+    navigateToChangeBackgroundScreen: (String) -> Unit = {},
     onBackClick: () -> Unit
 ) {
     composable(route = TaskBoardDestination.route) {
         TaskBoardRoute(
             isExpandedScreen = isExpandedScreen,
             navigateToCreateCard = navigateToCreateCard,
-            onBackClick = onBackClick
+            onBackClick = onBackClick,
+            navigateToChangeBackgroundScreen = navigateToChangeBackgroundScreen
         )
     }
 }

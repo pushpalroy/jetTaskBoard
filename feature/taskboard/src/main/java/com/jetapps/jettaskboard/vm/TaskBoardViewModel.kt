@@ -1,5 +1,6 @@
-package com.jetapps.jettaskboard
+package com.jetapps.jettaskboard.vm
 
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue // ktlint-disable import-ordering
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -7,17 +8,27 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.jetapps.jettaskboard.Result
+import com.jetapps.jettaskboard.board.ExpandedBoardDrawerState
+import com.jetapps.jettaskboard.change_bg.ChangeBackgroundScreenState
 import com.jetapps.jettaskboard.model.BoardModel
 import com.jetapps.jettaskboard.model.CardModel
 import com.jetapps.jettaskboard.model.ListModel
+import com.jetapps.jettaskboard.successOr
+import com.jetapps.jettaskboard.usecase.board.GetLatestBackgroundImgUrlUseCase
 import com.jetapps.jettaskboard.util.Board
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class TaskBoardViewModel @Inject constructor(savedStateHandle: SavedStateHandle) : ViewModel() {
+class TaskBoardViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
+    private val getLatestBackgroundImgUrlUseCase: GetLatestBackgroundImgUrlUseCase
+) : ViewModel() {
 
     /**
      * Holds the information of the [Board], a pair of ID and title.
@@ -39,6 +50,26 @@ class TaskBoardViewModel @Inject constructor(savedStateHandle: SavedStateHandle)
      * used to run recomposition whenever the new card is added.
      */
     var totalCards by mutableStateOf(0)
+    var latestBackgroundImgUri by mutableStateOf("")
+
+    private var _drawerScreenState = mutableStateOf(ExpandedBoardDrawerState.DRAWER_SCREEN_STATE)
+    val drawerScreenState: State<ExpandedBoardDrawerState> = _drawerScreenState
+
+    init {
+        getLatestBackgroundImgUri()
+    }
+
+    /**
+     * Get the cached latest Board Background Img URI
+     */
+    private fun getLatestBackgroundImgUri() = viewModelScope.launch {
+        delay(3000)
+        getLatestBackgroundImgUrlUseCase.invoke().collectLatest { imageUri ->
+            imageUri?.let { safeImageUri ->
+                latestBackgroundImgUri = safeImageUri
+            }
+        }
+    }
 
     /**
      * A Board has a list of Lists: Board = f(List)
@@ -101,5 +132,9 @@ class TaskBoardViewModel @Inject constructor(savedStateHandle: SavedStateHandle)
 
     private fun getFakeBoard(): Result<BoardModel> {
         return Result.Success(Board)
+    }
+
+    fun changeExpandedScreenState(newState: ExpandedBoardDrawerState) {
+        _drawerScreenState.value = newState
     }
 }

@@ -110,7 +110,6 @@ fun DashboardRoute(
                 )
             }
         ) { scaffoldPadding ->
-
             val permanentNavDrawerWidth by animateDpAsState(
                 targetValue = if (isMenuClickedInExpandedMode) 80.dp else 320.dp,
                 animationSpec = SpringSpec(

@@ -73,9 +73,19 @@ dependencies {
     implementation(Lib.Room.roomKtx)
     implementation(Lib.Room.roomPaging)
 
+    /* Datastore */
+    implementation(Lib.Android.JETPACK_DATASTORE)
+    implementation(Lib.Android.JETPACK_DATASTORE_PREFERENCE_CORE)
+
     /* Dependency Injection */
     api(Lib.Di.hiltAndroid)
     kapt(Lib.Di.hiltAndroidCompiler)
+
+    /** Networking **/
+    implementation(Lib.Networking.RETROFIT)
+    implementation(Lib.Networking.RETROFIT_GSON)
+    implementation(Lib.Networking.LOGGING)
+    implementation(Lib.Serialization.GSON)
 
     /* Testing */
     testImplementation(TestLib.JUNIT)

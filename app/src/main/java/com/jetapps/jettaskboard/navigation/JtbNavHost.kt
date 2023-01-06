@@ -82,6 +82,12 @@ fun JtbNavHost(
                     CardDetailsDestination,
                     CardDetailsDestination.route
                 )
+            },
+            navigateToChangeBackgroundScreen = {
+                onNavigateToDestination(
+                    ChangeBoardBackgroundDestination,
+                    ChangeBoardBackgroundDestination.route
+                )
             }
         )
 
@@ -95,6 +101,11 @@ fun JtbNavHost(
         )
 
         searchGraph(
+            isExpandedScreen = isExpandedScreen,
+            onBackClick = onBackClick
+        )
+
+        changeBoardBackgroundGraph(
             isExpandedScreen = isExpandedScreen,
             onBackClick = onBackClick
         )

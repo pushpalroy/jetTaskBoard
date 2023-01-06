@@ -35,6 +35,7 @@ import kotlinx.coroutines.launch
 fun TrelloComponentLoadingAnimation(
     modifier: Modifier = Modifier,
     widthOfCanvas: Dp = 30.dp,
+    removeBorderRectangle: Boolean = false,
     backgroundColor: Color = MaterialTheme.colors.onSurface,
     fillColor: Color = MaterialTheme.colors.onSurface
 ) {
@@ -188,32 +189,36 @@ fun TrelloComponentLoadingAnimation(
         modifier = modifier,
     ) {
         // Bordered Rectangle
-        drawRoundRect(
-            color = backgroundColor,
-            topLeft = Offset(
-                x = -widthOfLoadingRectangle.toPx(),
-                y = -widthOfLoadingRectangle.toPx()
-            ),
-            size = Size(
-                width = widthOfCanvas.toPx().plus(widthOfLoadingRectangle.toPx().times(2)),
-                height = widthOfCanvas.toPx().div(2).plus(widthOfLoadingRectangle.toPx().times(2))
-            ),
-            style = Stroke(
-                width = 2.dp.toPx()
-            ),
-            cornerRadius = CornerRadius(
-                x = 2f,
-                y = 2f
+        if (!removeBorderRectangle) {
+            drawRoundRect(
+                color = backgroundColor,
+                topLeft = Offset(
+                    x = -widthOfLoadingRectangle.toPx(),
+                    y = -widthOfLoadingRectangle.toPx()
+                ),
+                size = Size(
+                    width = widthOfCanvas.toPx().plus(widthOfLoadingRectangle.toPx().times(2)),
+                    height = widthOfCanvas.toPx().div(2)
+                        .plus(widthOfLoadingRectangle.toPx().times(2))
+                ),
+                style = Stroke(
+                    width = 2.dp.toPx()
+                ),
+                cornerRadius = CornerRadius(
+                    x = 2f,
+                    y = 2f
+                )
             )
-        )
 
-        drawRoundRect(
-            color = backgroundColor,
-            style = Stroke(
-                width = 2.dp.toPx()
-            ),
-            topLeft = Offset.Zero
-        )
+            drawRoundRect(
+                color = backgroundColor,
+                style = Stroke(
+                    width = 2.dp.toPx()
+                ),
+                topLeft = Offset.Zero
+            )
+        }
+
         drawRect(
             color = fillColor,
             topLeft = Offset(
