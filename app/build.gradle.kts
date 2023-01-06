@@ -115,9 +115,13 @@ dependencies {
 
     /* Logger */
     implementation(Lib.Logger.TIMBER)
+
     /* Async */
     implementation(Lib.Async.COROUTINES)
     implementation(Lib.Async.COROUTINES_ANDROID)
+
+    /* Glance AppWidgets */
+    implementation(Lib.Glance.GLANCE)
 
     /* Room */
     implementation(Lib.Room.roomRuntime)
