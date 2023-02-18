@@ -3,7 +3,7 @@ import Lib.Networking
 /** This file contains versions of all the dependencies used in the module  */
 
 object BuildPlugins {
-    private const val TOOLS_BUILD = "7.2.1"
+    private const val TOOLS_BUILD = "7.4.1"
     private const val KT_LINT = "9.2.1"
     private const val SAFE_ARGS = "2.3.5"
 
@@ -23,14 +23,15 @@ object BuildPlugins {
 
 object Lib {
     object Kotlin {
-        const val KOTLIN_VERSION = "1.7.0"
-        private const val KTX_CORE_VERSION = "1.7.0"
+        const val KOTLIN_VERSION = "1.8.10"
+        private const val KTX_CORE_VERSION = "1.9.0"
         const val KT_STD = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$KOTLIN_VERSION"
         const val KTX_CORE = "androidx.core:core-ktx:$KTX_CORE_VERSION"
     }
 
     object Android {
-        private const val COMPOSE_VERSION = "1.2.0"
+        private const val COMPOSE_VERSION = "1.4.2"
+        private const val COMPOSE_BOM_VERSION = "2023.01.00"
         const val COMPOSE_COMPILER_VERSION = COMPOSE_VERSION
         private const val COMPOSE_ACTIVITY_VERSION = "1.5.1"
         private const val COMPOSE_CONSTRAINT_LAYOUT_VERSION = "1.0.0"
@@ -39,33 +40,34 @@ object Lib {
         private const val ACCOMPANIST_VERSION = "0.24.13-rc"
         private const val ACCOMPANIST_FLOW_LAYOUT_VERSION = "0.24.13-rc"
         private const val WINDOW_METRICES_VERSION = "1.0.0"
-        private const val ACTIVITY_VERSION = "1.6.0"
+        private const val ACTIVITY_VERSION = "1.6.1"
         private const val ACCOMPANIST_ADAPTIVE_VERSION = "0.26.4-beta"
         private const val DATASTORE_VERSION = "1.0.0"
 
         const val APP_COMPAT = "androidx.appcompat:appcompat:1.4.1"
 
         // Compose
+        const val COMPOSE_BOM = "androidx.compose:compose-bom:$COMPOSE_BOM_VERSION"
         const val ACTIVITY_COMPOSE = "androidx.activity:activity-compose:$COMPOSE_ACTIVITY_VERSION"
         const val CONSTRAINT_LAYOUT_COMPOSE = "androidx.constraintlayout:constraintlayout-compose:$COMPOSE_CONSTRAINT_LAYOUT_VERSION"
-        const val COMPOSE_TOOLING = "androidx.compose.ui:ui-tooling:$COMPOSE_VERSION"
-        const val COMPOSE_TOOLING_PREVIEW = "androidx.compose.ui:ui-tooling-preview:$COMPOSE_VERSION"
-        const val COMPOSE_UI_UTIL = "androidx.compose.ui:ui-util:$COMPOSE_VERSION"
+        const val COMPOSE_TOOLING = "androidx.compose.ui:ui-tooling"
+        const val COMPOSE_TOOLING_PREVIEW = "androidx.compose.ui:ui-tooling-preview"
+        const val COMPOSE_UI_UTIL = "androidx.compose.ui:ui-util"
         const val ACCOMPANIST_SYSTEM_UI_CONTROLLER = "com.google.accompanist:accompanist-systemuicontroller:$ACCOMPANIST_VERSION"
         const val ACCOMPANIST_FLOW_LAYOUTS = "com.google.accompanist:accompanist-flowlayout:$ACCOMPANIST_VERSION"
         const val COIL_COMPOSE = "io.coil-kt:coil-compose:$COMPOSE_COIL_VERSION"
-        const val COMPOSE_LIVEDATA = "androidx.compose.runtime:runtime-livedata:$COMPOSE_VERSION"
+        const val COMPOSE_LIVEDATA = "androidx.compose.runtime:runtime-livedata"
         const val COMPOSE_NAVIGATION = "androidx.navigation:navigation-compose:$COMPOSE_NAVIGATION_VERSION"
-        const val MATERIAL_DESIGN = "androidx.compose.material:material:$COMPOSE_VERSION"
+        const val MATERIAL_DESIGN = "androidx.compose.material:material"
         const val ACCOMPANIST_INSETS = "com.google.accompanist:accompanist-insets:$ACCOMPANIST_VERSION"
         const val ACCOMPANIST_INSETS_UI = "com.google.accompanist:accompanist-insets-ui:$ACCOMPANIST_VERSION"
         const val ACCOMPANIST_COIL = "com.google.accompanist:accompanist-coil:0.14.0"
         const val ACCOMPANIST_PERMISSION = "com.google.accompanist:accompanist-permissions:$ACCOMPANIST_VERSION"
         const val ACCOMPANIST_ADAPTIVE = "com.google.accompanist:accompanist-adaptive:$ACCOMPANIST_ADAPTIVE_VERSION"
-        const val COMPOSE_JUNIT = "androidx.compose.ui:ui-test-junit4:$COMPOSE_VERSION"
+        const val COMPOSE_JUNIT = "androidx.compose.ui:ui-test-junit4"
         const val HILT_TESTING = "com.google.dagger:hilt-android-testing:2.44"
         const val KAPT_HILT_TESTING = "com.google.dagger:hilt-android-compiler:2.44"
-        const val COMPOSE_TEST_MANIFEST = "androidx.compose.ui:ui-test-manifest:$COMPOSE_VERSION"
+        const val COMPOSE_TEST_MANIFEST = "androidx.compose.ui:ui-test-manifest"
         const val COMPOSE_WINDOW_MATRICES = "androidx.window:window:$WINDOW_METRICES_VERSION"
         const val ACTIVITY_KTX = "androidx.activity:activity-ktx:$ACTIVITY_VERSION"
 
@@ -83,7 +85,7 @@ object Lib {
     }
 
     object Di {
-        const val DAGGER_VERSION = "2.43"
+        const val DAGGER_VERSION = "2.44"
         const val hiltAndroid = "com.google.dagger:hilt-android:$DAGGER_VERSION"
         const val hiltAndroidCompiler = "com.google.dagger:hilt-android-compiler:$DAGGER_VERSION"
 

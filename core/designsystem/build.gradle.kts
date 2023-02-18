@@ -63,6 +63,7 @@ dependencies {
     implementation(project(":core:domain"))
 
     /* Android Designing and layout */
+    implementation(platform(Lib.Android.COMPOSE_BOM))
     implementation(Lib.Android.MATERIAL_DESIGN)
     implementation(Lib.Android.ACCOMPANIST_SYSTEM_UI_CONTROLLER)
 

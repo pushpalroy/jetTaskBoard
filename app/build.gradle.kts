@@ -68,6 +68,7 @@ kapt {
 }
 
 dependencies {
+    implementation(platform(Lib.Android.COMPOSE_BOM))
     implementation(project(":feature:dashboard"))
     implementation(project(":feature:card"))
     implementation(project(":feature:taskboard"))
@@ -79,8 +80,8 @@ dependencies {
     implementation(project(":core:navigation"))
 
     implementation("androidx.tracing:tracing-ktx:1.1.0")
-    implementation("androidx.compose.material3:material3:1.0.0-beta03")
-    implementation("androidx.compose.material3:material3-window-size-class:1.0.0-beta03")
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.material3:material3-window-size-class")
 
     /* Android Designing and layout */
     implementation(Lib.Android.COMPOSE_LIVEDATA)

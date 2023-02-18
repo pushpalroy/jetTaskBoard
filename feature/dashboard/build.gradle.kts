@@ -73,6 +73,7 @@ dependencies {
     implementation("androidx.compose.material3:material3-window-size-class:1.0.0-beta03")
 
     /* Android Designing and layout */
+    implementation(platform(Lib.Android.COMPOSE_BOM))
     implementation(Lib.Android.COMPOSE_LIVEDATA)
     implementation(Lib.Android.COMPOSE_NAVIGATION)
     implementation(Lib.Kotlin.KT_STD)

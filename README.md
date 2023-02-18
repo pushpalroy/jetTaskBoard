@@ -8,10 +8,10 @@
 
   <p align="left">
       <a href = "https://developer.android.com/jetpack/androidx/versions/all-channel#february_23_2022">
-        <img src = "https://img.shields.io/badge/Jetpack%20Compose-1.2.0-blue.svg?color=blue&style=for-the-badge" />
+        <img src = "https://img.shields.io/badge/Jetpack%20Compose-1.4.2-blue.svg?color=blue&style=for-the-badge" />
       </a>
       <a href="https://kotlinlang.org/docs/releases.html">
-        <img src="https://img.shields.io/badge/Kotlin-1.7.0-blue.svg?color=blue&style=for-the-badge"/>
+        <img src="https://img.shields.io/badge/Kotlin-1.8.10-blue.svg?color=blue&style=for-the-badge"/>
       </a>
       <a href = "https://github.com/pushpalroy/jetTaskBoard/stargazers">
         <img src="https://img.shields.io/github/stars/pushpalroy/jetTaskBoard?color=green&style=for-the-badge" />

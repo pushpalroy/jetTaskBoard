@@ -70,6 +70,7 @@ dependencies {
     implementation(project(":core:common"))
 
     /* Android Designing and layout */
+    implementation(platform(Lib.Android.COMPOSE_BOM))
     implementation(Lib.Android.COMPOSE_LIVEDATA)
     implementation(Lib.Android.COMPOSE_NAVIGATION)
     implementation(Lib.Kotlin.KT_STD)

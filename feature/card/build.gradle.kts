@@ -69,6 +69,7 @@ dependencies {
     implementation(project(":core:common"))
 
     /* Android Designing and layout */
+    implementation(platform(Lib.Android.COMPOSE_BOM))
     implementation(Lib.Android.COMPOSE_LIVEDATA)
     implementation(Lib.Android.COMPOSE_NAVIGATION)
     implementation(Lib.Kotlin.KT_STD)
@@ -90,7 +91,7 @@ dependencies {
     implementation(Lib.Di.hiltAndroid)
     implementation(Lib.Di.hiltNavigationCompose)
     implementation(Lib.Android.COMPOSE_TOOLING_PREVIEW)
-    implementation("androidx.test:runner:1.4.0")
+    implementation("androidx.test:runner:1.5.2")
     debugImplementation(Lib.Android.COMPOSE_TOOLING)
 
     implementation(Lib.Android.PROFILE_INSTALLER)
