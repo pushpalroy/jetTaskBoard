@@ -27,6 +27,9 @@
       </a>
   </p>
 
+This repository is no longer maintained and has been migrated to Compose Multiplatform: [JetTaskBoardKMP](https://github.com/pushpalroy/JetTaskBoardKMP).
+All new updates and improvements are done in the JetTaskBoardKMP repo.
+
 ### Board with drag and drop
 
 <video src="https://user-images.githubusercontent.com/19844292/195022680-f15e907d-0e55-4d22-8bcc-bfdbb6a5ef83.mp4"></video>
