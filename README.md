@@ -1,3 +1,6 @@
+This repository is no longer maintained and has been migrated to Compose Multiplatform: [JetTaskBoardKMP](https://github.com/pushpalroy/JetTaskBoardKMP).
+All new updates and improvements are done in the JetTaskBoardKMP repo.
+
 ![](https://user-images.githubusercontent.com/110823088/195292319-a23c6bc7-ca92-4c11-8917-efe216d26c63.png)
 
 <div id="top"></div>
@@ -26,9 +29,6 @@
           <img src="https://img.shields.io/github/issues/pushpalroy/jetTaskBoard?color=orange&style=for-the-badge" />
       </a>
   </p>
-
-This repository is no longer maintained and has been migrated to Compose Multiplatform: [JetTaskBoardKMP](https://github.com/pushpalroy/JetTaskBoardKMP).
-All new updates and improvements are done in the JetTaskBoardKMP repo.
 
 ### Board with drag and drop
 
