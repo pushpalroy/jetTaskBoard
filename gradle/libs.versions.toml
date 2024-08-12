@@ -178,7 +178,6 @@ androidx-datastore-preferences-core-jvm = { group = "androidx.datastore", name =
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
-android-library-no-version = { id = "com.android.library" }
 android-test = { id = "com.android.test", version.ref = "androidGradlePlugin" }
 baselineprofile = { id = "androidx.baselineprofile", version.ref = "androidxMacroBenchmark" }
 compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
@@ -192,5 +191,5 @@ module-graph = { id = "com.jraska.module.graph.assertion", version.ref = "module
 room = { id = "androidx.room", version.ref = "room" }
 secrets = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secrets" }
 android-kotlin = { id = "kotlin-android", version.ref = "kotlin" }
-android-parcelize = { id = "kotlin-parcelize", version.ref = "kotlin-parcelize-version" }
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin-parcelize-version" }
 

@@ -5,12 +5,11 @@ plugins {
 
 android {
     namespace = "com.jetapps.jettaskboard.core.navigation"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 28
-//        targetSdk = 32
-
+        targetSdk = 35
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }

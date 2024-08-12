@@ -1,19 +1,19 @@
 plugins {
-    id(BuildPlugins.ANDROID_LIBRARY_PLUGIN)
+    id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id(BuildPlugins.KOTLIN_PARCELABLE_PLUGIN)
-    id(BuildPlugins.DAGGER_HILT)
+    id("org.jetbrains.kotlin.plugin.parcelize")
+    id("com.google.dagger.hilt.android")
     id("com.google.devtools.ksp")
     alias(libs.plugins.compose)
 }
 
 android {
     namespace = "com.jetapps.jettaskboard.core.data"
-    compileSdk = (ProjectProperties.COMPILE_SDK)
+    compileSdk = 35
 
     defaultConfig {
-        minSdk = (ProjectProperties.MIN_SDK)
-        targetSdk = (ProjectProperties.TARGET_SDK)
+        minSdk = 28
+        targetSdk = 35
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

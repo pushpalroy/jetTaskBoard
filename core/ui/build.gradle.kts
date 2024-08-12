@@ -1,18 +1,17 @@
 plugins {
-    id(BuildPlugins.ANDROID_LIBRARY_PLUGIN)
+    id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id(BuildPlugins.KOTLIN_PARCELABLE_PLUGIN)
-//    alias(libs.plugins.compose)
+    id("org.jetbrains.kotlin.plugin.parcelize")
     id(libs.plugins.compose.get().pluginId)
 }
 
 android {
     namespace = "com.jetapps.jettaskboard.core.ui"
-    compileSdk = (ProjectProperties.COMPILE_SDK)
+    compileSdk = 35
 
     defaultConfig {
-        minSdk = (ProjectProperties.MIN_SDK)
-        targetSdk = (ProjectProperties.TARGET_SDK)
+        minSdk = 28
+        targetSdk = 35
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

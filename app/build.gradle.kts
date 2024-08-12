@@ -5,21 +5,16 @@ plugins {
     id(libs.plugins.hilt.get().pluginId)
     id(libs.plugins.baselineprofile.get().pluginId)
     id("com.google.devtools.ksp")
-
-//    alias(libs.plugins.android.application)
-//    alias(libs.plugins.compose)
-//    alias(libs.plugins.hilt)
-//    alias(libs.plugins.baselineprofile)
 }
 
 android {
     namespace = "com.jetapps.jettaskboard"
-    compileSdk = ProjectProperties.COMPILE_SDK
+    compileSdk = 35
 
     defaultConfig {
-        applicationId = ProjectProperties.APPLICATION_ID
-        minSdk = ProjectProperties.MIN_SDK
-        targetSdk = ProjectProperties.TARGET_SDK
+        applicationId = "com.jetapps.jettaskboard"
+        minSdk = 28
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
