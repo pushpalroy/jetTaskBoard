@@ -1,4 +1,14 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+
 rootProject.name = "JetTaskBoard"
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 include (":app")
 include (":feature:dashboard")
 include (":feature:search")

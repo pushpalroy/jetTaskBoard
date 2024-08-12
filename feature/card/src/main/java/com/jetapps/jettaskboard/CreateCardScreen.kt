@@ -44,7 +44,6 @@ import com.jetapps.jettaskboard.theme.DefaultTaskBoardBGColor
 import com.jetapps.jettaskboard.theme.LabelOrange
 import com.jetapps.jettaskboard.theme.SecondaryColor
 import com.vanpra.composematerialdialogs.MaterialDialog
-import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 
 @Composable
@@ -77,12 +76,16 @@ fun CreateCardRoute(
             )
         }
     ) {
-        AdaptiveCreateCardContent(isExpandedScreen, viewModel)
+        AdaptiveCreateCardContent(
+            modifier = modifier.padding(it),
+            isExpandedScreen, viewModel
+        )
     }
 }
 
 @Composable
 fun AdaptiveCreateCardContent(
+    modifier: Modifier,
     isExpandedScreen: Boolean,
     viewModel: CardViewModel
 ) {
@@ -255,17 +258,18 @@ fun CardInfoBox(viewModel: CardViewModel) {
                             negativeButton("Cancel")
                         }
                     ) {
-                        datepicker {
-                            // Do something with the date
-                            if (viewModel.isTopText.value) viewModel.startDateText.value =
-                                "Starts on ${it.dayOfMonth} ${
-                                (it.month).toString().lowercase()
-                                }, ${it.year}"
-                            if (viewModel.isBottomText.value) viewModel.dueDateText.value =
-                                "Due on ${it.dayOfMonth} ${
-                                (it.month).toString().lowercase()
-                                }, ${it.year}"
-                        }
+                        // Todo(Niket): Implement the material official date-picker
+//                        datepicker {
+//                            // Do something with the date
+//                            if (viewModel.isTopText.value) viewModel.startDateText.value =
+//                                "Starts on ${it.dayOfMonth} ${
+//                                    (it.month).toString().lowercase()
+//                                }, ${it.year}"
+//                            if (viewModel.isBottomText.value) viewModel.dueDateText.value =
+//                                "Due on ${it.dayOfMonth} ${
+//                                    (it.month).toString().lowercase()
+//                                }, ${it.year}"
+//                        }
                     }
                 }
 
