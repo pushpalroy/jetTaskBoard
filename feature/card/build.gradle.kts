@@ -1,13 +1,13 @@
-import Lib.Android.ACCOMPANIST_SYSTEM_UI_CONTROLLER
-
 plugins {
     id(BuildPlugins.ANDROID_LIBRARY_PLUGIN)
-    id(BuildPlugins.KOTLIN_ANDROID_PLUGIN)
+    id("org.jetbrains.kotlin.android")
     id(BuildPlugins.KOTLIN_PARCELABLE_PLUGIN)
-    id(BuildPlugins.KOTLIN_KAPT)
+    id("com.google.devtools.ksp")
+    alias(libs.plugins.compose)
 }
 
 android {
+    namespace = "com.jetapps.jettaskboard.feature.card"
     compileSdk = (ProjectProperties.COMPILE_SDK)
 
     defaultConfig {
@@ -27,112 +27,90 @@ android {
     }
 
     buildFeatures {
-        dataBinding = true
-    }
-
-    buildFeatures {
         compose = true
     }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = Lib.Android.COMPOSE_COMPILER_VERSION
-    }
-    packagingOptions {
-        resources.excludes.add("META-INF/LICENSE.txt")
-        resources.excludes.add("META-INF/NOTICE.txt")
-        resources.excludes.add("LICENSE.txt")
-        resources.excludes.add("/META-INF/{AL2.0,LGPL2.1}")
+    packaging {
+        resources {
+            excludes.add("/META-INF/{AL2.0,LGPL2.1}")
+        }
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
-}
-
-// Required for annotation processing plugins like Dagger
-kapt {
-    generateStubs = true
-    correctErrorTypes = true
 }
 
 dependencies {
 
-    implementation(project(":core:domain"))
-
-    implementation(project(":core:navigation"))
-    implementation(project(":core:designsystem"))
-    implementation(project(":core:common"))
+    implementation(projects.core.domain)
+    implementation(projects.core.navigation)
+    implementation(projects.core.designsystem)
+    implementation(projects.core.common)
 
     /* Android Designing and layout */
-    implementation(platform(Lib.Android.COMPOSE_BOM))
-    implementation(Lib.Android.COMPOSE_LIVEDATA)
-    implementation(Lib.Android.COMPOSE_NAVIGATION)
-    implementation(Lib.Kotlin.KT_STD)
-    implementation(Lib.Android.MATERIAL_DESIGN)
-    implementation(Lib.Android.CONSTRAINT_LAYOUT_COMPOSE)
-    implementation(Lib.Android.ACCOMPANIST_INSETS)
-    implementation(Lib.Android.ACCOMPANIST_INSETS_UI)
-    implementation(ACCOMPANIST_SYSTEM_UI_CONTROLLER)
-    implementation(Lib.Android.ACCOMPANIST_FLOW_LAYOUTS)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.kotlin.stdlib)
+    implementation(libs.compose.material)
+    implementation(libs.androidx.compose.constraint.layout)
+    implementation(libs.androidx.compose.accompanist.insets)
+    implementation(libs.androidx.compose.accompanist.insets.ui)
+    implementation(libs.androidx.compose.accompanist.flow.layout)
+    implementation(libs.accompanist.permissions)
+    implementation(libs.androidx.window)
 
-    implementation(Lib.Android.APP_COMPAT)
-    implementation(Lib.Kotlin.KTX_CORE)
+    implementation(libs.vanpra.material.dialog)
+    implementation(libs.pluck)
+    implementation(libs.accompanist.adaptive)
+
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.core.ktx)
+
+
+    implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.androidx.compose.ui.tooling)
 
     /* Image Loading */
-    implementation(Lib.Android.COIL_COMPOSE)
-    implementation(Lib.Android.ACCOMPANIST_COIL)
+    implementation(libs.coil.kt)
 
     /* DI */
-    implementation(Lib.Di.hiltAndroid)
-    implementation(Lib.Di.hiltNavigationCompose)
-    implementation(Lib.Android.COMPOSE_TOOLING_PREVIEW)
-    implementation("androidx.test:runner:1.5.2")
-    debugImplementation(Lib.Android.COMPOSE_TOOLING)
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
 
-    implementation(Lib.Android.PROFILE_INSTALLER)
-
-    kapt(Lib.Di.hiltCompiler)
-    kapt(Lib.Di.hiltAndroidCompiler)
+    /* Profile Installer */
+    implementation(libs.androidx.profileinstaller)
 
     /* Logger */
-    implementation(Lib.Logger.TIMBER)
+    implementation(libs.timber)
+
     /* Async */
-    implementation(Lib.Async.COROUTINES)
-    implementation(Lib.Async.COROUTINES_ANDROID)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
 
     /* Room */
-    implementation(Lib.Room.roomRuntime)
-    kapt(Lib.Room.roomCompiler)
-    implementation(Lib.Room.roomKtx)
-    implementation(Lib.Room.roomPaging)
+    implementation(libs.room.runtime)
+    ksp(libs.room.compiler)
+    implementation(libs.room.ktx)
+    implementation(libs.room.paging)
 
     /* Testing */
-    testImplementation(TestLib.JUNIT)
-    testImplementation(TestLib.CORE_TEST)
-    testImplementation(TestLib.ANDROID_JUNIT)
-    testImplementation(TestLib.ARCH_CORE)
-    testImplementation(TestLib.MOCK_WEB_SERVER)
-    testImplementation(TestLib.ROBO_ELECTRIC)
-    testImplementation(TestLib.COROUTINES)
-    testImplementation(TestLib.MOCKK)
-    androidTestImplementation(Lib.Android.COMPOSE_JUNIT)
-    androidTestImplementation(Lib.Android.HILT_TESTING)
-    debugImplementation(Lib.Android.COMPOSE_TEST_MANIFEST)
-
-    kaptAndroidTest(Lib.Android.KAPT_HILT_TESTING)
-
-    implementation(Lib.Android.CONSTRAINT_LAYOUT)
-    implementation(Lib.Android.COMPOSE_CALENDAR)
-    implementation(Lib.Android.COMPOSE_PLUCK)
-    implementation(Lib.Android.COIL_COMPOSE)
-    implementation(Lib.Android.ACCOMPANIST_COIL)
-    implementation(Lib.Android.ACCOMPANIST_PERMISSION)
-    implementation(Lib.Android.ACCOMPANIST_FLOW_LAYOUTS)
-    implementation(Lib.Android.ACCOMPANIST_ADAPTIVE)
-    implementation(Lib.Android.COMPOSE_WINDOW_MATRICES)
+    implementation(libs.androidx.test.runner)
+    testImplementation(libs.junit)
+    testImplementation(libs.androidx.test.core)
+    testImplementation(libs.androidx.arch.core)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockk)
+    androidTestImplementation(libs.androidx.compose.ui.test)
+    androidTestImplementation(libs.hilt.android.testing)
+    debugImplementation(libs.androidx.compose.ui.testManifest)
+//    testImplementation(libs.androidx.test.ext.junit)
+//    kspTest(libs.hilt.android.compiler)
 }

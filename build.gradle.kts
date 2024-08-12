@@ -4,32 +4,35 @@ buildscript {
         google()
         maven("https://plugins.gradle.org/m2/")
     }
-    dependencies {
-        classpath(BuildPlugins.TOOLS_BUILD_GRADLE)
-        classpath(BuildPlugins.DAGGER_HILT_PLUGIN)
-        classpath(BuildPlugins.KOTLIN_GRADLE_PLUGIN)
-        classpath(BuildPlugins.KTLINT_GRADLE_PLUGIN)
-        classpath(kotlin("serialization", version = Lib.Kotlin.KOTLIN_VERSION))
-        // classpath(BuildPlugins.KTLINT_GRADLE_PLUGIN)
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-    }
 }
+
+plugins {
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.android.test) apply false
+    alias(libs.plugins.baselineprofile) apply false
+    alias(libs.plugins.compose) apply false
+    alias(libs.plugins.kotlin.jvm) apply false
+    alias(libs.plugins.kotlin.serialization) apply false
+    alias(libs.plugins.dependencyGuard) apply false
+    alias(libs.plugins.gms) apply false
+    alias(libs.plugins.hilt) apply false
+    alias(libs.plugins.ksp) apply false
+    alias(libs.plugins.secrets) apply false
+    alias(libs.plugins.room) apply false
+    alias(libs.plugins.module.graph) apply true // Plugin applied to allow module graph generation
+    id("org.jlleitschuh.gradle.ktlint") version "12.1.1" apply false
+    id("org.jetbrains.kotlin.android") version "2.0.0" apply false
+}
+
 subprojects {
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
 }
+
 allprojects {
     repositories {
         google()
         mavenCentral()
-    }
-
-    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
-        kotlinOptions.freeCompilerArgs += listOf(
-            "-Xopt-in=kotlin.RequiresOptIn",
-            "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
-        )
-        kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 }
 

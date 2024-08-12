@@ -1,11 +1,13 @@
 plugins {
     id(BuildPlugins.ANDROID_LIBRARY_PLUGIN)
-    id(BuildPlugins.KOTLIN_ANDROID_PLUGIN)
+    id("org.jetbrains.kotlin.android")
     id(BuildPlugins.KOTLIN_PARCELABLE_PLUGIN)
-    id(BuildPlugins.KOTLIN_KAPT)
+//    alias(libs.plugins.compose)
+    id(libs.plugins.compose.get().pluginId)
 }
 
 android {
+    namespace = "com.jetapps.jettaskboard.core.ui"
     compileSdk = (ProjectProperties.COMPILE_SDK)
 
     defaultConfig {
@@ -25,47 +27,34 @@ android {
     }
 
     buildFeatures {
-        dataBinding = true
-    }
-
-    buildFeatures {
         compose = true
     }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = Lib.Android.COMPOSE_COMPILER_VERSION
-    }
-    packagingOptions {
-        resources.excludes.add("META-INF/LICENSE.txt")
-        resources.excludes.add("META-INF/NOTICE.txt")
-        resources.excludes.add("LICENSE.txt")
-        resources.excludes.add("/META-INF/{AL2.0,LGPL2.1}")
+    packaging {
+        resources {
+            excludes.add("/META-INF/{AL2.0,LGPL2.1}")
+        }
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
-}
-
-// Required for annotation processing plugins like Dagger
-kapt {
-    generateStubs = true
-    correctErrorTypes = true
 }
 
 dependencies {
     /* Android Designing and layout */
-    implementation(platform(Lib.Android.COMPOSE_BOM))
-    implementation(Lib.Android.MATERIAL_DESIGN)
-    implementation(Lib.Android.COMPOSE_UI_UTIL)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.compose.material)
+    implementation(libs.androidx.compose.ui.util)
+
 
     /* Testing */
-    testImplementation(TestLib.JUNIT)
-    testImplementation(TestLib.CORE_TEST)
-    testImplementation(TestLib.ANDROID_JUNIT)
+    testImplementation(libs.junit)
+    testImplementation(libs.androidx.test.core)
+//    testImplementation(libs.androidx.test.ext.junit)
 }

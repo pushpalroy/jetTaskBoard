@@ -7,14 +7,14 @@ import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "listTable",
-    foreignKeys = [
-        ForeignKey(
-            entity = BoardEntity::class,
-            parentColumns = ["id"],
-            childColumns = ["board_id"],
-            onDelete = ForeignKey.CASCADE
-        )
-    ]
+//    foreignKeys = [
+//        ForeignKey(
+//            entity = BoardEntity::class,
+//            parentColumns = ["id"],
+//            childColumns = ["board_id"],
+//            onDelete = ForeignKey.CASCADE
+//        )
+//    ]
 )
 data class ListEntity(
     @PrimaryKey val id: String,

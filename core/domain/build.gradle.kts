@@ -1,16 +1,18 @@
 plugins {
     id("java-library")
     id("org.jetbrains.kotlin.jvm")
+    id("com.google.devtools.ksp")
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 dependencies {
-    api(Lib.Kotlin.KT_STD)
-    api(Lib.Async.COROUTINES)
-    implementation("androidx.paging:paging-common-ktx:3.1.1")
-    implementation(Lib.Di.hiltCore)
+    api(libs.kotlin.stdlib)
+    api(libs.kotlinx.coroutines.core)
+    implementation(libs.androidx.paging.common.ktx)
+//    implementation(libs.hilt.core)
+    implementation(libs.hilt.core)
 }

@@ -38,7 +38,6 @@ import com.jetapps.jettaskboard.CardViewModel
 import com.jetapps.jettaskboard.feature.card.R
 import com.jetapps.jettaskboard.uimodel.CardDetail
 import com.vanpra.composematerialdialogs.MaterialDialog
-import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 
 @OptIn(ExperimentalPermissionsApi::class)
@@ -126,17 +125,18 @@ fun CardDetailsContent(
                     negativeButton("Cancel")
                 }
             ) {
-                datepicker {
-                    // Do something with the date
-                    if (viewModel.isTopText.value) viewModel.startDateText.value =
-                        "Starts on ${it.dayOfMonth} ${
-                        (it.month).toString().lowercase()
-                        }, ${it.year}"
-                    if (viewModel.isBottomText.value) viewModel.dueDateText.value =
-                        "Due on ${it.dayOfMonth} ${
-                        (it.month).toString().lowercase()
-                        }, ${it.year}"
-                }
+                // TODO(Niket): Implement the material official ate-picker composable
+//                datepicker {
+//                    // Do something with the date
+//                    if (viewModel.isTopText.value) viewModel.startDateText.value =
+//                        "Starts on ${it.dayOfMonth} ${
+//                        (it.month).toString().lowercase()
+//                        }, ${it.year}"
+//                    if (viewModel.isBottomText.value) viewModel.dueDateText.value =
+//                        "Due on ${it.dayOfMonth} ${
+//                        (it.month).toString().lowercase()
+//                        }, ${it.year}"
+//                }
             }
         }
 
