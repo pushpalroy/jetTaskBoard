@@ -10,7 +10,7 @@ java {
 }
 
 dependencies {
-    api(libs.kotlin.stdlib)
+//    api(libs.kotlin.stdlib)
     api(libs.kotlinx.coroutines.core)
     implementation(libs.androidx.paging.common.ktx)
 //    implementation(libs.hilt.core)

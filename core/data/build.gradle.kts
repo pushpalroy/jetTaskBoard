@@ -57,7 +57,6 @@ dependencies {
 
     /* Room */
     implementation(libs.room.runtime)
-    implementation(libs.androidx.datastore.preferences.core.jvm)
     ksp(libs.room.compiler)
     implementation(libs.room.ktx)
     implementation(libs.room.paging)
@@ -65,6 +64,7 @@ dependencies {
     /* Datastore */
     implementation(libs.androidx.dataStore)
     implementation(libs.androidx.dataStore.core)
+    implementation(libs.androidx.datastore.preferences.core.jvm)
 
     /* Dependency Injection */
     api(libs.hilt.android)

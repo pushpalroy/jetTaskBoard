@@ -61,7 +61,7 @@ dependencies {
     implementation(libs.androidx.compose.material3.windowSizeClass)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.hilt.navigation.compose)
-    implementation(libs.kotlin.stdlib)
+//    implementation(libs.kotlin.stdlib)
     implementation(libs.compose.material)
     implementation(libs.androidx.compose.constraint.layout)
     implementation(libs.androidx.compose.accompanist.insets)

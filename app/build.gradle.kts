@@ -60,6 +60,7 @@ android {
     }
 }
 
+
 dependencies {
 
     // Projects
@@ -94,7 +95,7 @@ dependencies {
     implementation(libs.androidx.window)
 
     // Kotlin
-    implementation(libs.kotlin.stdlib)
+//    implementation(libs.kotlin.stdlib)
 
     // Hilt
     implementation(libs.hilt.android)
@@ -130,8 +131,8 @@ dependencies {
     implementation(libs.glance)
 
     /* Room */
-    implementation(libs.room.compiler)
     implementation(libs.room.runtime)
+    ksp(libs.room.compiler)
     implementation(libs.room.ktx)
     implementation(libs.room.paging)
 
