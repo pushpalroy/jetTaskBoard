@@ -1,5 +1,6 @@
 package com.jetapps.jettaskboard
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.SpringSpec
 import androidx.compose.animation.core.animateDpAsState
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.DrawerState
 import androidx.compose.material.DrawerValue
@@ -21,6 +23,11 @@ import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Surface
 import androidx.compose.material.rememberDrawerState
 import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
+import androidx.compose.material3.adaptive.layout.AnimatedPane
+import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
+import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
+import androidx.compose.material3.adaptive.navigation.rememberSupportingPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -73,7 +80,6 @@ fun DashboardRoute(
             modifier = Modifier,
             topBar = {
                 DashboardAppBar(
-                    isExpandedScreen = isExpandedScreen,
                     onMenuIconClick = {
                         scope.launch {
                             if (isExpandedScreen.not()) {
@@ -145,6 +151,7 @@ fun DashboardRoute(
     }
 }
 
+@OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 fun AdaptiveDashboardContent(
     isExpandedScreen: Boolean,
@@ -152,19 +159,35 @@ fun AdaptiveDashboardContent(
     viewModel: DashboardViewModel,
     navigateToTaskBoard: (String) -> Unit = {}
 ) {
-    if (isExpandedScreen.not()) {
-        DashboardSinglePaneContent(
-            paddingValues = contentPadding,
-            viewModel = viewModel,
-            navigateToTaskBoard = navigateToTaskBoard
-        )
-    } else {
-        DashboardTwoPaneContent(
-            paddingValues = contentPadding,
-            viewModel = viewModel,
-            navigateToTaskBoard = navigateToTaskBoard
-        )
+//    val navigator = rememberSupportingPaneScaffoldNavigator<String>()
+    val navigator = rememberListDetailPaneScaffoldNavigator<String>()
+
+    BackHandler(navigator.canNavigateBack()) {
+        navigator.navigateBack()
     }
+
+    ListDetailPaneScaffold(
+        modifier = Modifier.padding(contentPadding),
+        directive = navigator.scaffoldDirective,
+        value = navigator.scaffoldValue,
+        listPane = {
+            AnimatedPane {
+                DashboardMainPaneContent(
+                    isExpanded = isExpandedScreen,
+                    viewModel = viewModel,
+                    navigateToTaskBoard = navigateToTaskBoard
+                )
+            }
+        },
+        detailPane = {
+            AnimatedPane {
+                DashboardDetailPane(
+                    viewModel = viewModel,
+                    navigateToTaskBoard = navigateToTaskBoard
+                )
+            }
+        },
+    )
 }
 
 @Composable

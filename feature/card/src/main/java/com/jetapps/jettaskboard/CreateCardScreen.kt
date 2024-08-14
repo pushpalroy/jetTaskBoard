@@ -1,6 +1,9 @@
+@file:OptIn(ExperimentalMaterial3AdaptiveApi::class)
+
 package com.jetapps.jettaskboard
 
 import android.app.Activity
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,6 +24,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
+import androidx.compose.material3.adaptive.layout.AnimatedPane
+import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
+import androidx.compose.material3.adaptive.navigation.rememberSupportingPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -89,89 +96,78 @@ fun AdaptiveCreateCardContent(
     isExpandedScreen: Boolean,
     viewModel: CardViewModel
 ) {
-    if (isExpandedScreen.not()) {
-        CreateCardContent(viewModel)
-    } else {
-        CreateCardTwoPaneContent(viewModel)
+    val navigator = rememberSupportingPaneScaffoldNavigator<String>()
+
+    BackHandler(navigator.canNavigateBack()) {
+        navigator.navigateBack()
     }
-}
 
-@Composable
-fun CreateCardContent(viewModel: CardViewModel) {
-    Column(
-        modifier = Modifier
-            .background(MaterialTheme.colors.background)
-            .fillMaxSize()
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(16.dp)
-        ) {
-            val boardList = mapOf(
-                DefaultTaskBoardBGColor to "Praxis",
-                SecondaryColor to "Discord Clone",
-                LabelOrange to "Trello Workspace"
-            )
-
-            val visibilityList = mapOf(
-                "ToDo Items" to "",
-                "Doing" to "",
-                "Done" to ""
-            )
-
-            CreateBoardDropDown(
-                headingText = "Board",
-                contentMap = boardList
-            )
-
-            CreateFormDropDown(
-                headingText = "List",
-                contentMap = visibilityList
-            )
-        }
-
-        CardInfoBox(viewModel)
-    }
-}
-
-@Composable
-fun CreateCardTwoPaneContent(viewModel: CardViewModel) {
-    val context = LocalContext.current
-    TwoPane(
-        first = {
-            Column(
-                modifier = Modifier
-                    .padding(16.dp)
-            ) {
-                val boardList = mapOf(
-                    DefaultTaskBoardBGColor to "Praxis",
-                    SecondaryColor to "Discord Clone",
-                    LabelOrange to "Trello Workspace"
-                )
-                val visibilityList = mapOf(
-                    "ToDo Items" to "",
-                    "Doing" to "",
-                    "Done" to ""
-                )
-                CreateBoardDropDown(
-                    headingText = "Board",
-                    contentMap = boardList
-                )
-                CreateFormDropDown(
-                    headingText = "List",
-                    contentMap = visibilityList
+    ListDetailPaneScaffold(
+        modifier = modifier,
+        directive = navigator.scaffoldDirective,
+        value = navigator.scaffoldValue,
+        listPane = {
+            AnimatedPane {
+                CardMainPane(
+                    viewModel = viewModel,
+                    isExpanded = isExpandedScreen
                 )
             }
         },
-        second = {
-            CardInfoBox(viewModel)
+        detailPane = {
+            AnimatedPane {
+                CardDetailPane(viewModel = viewModel)
+            }
         },
-        strategy = { density, layoutDirection, layoutCoordinates ->
-            HorizontalTwoPaneStrategy(splitFraction = .5f)
-                .calculateSplitResult(density, layoutDirection, layoutCoordinates)
-        },
-        displayFeatures = calculateDisplayFeatures(activity = context as Activity)
     )
+}
+
+@Composable
+fun CardMainPane(
+    modifier: Modifier = Modifier,
+    isExpanded: Boolean = false,
+    viewModel: CardViewModel
+) {
+    Column(
+        modifier = modifier
+            .background(MaterialTheme.colors.background)
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        val boardList = mapOf(
+            DefaultTaskBoardBGColor to "Praxis",
+            SecondaryColor to "Discord Clone",
+            LabelOrange to "Trello Workspace"
+        )
+
+        val visibilityList = mapOf(
+            "ToDo Items" to "",
+            "Doing" to "",
+            "Done" to ""
+        )
+
+        CreateBoardDropDown(
+            headingText = "Board",
+            contentMap = boardList
+        )
+
+        CreateFormDropDown(
+            headingText = "List",
+            contentMap = visibilityList
+        )
+
+        if (!isExpanded) {
+            CardInfoBox(viewModel)
+        }
+    }
+}
+
+@Composable
+fun CardDetailPane(
+    modifier: Modifier = Modifier,
+    viewModel: CardViewModel
+) {
+    CardInfoBox(viewModel)
 }
 
 @Composable
