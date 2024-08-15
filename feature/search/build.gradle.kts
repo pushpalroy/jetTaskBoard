@@ -56,11 +56,17 @@ dependencies {
     implementation(projects.core.designsystem)
 
     /* Android Designing and layout */
-    implementation(libs.androidx.compose.material3)
+    // Adaptive Dependencies
     implementation(libs.androidx.compose.material3.windowSizeClass)
+    implementation(libs.androidx.compose.material3.navigationSuite)
+    implementation(libs.androidx.compose.material3.adaptive)
+    implementation(libs.androidx.compose.material3.adaptive.navigation)
+    implementation(libs.androidx.compose.material3.adaptive.layout)
+
+    // Material and Core
+    implementation(libs.androidx.compose.material3)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.hilt.navigation.compose)
-//    implementation(libs.kotlin.stdlib)
     implementation(libs.compose.material)
     implementation(libs.androidx.compose.constraint.layout)
     implementation(libs.androidx.compose.accompanist.insets)

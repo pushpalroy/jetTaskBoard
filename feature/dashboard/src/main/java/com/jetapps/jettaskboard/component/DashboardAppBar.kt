@@ -14,7 +14,6 @@ import com.jetapps.jettaskboard.loadingcomponents.TrelloNotificationAnimationIco
 
 @Composable
 fun DashboardAppBar(
-    isExpandedScreen: Boolean,
     onMenuIconClick: () -> Unit,
     onSearchIconClicked: () -> Unit,
     onNotificationIconClicked: () -> Unit,
@@ -43,7 +42,7 @@ fun DashboardAppBar(
 
             IconButton(onClick = onNotificationIconClicked) {
                 TrelloNotificationAnimationIcon(
-                    notificationCounts = 11
+                    notificationCounts = 2
                 )
             }
         }

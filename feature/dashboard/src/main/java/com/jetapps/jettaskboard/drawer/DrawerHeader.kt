@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -29,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jetapps.jettaskboard.components.CoilAsyncImage
 
+// Todo(Niket): Fix the Drawer toggle button
 @Composable
 fun DrawerHeader(
     onDrawerHeaderToggled: () -> Unit,
@@ -37,7 +39,7 @@ fun DrawerHeader(
 ) {
     val rotateArrowState by animateFloatAsState(
         targetValue = if (isDrawerContentExpanded) 180f else 0f,
-        tween(350)
+        tween(350), label = "rotate_arrow_state"
     )
 
     Box(
@@ -81,6 +83,7 @@ fun DrawerHeader(
                         imageVector = Icons.Outlined.KeyboardArrowDown,
                         contentDescription = "Drop Down",
                         modifier = Modifier
+                            .padding(horizontal = 32.dp)
                             .rotate(rotateArrowState)
                             .size(24.dp)
                     )

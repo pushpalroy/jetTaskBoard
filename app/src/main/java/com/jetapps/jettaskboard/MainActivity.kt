@@ -3,26 +3,21 @@ package com.jetapps.jettaskboard
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
-import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
+import androidx.window.core.layout.WindowWidthSizeClass
 import com.jetapps.jettaskboard.ui.JtbApp
 import dagger.hilt.android.AndroidEntryPoint
 
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // WindowCompat.setDecorFitsSystemWindows(window, false)
-
         setContent {
-            // We can also use a custom solution like:
-            // val windowSize = rememberWindowSizeClass()
-            // val isExpandedScreen = windowSize == WindowSize.Expanded
+            val adaptiveInfo = currentWindowAdaptiveInfo()
+            val isExpandedScreen = with(adaptiveInfo) {
+                windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.EXPANDED
+            }
 
-            val windowSize = calculateWindowSizeClass(this).widthSizeClass
-            val isExpandedScreen = windowSize == WindowWidthSizeClass.Expanded
             JtbApp(isExpandedScreen = isExpandedScreen)
         }
     }

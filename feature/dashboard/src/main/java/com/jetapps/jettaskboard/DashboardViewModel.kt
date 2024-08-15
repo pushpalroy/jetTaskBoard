@@ -15,9 +15,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DashboardViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle
-) : ViewModel() {
+class DashboardViewModel @Inject constructor() : ViewModel() {
 
     var toggleDrawerContent = mutableStateOf(true)
 
