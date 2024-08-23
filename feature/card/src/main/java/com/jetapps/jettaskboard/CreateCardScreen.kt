@@ -1,8 +1,5 @@
-@file:OptIn(ExperimentalMaterial3AdaptiveApi::class)
-
 package com.jetapps.jettaskboard
 
-import android.app.Activity
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -27,8 +24,9 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.layout.AnimatedPane
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
-import androidx.compose.material3.adaptive.navigation.rememberSupportingPaneScaffoldNavigator
+import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,16 +34,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
-import com.google.accompanist.adaptive.TwoPane
-import com.google.accompanist.adaptive.calculateDisplayFeatures
-import com.jetapps.jettaskboard.carddetailscomponents.ItemRow
-import com.jetapps.jettaskboard.carddetailscomponents.TimeItemRow
+import com.jetapps.jettaskboard.carddetailscomponents.components.ItemRow
+import com.jetapps.jettaskboard.carddetailscomponents.components.TimeItemRow
 import com.jetapps.jettaskboard.feature.card.R
 import com.jetapps.jettaskboard.theme.DefaultTaskBoardBGColor
 import com.jetapps.jettaskboard.theme.LabelOrange
@@ -60,6 +54,12 @@ fun CreateCardRoute(
     isExpandedScreen: Boolean,
     onCancelClick: () -> Unit
 ) {
+
+    LaunchedEffect(true){
+        viewModel.fetchBoards(1)
+        viewModel.fetchLists(null)
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -73,7 +73,9 @@ fun CreateCardRoute(
                 },
                 title = { Text(text = "New Card") },
                 actions = {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = {
+                        viewModel.submitCard()
+                    }) {
                         Icon(
                             Icons.Default.Check,
                             contentDescription = ""
@@ -90,13 +92,14 @@ fun CreateCardRoute(
     }
 }
 
+@OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 fun AdaptiveCreateCardContent(
     modifier: Modifier,
     isExpandedScreen: Boolean,
     viewModel: CardViewModel
 ) {
-    val navigator = rememberSupportingPaneScaffoldNavigator<String>()
+    val navigator = rememberListDetailPaneScaffoldNavigator<String>()
 
     BackHandler(navigator.canNavigateBack()) {
         navigator.navigateBack()

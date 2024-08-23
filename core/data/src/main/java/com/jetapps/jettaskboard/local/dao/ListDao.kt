@@ -1,6 +1,7 @@
 package com.jetapps.jettaskboard.local.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -13,8 +14,11 @@ interface ListDao {
     fun getAllLists(): List<ListEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertList(board: ListEntity)
+    fun insertList(list: ListEntity)
 
-    @Query("SELECT * FROM listTable where board_id = :boardId")
+    @Delete
+    fun deleteList(list: ListEntity)
+
+    @Query("SELECT * FROM listTable where boardId = :boardId")
     fun getAllListsForBoard(boardId: String): List<ListEntity>
 }

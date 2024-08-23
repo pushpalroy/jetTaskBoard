@@ -77,7 +77,7 @@ fun TaskBoardRoute(
             TopAppBar(
                 isExpandedScreen = isExpandedScreen,
                 onBackClick = onBackClick,
-                title = viewModel.boardInfo.value.second,
+                title = viewModel.boardTitle,
                 navigateToChangeBackgroundScreen = { passedString ->
                     navigateToChangeBackgroundScreen(passedString)
                 },
@@ -176,6 +176,7 @@ fun TaskBoardRoute(
                                         }
                                     )
                                 }
+
                                 ExpandedBoardDrawerState.CHANGE_BACKGROUND_SCREEN_STATE -> {
                                     ChangeBoardBackgroundRoute(
                                         onBackClick = {
@@ -185,12 +186,15 @@ fun TaskBoardRoute(
                                         }
                                     )
                                 }
+
                                 ExpandedBoardDrawerState.FILTER_SCREEN_STATE -> {
                                     // Do Nothing
                                 }
+
                                 ExpandedBoardDrawerState.AUTOMATION_SCREEN_STATE -> {
                                     // Do Nothing
                                 }
+
                                 ExpandedBoardDrawerState.POWER_UP_SCREEN_STATE -> {
                                     // Do Nothing
                                 }

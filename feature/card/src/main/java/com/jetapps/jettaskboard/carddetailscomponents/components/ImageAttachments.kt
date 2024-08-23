@@ -1,4 +1,4 @@
-package com.jetapps.jettaskboard.carddetailscomponents
+package com.jetapps.jettaskboard.carddetailscomponents.components
 
 import android.content.Context
 import android.graphics.ImageDecoder

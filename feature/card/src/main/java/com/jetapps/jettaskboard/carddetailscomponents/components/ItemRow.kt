@@ -1,4 +1,4 @@
-package com.jetapps.jettaskboard.carddetailscomponents
+package com.jetapps.jettaskboard.carddetailscomponents.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box

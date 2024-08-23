@@ -2,6 +2,7 @@ package com.jetapps.jettaskboard.uimodel
 
 data class CardDetail(
     val id: Int? = null,
+    val boardId : Int? = null,
     val title: String? = null,
     val description: String? = null,
     val coverImageUrl: String? = null,

@@ -4,11 +4,13 @@ import com.jetapps.jettaskboard.local.entity.CardEntity
 import com.jetapps.jettaskboard.model.CardModel
 import javax.inject.Inject
 
-class CardMapper @Inject constructor() : EntityMapper<CardModel, CardEntity> {
+class CardMapper @Inject constructor(
+    private val labelMapper: LabelMapper,
+) : EntityMapper<CardModel,CardEntity> {
 
     override fun mapToDomain(entity: CardEntity): CardModel {
         return CardModel(
-            entity.id,
+            entity.cardId,
             entity.title,
             entity.description,
             entity.coverImageUrl,

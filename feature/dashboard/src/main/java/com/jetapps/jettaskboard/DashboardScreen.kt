@@ -29,6 +29,7 @@ import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffo
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -37,6 +38,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.core.layout.WindowWidthSizeClass
 import com.google.accompanist.insets.ui.Scaffold
 import com.jetapps.jettaskboard.component.DashboardAppBar
@@ -56,14 +58,15 @@ fun DashboardRoute(
     viewModel: DashboardViewModel = hiltViewModel(),
     navigateToTaskBoard: (String) -> Unit = {},
     navigateToCreateCard: (String) -> Unit = {},
-    navigateToCreateBoard: (String) -> Unit = {},
+    navigateToCreateBoard: () -> Unit = {},
     navigateToSearchScreen: (String) -> Unit = {},
     isExpandedScreen: Boolean
 ) {
     val scaffoldState = rememberSizeAwareScaffoldState(isExpandedScreen)
-    val scope = rememberCoroutineScope()
-
     val adaptiveInfo = currentWindowAdaptiveInfo()
+    val scope = rememberCoroutineScope()
+    var selectedItemIndex by remember { mutableIntStateOf(0) }
+
 
     val customNavSuiteType = with(adaptiveInfo) {
         if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.EXPANDED) {
@@ -73,9 +76,6 @@ fun DashboardRoute(
         }
     }
 
-    var selectedItemIndex by remember {
-        mutableIntStateOf(0)
-    }
 
     // Todo(Niket) : Write a custom Nav Drawer to provide pixel perfect animations
 //    val permanentNavDrawerWidth by animateDpAsState(
@@ -87,11 +87,11 @@ fun DashboardRoute(
 //    )
 
     // Todo(Niket): Move this to VM
-    LaunchedEffect(Unit) {
-        viewModel.apply {
-            getBoardListData()
-        }
-    }
+//    LaunchedEffect(Unit) {
+//        viewModel.apply {
+//            getBoardListData()
+//        }
+//    }
 
     Surface(
         modifier = modifier.fillMaxSize(),
@@ -163,7 +163,8 @@ fun DashboardRoute(
                         viewModel = viewModel,
                         isExpandedScreen = isExpandedScreen,
                         contentPadding = scaffoldPadding,
-                        navigateToTaskBoard = navigateToTaskBoard
+                        navigateToTaskBoard = navigateToTaskBoard,
+                        createBoard = navigateToCreateBoard,
                     )
                 }
             },
@@ -177,11 +178,13 @@ fun AdaptiveDashboardContent(
     isExpandedScreen: Boolean,
     contentPadding: PaddingValues,
     viewModel: DashboardViewModel,
-    navigateToTaskBoard: (String) -> Unit = {}
+    navigateToTaskBoard: (String) -> Unit = {},
+    createBoard : () -> Unit,
 ) {
     //Todo(Niket): Write a detail blog on PaneScaffold Api
 //    val navigator = rememberSupportingPaneScaffoldNavigator<String>()
     val navigator = rememberListDetailPaneScaffoldNavigator<String>()
+    val boardList by viewModel.listOfBoards.collectAsStateWithLifecycle()
 
     BackHandler(navigator.canNavigateBack()) {
         navigator.navigateBack()
@@ -195,16 +198,17 @@ fun AdaptiveDashboardContent(
             AnimatedPane {
                 DashboardMainPaneContent(
                     isExpanded = isExpandedScreen,
-                    viewModel = viewModel,
-                    navigateToTaskBoard = navigateToTaskBoard
+                    navigateToTaskBoard = navigateToTaskBoard,
+                    boardList = boardList,
+                    createBoard = createBoard
                 )
             }
         },
         detailPane = {
             AnimatedPane {
                 DashboardDetailPane(
-                    viewModel = viewModel,
-                    navigateToTaskBoard = navigateToTaskBoard
+                    navigateToTaskBoard = navigateToTaskBoard,
+                    boardList,
                 )
             }
         },
@@ -234,7 +238,7 @@ private fun rememberSizeAwareScaffoldState(
 @Composable
 private fun MultiFab(
     navigateToCreateCard: (String) -> Unit = {},
-    navigateToCreateBoard: (String) -> Unit = {}
+    navigateToCreateBoard: () -> Unit = {}
 ) {
     MultiFloatingActionButton(
         fabIcon = FabIcon(
@@ -259,7 +263,7 @@ private fun MultiFab(
         ),
         onFabItemClicked = { item ->
             if (item.id == 1) {
-                navigateToCreateBoard("")
+                navigateToCreateBoard()
             } else {
                 navigateToCreateCard("")
             }

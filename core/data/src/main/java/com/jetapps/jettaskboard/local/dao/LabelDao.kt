@@ -1,6 +1,7 @@
 package com.jetapps.jettaskboard.local.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -14,4 +15,7 @@ interface LabelDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertLabel(label: LabelEntity)
+
+    @Delete
+    fun deleteLabel(label: LabelEntity)
 }

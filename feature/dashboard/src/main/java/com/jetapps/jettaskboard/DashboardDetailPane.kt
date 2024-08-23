@@ -1,11 +1,8 @@
 package com.jetapps.jettaskboard
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -14,11 +11,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.jetapps.jettaskboard.component.Header
 import com.jetapps.jettaskboard.components.WorkshopCard
+import com.jetapps.jettaskboard.model.Board
 
 @Composable
 fun DashboardDetailPane(
-    viewModel: DashboardViewModel,
-    navigateToTaskBoard: (String) -> Unit
+    navigateToTaskBoard: (String) -> Unit,
+    boardList: List<Board>,
 ) {
     Column {
         Header(
@@ -31,7 +29,7 @@ fun DashboardDetailPane(
                 .fillMaxHeight()
                 .padding(top = 4.dp)
         ) {
-            items(viewModel.listOfBoards) {
+            items(boardList) {
                 WorkshopCard(
                     modifier = Modifier.clickable { navigateToTaskBoard("") },
                     title = it.title,

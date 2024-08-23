@@ -22,11 +22,13 @@ import com.jetapps.jettaskboard.CardDetailsRoute
 import com.jetapps.jettaskboard.CreateCardRoute
 import com.jetapps.jettaskboard.JtbNavDestination
 
+// When User want to create a new Card from Dashboard
 object CreateCardDestination : JtbNavDestination {
     override val route = "create_card_route"
     override val destination = "create_card_destination"
 }
 
+// When User want to edit/view/create a new card from TaskBoard
 object CardDetailsDestination : JtbNavDestination {
     override val route = "card_details_route"
     override val destination = "card_details_destination"

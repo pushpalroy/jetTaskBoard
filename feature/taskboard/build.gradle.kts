@@ -96,6 +96,7 @@ dependencies {
     ksp(libs.room.compiler)
     implementation(libs.room.ktx)
     implementation(libs.room.paging)
+//    kapt("org.xerial:sqlite-jdbc:3.36.0")
 
     /*Testing*/
     implementation(libs.androidx.test.runner)

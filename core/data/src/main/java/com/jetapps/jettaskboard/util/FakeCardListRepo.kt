@@ -3,6 +3,8 @@ package com.jetapps.jettaskboard.util
 import com.jetapps.jettaskboard.model.Board
 import com.jetapps.jettaskboard.model.BoardListModel
 
+//TODO(Niket): remove this file.
+
 /**
  * All methods here are temporary for Demonstration
  * Purpose

@@ -1,4 +1,4 @@
-package com.jetapps.jettaskboard.carddetailscomponents
+package com.jetapps.jettaskboard.carddetailscomponents.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
@@ -37,7 +37,8 @@ fun QuickActionsCard(isExpanded: Boolean = false) {
     val showQuickActions = rememberSaveable { mutableStateOf(false) }
     val rotate by animateFloatAsState(
         targetValue = if (showQuickActions.value) 180f else 0f,
-        tween(500)
+        tween(500),
+        label = ""
     )
 
     Column {

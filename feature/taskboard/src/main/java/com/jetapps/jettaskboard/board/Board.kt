@@ -26,6 +26,8 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -48,13 +50,7 @@ fun Board(
     isExpandedScreen: Boolean
 ) {
     val boardState = remember { DragAndDropState(isExpandedScreen) }
-    val lists = remember(viewModel.totalCards) { viewModel.lists }
-
-    LaunchedEffect(Unit) {
-        viewModel.apply {
-            getBoardData()
-        }
-    }
+    val boardList by viewModel.lists.collectAsState()
 
     LaunchedEffect(key1 = boardState.movingCardData) {
         if (boardState.hasCardMoved()) {
@@ -74,16 +70,20 @@ fun Board(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            items(lists) { list ->
-                Lists(
-                    boardState = boardState,
-                    listModel = list,
-                    isExpandedScreen = isExpandedScreen,
-                    onTaskCardClick = navigateToCreateCard,
-                    onAddCardClick = {
-                        viewModel.addNewCardInList(list.id)
-                    }
-                )
+            if (boardList.isNotEmpty()) {
+                items(boardList) { list ->
+                    Lists(
+                        boardState = boardState,
+                        listModel = list,
+                        isExpandedScreen = isExpandedScreen,
+                        onTaskCardClick = navigateToCreateCard,
+                        onAddCardClick = {
+                            list.listId?.let { validId ->
+                                viewModel.addNewCardInList(validId)
+                            }
+                        }
+                    )
+                }
             }
             item {
                 AddNewListButton(
@@ -110,7 +110,7 @@ fun Lists(
                 color = Color(0xFF222222),
                 shape = RoundedCornerShape(2)
             ),
-        listId = listModel.id
+        listId = listModel.listId ?: 0
     ) { isInBound, _ ->
         Column(
             modifier = Modifier

@@ -11,8 +11,15 @@ object CreateBoardDestination : JtbNavDestination {
     override val destination: String = "create_board_destination"
 }
 
-fun NavGraphBuilder.createBoardGraph(onBackClick: () -> Unit) {
+fun NavGraphBuilder.createBoardGraph(
+    onBackClick: () -> Unit,
+    navigateToBoardRoute: () -> Unit,
+) {
     composable(route = CreateBoardDestination.route) {
-        CreateBoardRoute(onCancelClick = onBackClick, Modifier)
+        CreateBoardRoute(
+            modifier = Modifier,
+            onCancelClick = onBackClick,
+            navigateToBoardScreen = navigateToBoardRoute,
+        )
     }
 }

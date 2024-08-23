@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
     tableName = "attachmentTable"
 )
 data class AttachmentEntity(
-    @PrimaryKey val id: String,
+    @PrimaryKey val id: Int,
     @ColumnInfo(name = "attachment_name")
     val attachmentName: String,
     @ColumnInfo(name = "attachment_url")

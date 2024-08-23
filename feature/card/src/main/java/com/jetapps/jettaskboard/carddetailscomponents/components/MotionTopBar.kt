@@ -1,4 +1,4 @@
-package com.jetapps.jettaskboard.carddetailscomponents
+package com.jetapps.jettaskboard.carddetailscomponents.components
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState

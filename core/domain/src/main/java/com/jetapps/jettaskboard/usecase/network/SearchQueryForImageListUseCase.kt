@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class SearchQueryForImageListUseCase @Inject constructor(
     private val iPhotoRepo: PhotoRepo
-) : UseCase<ChangeBackgroundPhotoModel, String> {
+) : UseCase<Result<List<ChangeBackgroundPhotoModel>>, String> {
 
     suspend operator fun invoke(query: String) = iPhotoRepo.getSearchResultPhotoList(query)
 }

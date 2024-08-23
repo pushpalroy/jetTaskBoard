@@ -4,7 +4,11 @@ import com.jetapps.jettaskboard.dispatcher.CoroutineDispatcherProvider
 import com.jetapps.jettaskboard.local.dao.CardDao
 import com.jetapps.jettaskboard.local.datastore.PreferenceDataStoreSource
 import com.jetapps.jettaskboard.local.entity.CardEntity
+import com.jetapps.jettaskboard.local.source.DatabaseSource
+import com.jetapps.jettaskboard.mapper.BoardMapper
+import com.jetapps.jettaskboard.mapper.CardMapper
 import com.jetapps.jettaskboard.mapper.EntityMapper
+import com.jetapps.jettaskboard.mapper.ListMapper
 import com.jetapps.jettaskboard.model.CardModel
 import com.jetapps.jettaskboard.model.ChangeBackgroundPhotoModel
 import com.jetapps.jettaskboard.model.random.RandomPhotoItemDataModel
@@ -14,6 +18,8 @@ import com.jetapps.jettaskboard.repo.BoardRepo
 import com.jetapps.jettaskboard.repo.BoardRepoImpl
 import com.jetapps.jettaskboard.repo.CardRepo
 import com.jetapps.jettaskboard.repo.CardRepoImpl
+import com.jetapps.jettaskboard.repo.DashboardRepo
+import com.jetapps.jettaskboard.repo.DashboardRepoImpl
 import com.jetapps.jettaskboard.repo.PhotoRepo
 import com.jetapps.jettaskboard.repo.PhotoRepoImpl
 import dagger.Module
@@ -43,7 +49,7 @@ object RepoModule {
     fun providePhotoRepo(
         photoNetworkResource: PhotoNetworkDataSource,
         randomPhotoMapper: EntityMapper<ChangeBackgroundPhotoModel, RandomPhotoItemDataModel>,
-        searchPhotoMapper : EntityMapper<ChangeBackgroundPhotoModel,ResultImageDataModel>,
+        searchPhotoMapper: EntityMapper<ChangeBackgroundPhotoModel, ResultImageDataModel>,
         dispatcherProvider: CoroutineDispatcherProvider
     ): PhotoRepo = PhotoRepoImpl(
         photoNetwork = photoNetworkResource,
@@ -55,8 +61,32 @@ object RepoModule {
     @Provides
     @Singleton
     fun provideBoardRepo(
-        preferenceDataStoreSource: PreferenceDataStoreSource
+        preferenceDataStoreSource: PreferenceDataStoreSource,
+        databaseSource: DatabaseSource,
+        boardMapper: BoardMapper,
+        listMapper: ListMapper,
+        cardMapper: CardMapper
     ): BoardRepo = BoardRepoImpl(
-        preferenceDataStoreSource = preferenceDataStoreSource
+        preferenceDataStoreSource = preferenceDataStoreSource,
+        databaseSource = databaseSource,
+        boardMapper = boardMapper,
+        listMapper = listMapper,
+        cardMapper = cardMapper,
     )
+
+    @Provides
+    @Singleton
+    fun provideDashboardRepo(
+        databaseSource: DatabaseSource,
+        boardMapper: BoardMapper,
+        cardMapper: CardMapper,
+        listMapper: ListMapper,
+    ): DashboardRepo {
+        return DashboardRepoImpl(
+            databaseSource = databaseSource,
+            boardMapper = boardMapper,
+            cardMapper = cardMapper,
+            listMapper = listMapper
+        )
+    }
 }

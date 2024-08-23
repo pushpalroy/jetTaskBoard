@@ -1,19 +1,17 @@
+@file:OptIn(ExperimentalPermissionsApi::class)
+
 package com.jetapps.jettaskboard.carddetailscomponents
 
-import android.Manifest
-import android.content.res.Configuration
+import android.content.Context
 import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.outlined.Person
@@ -21,77 +19,44 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.PermissionState
 import com.google.accompanist.permissions.PermissionStatus
-import com.google.accompanist.permissions.rememberPermissionState
 import com.jetapps.jettaskboard.CardViewModel
+import com.jetapps.jettaskboard.carddetailscomponents.components.ImageAttachments
+import com.jetapps.jettaskboard.carddetailscomponents.components.ItemRow
+import com.jetapps.jettaskboard.carddetailscomponents.components.LabelRow
+import com.jetapps.jettaskboard.carddetailscomponents.components.TimeItemRow
 import com.jetapps.jettaskboard.feature.card.R
-import com.jetapps.jettaskboard.uimodel.CardDetail
 import com.vanpra.composematerialdialogs.MaterialDialog
-import com.vanpra.composematerialdialogs.rememberMaterialDialogState
+import com.vanpra.composematerialdialogs.MaterialDialogState
 
-@OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun CardDetailsContent(
+fun CardDetailExpandedPane(
+    modifier: Modifier = Modifier,
     scrollState: ScrollState,
-    cardDetails: CardDetail,
-    viewModel: CardViewModel
+    viewModel: CardViewModel,
+    dialogState: MaterialDialogState,
+    galleryPermissionStatus: PermissionState,
+    context: Context = LocalContext.current,
+    launcher: ManagedActivityResultLauncher<String, Uri?>,
+    imageUri: Uri? = null
 ) {
-    val configuration = LocalConfiguration.current
-
-    var imageUri: Uri? by remember {
-        mutableStateOf<Uri?>(null)
-    }
-    val context = LocalContext.current
-
-    val launcher = rememberLauncherForActivityResult(
-        contract =
-        ActivityResultContracts.GetContent()
-    ) { uri: Uri? ->
-        imageUri = uri
-    }
-
-    val galleryPermissionStatus =
-        rememberPermissionState(permission = Manifest.permission.READ_EXTERNAL_STORAGE)
-
-    val dialogState = rememberMaterialDialogState()
-
-    Column(modifier = Modifier.verticalScroll(scrollState)) {
-        Text(
-            modifier = Modifier.padding(16.dp),
-            text = cardDetails.title ?: "Backlog",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold
-        )
-
-        Text(
-            modifier = Modifier.padding(horizontal = 16.dp),
-            text = "${(cardDetails.boardName) ?: "Praxis"} in list ${(cardDetails.listName) ?: "Backlog"}",
-            fontSize = 16.sp
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Divider()
-
-        QuickActionsCard(false)
-
-        Divider()
-
-        EditTextCard(viewModel = viewModel)
-
-        LabelRow(viewModel)
-
-        val members by rememberSaveable { mutableStateOf(cardDetails.authorName ?: "Members...") }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(scrollState)
+            .padding(16.dp)
+    ) {
+        val members by remember {
+            mutableStateOf(
+                viewModel.cardModel.authorName ?: "Members...",
+            )
+        }
         ItemRow(
             leadingIcon = {
                 Icon(
@@ -102,8 +67,11 @@ fun CardDetailsContent(
             },
             text = members
         )
+
+        LabelRow(viewModel)
+
         TimeItemRow(
-            modifier = Modifier.testTag("time_item_row"),
+            modifier = Modifier,
             icon = R.drawable.ic_time,
             topText = viewModel.startDateText.value,
             bottomText = viewModel.dueDateText.value,
@@ -125,7 +93,7 @@ fun CardDetailsContent(
                     negativeButton("Cancel")
                 }
             ) {
-                // TODO(Niket): Implement the material official ate-picker composable
+                // Todo(Niket) : implement the official material date picker
 //                datepicker {
 //                    // Do something with the date
 //                    if (viewModel.isTopText.value) viewModel.startDateText.value =
@@ -162,13 +130,5 @@ fun CardDetailsContent(
         ImageAttachments(viewModel, context, galleryPermissionStatus, imageUri)
 
         Divider()
-
-        when (configuration.orientation) {
-            Configuration.ORIENTATION_PORTRAIT -> {
-                Spacer(modifier = Modifier.height(400.dp))
-            }
-            else -> {
-            }
-        }
     }
 }

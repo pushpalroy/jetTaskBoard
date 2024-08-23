@@ -18,7 +18,8 @@ import androidx.compose.ui.text.input.TextFieldValue
 
 @Composable
 fun CreateFormEditText(
-    hint: String = "Enter Board Name"
+    hint: String = "Enter Board Name",
+    onValueChanged : (String) -> Unit,
 ) {
     var inputvalue by remember { mutableStateOf(TextFieldValue()) }
 
@@ -34,6 +35,7 @@ fun CreateFormEditText(
             value = inputvalue,
             onValueChange = {
                 inputvalue = it
+                onValueChanged(it.text)
             },
             placeholder = {
                 Text(text = "Board Name")

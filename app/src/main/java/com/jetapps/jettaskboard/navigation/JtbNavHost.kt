@@ -97,7 +97,13 @@ fun JtbNavHost(
         )
 
         createBoardGraph(
-            onBackClick = onBackClick
+            onBackClick = onBackClick,
+            navigateToBoardRoute = {
+                onNavigateToDestination(
+                    TaskBoardDestination,
+                    TaskBoardDestination.route,
+                )
+            }
         )
 
         searchGraph(
