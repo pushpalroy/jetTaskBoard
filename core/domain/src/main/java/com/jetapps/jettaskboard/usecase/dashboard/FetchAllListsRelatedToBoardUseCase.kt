@@ -8,7 +8,7 @@ class FetchAllListsRelatedToBoardUseCase @Inject constructor(
     private val dashboardRepo: DashboardRepo
 ) {
 
-    suspend operator fun invoke(boardId: Int): List<ListModel> {
-        return dashboardRepo.fetchAllLists()
+    suspend operator fun invoke(id : Long): List<ListModel> {
+        return dashboardRepo.fetchListsFromRelatedBoard(id)
     }
 }

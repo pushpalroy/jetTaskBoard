@@ -13,13 +13,13 @@ object CreateBoardDestination : JtbNavDestination {
 
 fun NavGraphBuilder.createBoardGraph(
     onBackClick: () -> Unit,
-    navigateToBoardRoute: () -> Unit,
+    navigateToBoardRoute: (Long) -> Unit,
 ) {
     composable(route = CreateBoardDestination.route) {
         CreateBoardRoute(
             modifier = Modifier,
             onCancelClick = onBackClick,
-            navigateToBoardScreen = navigateToBoardRoute,
+            navigateToTaskBoardScreen = navigateToBoardRoute,
         )
     }
 }

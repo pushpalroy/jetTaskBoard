@@ -5,6 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jetapps.jettaskboard.board.ExpandedBoardDrawerState
@@ -23,17 +24,21 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class TaskBoardViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val getLatestBackgroundImgUrlUseCase: GetLatestBackgroundImgUrlUseCase,
     private val getBoardDetailsUseCase: GetBoardDetailsUseCase,
     private val createCardUseCase: CreateCardUseCase,
-    private val updateCardUseCase: UpdateCardUseCase,
     private val deleteCardUseCase: DeleteCardUseCase,
     private val createNewListUseCase: CreateNewListUseCase,
 ) : ViewModel() {
+
+    private val passedBoardId = savedStateHandle.get<Long>("boardId")
+        get() = field
 
     /**
      * Defines a list of [ListModel]s which has a list of [CardModel]s internally.
@@ -43,13 +48,6 @@ class TaskBoardViewModel @Inject constructor(
     private val _lists: MutableStateFlow<List<ListModel>> = MutableStateFlow(emptyList())
     val lists: StateFlow<List<ListModel>> = _lists
 
-    /**
-     * A counter of the total number of cards in the board, maintained to assign a unique
-     * index everytime a new card gets added to the board in a particular list, which in also
-     * used to run recomposition whenever the new card is added.
-     */
-    private var totalCards by mutableIntStateOf(0)
-    var boardId by mutableIntStateOf(0)
     var boardTitle by mutableStateOf("Board Dummy Title")
     var latestBackgroundImgUri by mutableStateOf("")
 
@@ -78,33 +76,33 @@ class TaskBoardViewModel @Inject constructor(
      * A new Card has to be inserted in the list Cards of a Board
      */
     private fun getBoardData() {
+        println("Test Passed Id $passedBoardId")
         viewModelScope.launch {
-            getBoardDetailsUseCase.invoke(boardId)
-                .distinctUntilChanged()
-                .collect { result ->
-                    println(result)
-                    boardTitle = result.boardTitle
-                    // Executed for once when ui is loaded
-                    _lists.emit(
-                        result.listModel
-                    )
-                }
+            passedBoardId?.let { safeId ->
+                getBoardDetailsUseCase.invoke(safeId)
+                    .distinctUntilChanged()
+                    .collect { result ->
+                        println("Test getBoardData $result")
+                        Timber.tag("DAO").d("getBoardData: %s", result)
+                        boardTitle = result?.boardTitle ?: ""
+                        result?.listModel?.let { boardLists ->
+                            _lists.emit(
+                                boardLists
+                            )
+                        }
+                    }
+            }
         }
     }
 
-    fun addNewCardInList(listId: Int) {
+    fun addNewCardInList(listId: Long) {
         viewModelScope.launch {
-            totalCards = 0
-            updateTheTotalCardCount(_lists.value.size + 1)
             createCardUseCase.invoke(
                 CardModel(
-                    id = totalCards,
                     title = "New Card",
                     listId = listId,
                     description = "",
-                    coverImageUrl = "",
-                    labels = emptyList(),
-                    boardId = boardId,
+                    boardId = passedBoardId ?: 0,
                     authorId = ""
                 ),
             )
@@ -119,19 +117,26 @@ class TaskBoardViewModel @Inject constructor(
         viewModelScope.launch {
             // Locate the card to be moved
             val cardToMove =
-                _lists.value.find { it.listId == oldListId }?.cards?.find { it.id == cardId }
+                _lists.value.find { it.listId?.toInt() == oldListId }?.cards?.find { it.id.toInt() == cardId }
 
             // Removing a card from one list and adding to a new list
             // Basically, modifying the internal data of two list-items simultaneously
             cardToMove?.let { safeCard ->
-                _lists.value.find { it.listId == oldListId }?.cards?.removeIf { it.id == safeCard.id }
-                _lists.value.find { it.listId == newListId }?.cards?.add(safeCard.copy(listId = newListId))
+                _lists.value.find { it.listId?.toInt() == oldListId }?.cards?.removeIf { it.id == safeCard.id }
+                _lists.value.find { it.listId?.toInt() == newListId }?.cards?.add(
+                    safeCard.copy(
+                        listId = newListId.toLong()
+                    )
+                )
             }
         }
     }
 
-    fun addNewList() {
-        val model = ListModel(listId = _lists.value.size + 1, title = "New List", boardId = boardId)
+    fun addNewList(listTitle: String) {
+        val model = ListModel(
+            title = listTitle,
+            boardId = passedBoardId
+        )
         viewModelScope.launch {
             createNewListUseCase.invoke(
                 model
@@ -141,9 +146,5 @@ class TaskBoardViewModel @Inject constructor(
 
     fun changeExpandedScreenState(newState: ExpandedBoardDrawerState) {
         _drawerScreenState.value = newState
-    }
-
-    private fun updateTheTotalCardCount(newValue: Int) {
-        totalCards = newValue
     }
 }

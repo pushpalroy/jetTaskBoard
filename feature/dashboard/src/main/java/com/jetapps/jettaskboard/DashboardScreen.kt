@@ -57,7 +57,7 @@ fun DashboardRoute(
     modifier: Modifier = Modifier,
     viewModel: DashboardViewModel = hiltViewModel(),
     navigateToTaskBoard: (String) -> Unit = {},
-    navigateToCreateCard: (String) -> Unit = {},
+    navigateToCreateCard: () -> Unit = {},
     navigateToCreateBoard: () -> Unit = {},
     navigateToSearchScreen: (String) -> Unit = {},
     isExpandedScreen: Boolean
@@ -85,13 +85,6 @@ fun DashboardRoute(
 //            stiffness = Spring.StiffnessHigh
 //        ), label = "nav_drawer_width"
 //    )
-
-    // Todo(Niket): Move this to VM
-//    LaunchedEffect(Unit) {
-//        viewModel.apply {
-//            getBoardListData()
-//        }
-//    }
 
     Surface(
         modifier = modifier.fillMaxSize(),
@@ -165,6 +158,7 @@ fun DashboardRoute(
                         contentPadding = scaffoldPadding,
                         navigateToTaskBoard = navigateToTaskBoard,
                         createBoard = navigateToCreateBoard,
+                        createCard = navigateToCreateCard
                     )
                 }
             },
@@ -179,7 +173,8 @@ fun AdaptiveDashboardContent(
     contentPadding: PaddingValues,
     viewModel: DashboardViewModel,
     navigateToTaskBoard: (String) -> Unit = {},
-    createBoard : () -> Unit,
+    createBoard: () -> Unit,
+    createCard: () -> Unit,
 ) {
     //Todo(Niket): Write a detail blog on PaneScaffold Api
 //    val navigator = rememberSupportingPaneScaffoldNavigator<String>()
@@ -209,6 +204,7 @@ fun AdaptiveDashboardContent(
                 DashboardDetailPane(
                     navigateToTaskBoard = navigateToTaskBoard,
                     boardList,
+                    createCard
                 )
             }
         },
@@ -237,7 +233,7 @@ private fun rememberSizeAwareScaffoldState(
 
 @Composable
 private fun MultiFab(
-    navigateToCreateCard: (String) -> Unit = {},
+    navigateToCreateCard: () -> Unit = {},
     navigateToCreateBoard: () -> Unit = {}
 ) {
     MultiFloatingActionButton(
@@ -265,7 +261,7 @@ private fun MultiFab(
             if (item.id == 1) {
                 navigateToCreateBoard()
             } else {
-                navigateToCreateCard("")
+                navigateToCreateCard()
             }
         }
     )

@@ -51,6 +51,7 @@ dependencies {
     /* Android Designing and layout */
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.compose.material)
+    implementation(project(":core:domain"))
 //    implementation("androidx.test.ext:junit-ktx:1.2.1")
 
     /* Testing */

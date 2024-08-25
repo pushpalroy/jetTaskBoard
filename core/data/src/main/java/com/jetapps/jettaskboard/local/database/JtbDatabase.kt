@@ -2,6 +2,7 @@ package com.jetapps.jettaskboard.local.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.jetapps.jettaskboard.local.dao.BoardDao
 import com.jetapps.jettaskboard.local.dao.DashboardDao
 import com.jetapps.jettaskboard.local.dao.CardDao
 import com.jetapps.jettaskboard.local.dao.LabelDao
@@ -28,7 +29,8 @@ import com.jetapps.jettaskboard.model.db.ListWithCardCrossRef
     exportSchema = false
 )
 abstract class JtbDatabase : RoomDatabase() {
-    abstract fun boardDao(): DashboardDao
+    abstract fun dashboardDao(): DashboardDao
+    abstract fun boardDao(): BoardDao
     abstract fun listDao(): ListDao
     abstract fun cardDao(): CardDao
     abstract fun labelDao(): LabelDao

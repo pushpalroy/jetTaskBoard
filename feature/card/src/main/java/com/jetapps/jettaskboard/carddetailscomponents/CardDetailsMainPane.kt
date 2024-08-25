@@ -94,15 +94,45 @@ fun CardDetailsMainPane(
             Divider()
             Spacer(modifier = Modifier.height(8.dp))
 
-            EditTextCard(viewModel = viewModel, isExpanded = true)
+            EditTextCard(
+                viewModel = viewModel,
+                isExpanded = true,
+                iconResource = R.drawable.ic_notes,
+                placeHolderText = "Add a description",
+                onValue = viewModel.cardModel.description ?: "Description..",
+                onValueChanged = { newCharSets ->
+                    viewModel.cardModel = viewModel.cardModel.copy(
+                        description = newCharSets
+                    )
+                }
+            )
 
             Divider()
+            Spacer(modifier = Modifier.height(8.dp))
+
+            EditTextCard(
+                viewModel = viewModel,
+                isExpanded = true,
+                iconResource = R.drawable.ic_notes,
+                placeHolderText = "Add a Title",
+                onValue = viewModel.cardModel.title ?: "Title..",
+                onValueChanged = { newCharSets ->
+                    viewModel.cardModel = viewModel.cardModel.copy(
+                        title = newCharSets
+                    )
+                }
+            )
+
+            Divider()
+
             Spacer(modifier = Modifier.height(8.dp))
 
             QuickActionsCard(isExpanded = true)
 
             Spacer(modifier = Modifier.height(8.dp))
+
             Divider()
+
             Spacer(modifier = Modifier.height(8.dp))
         }
     } else {
@@ -131,7 +161,37 @@ fun CardDetailsMainPane(
 
             Divider()
 
-            EditTextCard(viewModel = viewModel)
+            EditTextCard(
+                viewModel = viewModel,
+                isExpanded = true,
+                iconResource = R.drawable.ic_notes,
+                placeHolderText = "Add a description",
+                onValue = viewModel.cardModel.description ?: "Description..",
+                onValueChanged = { newCharSets ->
+                    viewModel.cardModel = viewModel.cardModel.copy(
+                        description = newCharSets
+                    )
+                }
+            )
+
+            Divider()
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            EditTextCard(
+                viewModel = viewModel,
+                isExpanded = true,
+                iconResource = R.drawable.ic_notes,
+                placeHolderText = "Add a Title",
+                onValue = viewModel.cardModel.title ?: "Title..",
+                onValueChanged = { newCharSets ->
+                    viewModel.cardModel = viewModel.cardModel.copy(
+                        title = newCharSets
+                    )
+                }
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
 
             LabelRow(viewModel)
 

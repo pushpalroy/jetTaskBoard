@@ -43,7 +43,7 @@ fun CardDetailsRoute(
     isExpandedScreen: Boolean,
     modifier: Modifier = Modifier,
     onCancelClick: () -> Unit,
-    viewModel: CardViewModel = hiltViewModel()
+    viewModel: CardViewModel = hiltViewModel(),
 ) {
     Surface(
         modifier = modifier.fillMaxSize(),
@@ -83,7 +83,11 @@ fun CardDetailsRoute(
                     isExpandedScreen,
                     onCancelClick,
                     viewModel.cardModel.coverImageUrl,
-                    viewModel.cardModel.title
+                    viewModel.cardModel.title,
+                    updateCard = {
+                        viewModel.updateCard()
+                        onCancelClick()
+                    }
                 )
             }
         ) {

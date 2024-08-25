@@ -22,7 +22,7 @@ data class ListWithCardCrossRef(
  * but many list can't have n boards
  */
 data class BoardWithLists(
-    @Embedded val boardEntity: BoardEntity,
+    @Embedded val boardEntity: BoardEntity?,
     @Relation(
         entity = ListEntity::class,
         parentColumn = "boardId",
@@ -38,7 +38,7 @@ data class BoardWithLists(
  * but many cards can't have n lists.
  */
 data class ListWithCards(
-    @Embedded val columnList: ListEntity,
+    @Embedded val columnList: ListEntity?,
     @Relation(
         parentColumn = "listId",
         entityColumn = "listId",

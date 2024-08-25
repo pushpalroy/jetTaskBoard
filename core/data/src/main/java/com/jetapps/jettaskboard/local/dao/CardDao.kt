@@ -15,6 +15,9 @@ interface CardDao {
     @Query("SELECT * FROM cardTable")
     fun getAllCards(): Flow<List<CardEntity>>
 
+    @Query("SELECT * FROM cardTable where cardId = :cardId")
+    fun fetchCardDetails(cardId: Long): CardEntity
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAllCards(cards: List<CardEntity>)
 

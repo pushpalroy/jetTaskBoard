@@ -51,7 +51,7 @@ class DashboardRepoImpl @Inject constructor(
         }
     }
 
-    override suspend fun fetchListsFromRelatedBoard(boardId: Int): List<ListModel> {
+    override suspend fun fetchListsFromRelatedBoard(boardId: Long): List<ListModel> {
         return withContext(Dispatchers.IO) {
             databaseSource.getAllListsRelatedToBoard(boardId).map { entity ->
                 listMapper.mapToData(entity)

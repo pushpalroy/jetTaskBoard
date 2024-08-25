@@ -6,11 +6,12 @@ import androidx.room.Transaction
 import com.jetapps.jettaskboard.local.entity.CardEntity
 import com.jetapps.jettaskboard.local.entity.ListEntity
 import com.jetapps.jettaskboard.model.db.BoardWithLists
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface BoardDao {
 
     @Transaction
     @Query("SELECT * FROM boardTable WHERE boardId = :boardId")
-    fun getBoardWithListsAndCards(boardId: Int): BoardWithLists
+    fun getBoardWithListsAndCards(boardId: Long): Flow<BoardWithLists?>
 }

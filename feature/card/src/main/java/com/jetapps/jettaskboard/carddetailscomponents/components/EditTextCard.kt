@@ -13,16 +13,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.jetapps.jettaskboard.CardViewModel
-import com.jetapps.jettaskboard.feature.card.R
 
 @Composable
-fun EditTextCard(viewModel: CardViewModel, isExpanded: Boolean = false) {
+fun EditTextCard(
+    viewModel: CardViewModel,
+    isExpanded: Boolean = false,
+    iconResource: Int,
+    placeHolderText: String,
+    onValue: String,
+    onValueChanged: (String) -> Unit,
+) {
     Row(modifier = Modifier.fillMaxWidth()) {
         Icon(
             modifier = Modifier.padding(16.dp),
-            painter = painterResource(id = R.drawable.ic_notes),
+            painter = painterResource(id = iconResource),
             contentDescription = "Notes Icon"
         )
 
@@ -30,14 +37,18 @@ fun EditTextCard(viewModel: CardViewModel, isExpanded: Boolean = false) {
             modifier = Modifier
                 .background(Color.Transparent)
                 .padding(end = 16.dp)
-                .height(if (isExpanded) { 80.dp } else { 56.dp })
+                .height(
+                    if (isExpanded) {
+                        80.dp
+                    } else {
+                        56.dp
+                    }
+                )
                 .fillMaxWidth(),
-            value = viewModel.inputValue.value,
-            onValueChange = {
-                viewModel.inputValue.value = it
-            },
+            value = onValue,
+            onValueChange = onValueChanged,
             placeholder = {
-                Text(text = "Add card description...")
+                Text(text = placeHolderText)
             },
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = Color.Transparent,

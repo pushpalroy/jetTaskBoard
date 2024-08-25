@@ -29,7 +29,7 @@ object DashboardDestination : JtbNavDestination {
 
 fun NavGraphBuilder.dashboardGraph(
     navigateToTaskBoard: (String) -> Unit,
-    navigateToCreateCard: (String) -> Unit,
+    navigateToCreateCard: () -> Unit,
     navigateToCreateBoard: () -> Unit,
     navigateToSearchScreen: (String) -> Unit,
     nestedGraphs: NavGraphBuilder.() -> Unit,

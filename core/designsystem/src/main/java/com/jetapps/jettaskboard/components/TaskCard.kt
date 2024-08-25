@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.jetapps.jettaskboard.core.designsystem.R
 import com.jetapps.jettaskboard.model.CardModel
+import com.jetapps.jettaskboard.model.labelModelList
 
 @Composable
 fun TaskCard(
@@ -67,23 +68,41 @@ fun TaskCard(
             Column(
                 modifier = Modifier.padding(8.dp)
             ) {
-                card.labels.let { cardLabels ->
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(4.dp)
-                    ) {
-                        for (label in cardLabels) {
-                            Box(
-                                modifier = Modifier
-                                    .width(32.dp)
-                                    .height(16.dp)
-                                    .clip(RoundedCornerShape(10))
-                                    .background(color = Color(label.labelColor))
-                            )
-                        }
+                // Todo(Niket) : Remove labels later.
+                // Just for demonstration purpose
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    for (label in labelModelList) {
+                        Box(
+                            modifier = Modifier
+                                .width(32.dp)
+                                .height(16.dp)
+                                .clip(RoundedCornerShape(10))
+                                .background(color = Color(label.labelColor))
+                        )
                     }
                 }
+
+//                card.labels.let { cardLabels ->
+//                    Row(
+//                        modifier = Modifier
+//                            .fillMaxWidth(),
+//                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+//                    ) {
+//                        for (label in cardLabels) {
+//                            Box(
+//                                modifier = Modifier
+//                                    .width(32.dp)
+//                                    .height(16.dp)
+//                                    .clip(RoundedCornerShape(10))
+//                                    .background(color = Color(label.labelColor))
+//                            )
+//                        }
+//                    }
+//                }
 
                 Spacer(modifier = Modifier.height(8.dp))
 

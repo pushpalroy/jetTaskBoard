@@ -17,7 +17,9 @@
 package com.jetapps.jettaskboard.navigation
 
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.jetapps.jettaskboard.CardDetailsRoute
 import com.jetapps.jettaskboard.CreateCardRoute
 import com.jetapps.jettaskboard.JtbNavDestination
@@ -34,11 +36,37 @@ object CardDetailsDestination : JtbNavDestination {
     override val destination = "card_details_destination"
 }
 
-fun NavGraphBuilder.cardGraph(isExpandedScreen: Boolean, onBackClick: () -> Unit) {
+fun NavGraphBuilder.cardGraph(
+    isExpandedScreen: Boolean,
+    onBackClick: () -> Unit,
+) {
     composable(route = CreateCardDestination.route) {
         CreateCardRoute(isExpandedScreen = isExpandedScreen, onCancelClick = onBackClick)
     }
-    composable(route = CardDetailsDestination.route) {
-        CardDetailsRoute(isExpandedScreen, onCancelClick = onBackClick)
+    composable(
+        route = CardDetailsDestination.route + "/{boardId}/{listId}/{cardId}",
+        arguments = listOf(
+            navArgument("boardId") {
+                type = NavType.LongType
+                defaultValue = 0
+            },
+            navArgument("listId") {
+                type = NavType.LongType
+                defaultValue = 0
+            },
+            navArgument("cardId") {
+                type = NavType.LongType
+                defaultValue = 0
+            },
+        )
+    ) { backStackEntry ->
+        val passedBoardId = backStackEntry.arguments?.getLong("boardId")
+        val passedListId = backStackEntry.arguments?.getLong("listId")
+        val passedCardId = backStackEntry.arguments?.getLong("cardId")
+        println("Passing Arguments : Board id -> $passedBoardId, ListId -> $passedListId and Card id -> $passedCardId")
+        CardDetailsRoute(
+            isExpandedScreen,
+            onCancelClick = onBackClick,
+        )
     }
 }

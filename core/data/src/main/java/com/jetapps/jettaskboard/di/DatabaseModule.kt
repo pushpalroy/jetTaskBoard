@@ -2,6 +2,7 @@ package com.jetapps.jettaskboard.di
 
 import android.content.Context
 import androidx.room.Room
+import com.jetapps.jettaskboard.local.dao.BoardDao
 import com.jetapps.jettaskboard.local.dao.DashboardDao
 import com.jetapps.jettaskboard.local.dao.CardDao
 import com.jetapps.jettaskboard.local.dao.LabelDao
@@ -21,7 +22,7 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideDatabase(@ApplicationContext context: Context) : JtbDatabase {
+    fun provideDatabase(@ApplicationContext context: Context): JtbDatabase {
         return Room.databaseBuilder(
             context,
             JtbDatabase::class.java,
@@ -41,7 +42,11 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun providesBoardDao(database: JtbDatabase): DashboardDao = database.boardDao()
+    fun providesDashBoardDao(database: JtbDatabase): DashboardDao = database.dashboardDao()
+
+    @Provides
+    @Singleton
+    fun providesBoardDao(database: JtbDatabase): BoardDao = database.boardDao()
 
     @Provides
     @Singleton

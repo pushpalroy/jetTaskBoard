@@ -26,7 +26,6 @@ import androidx.compose.material3.adaptive.layout.AnimatedPane
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,11 +37,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.jetapps.jettaskboard.carddetailscomponents.components.ItemRow
 import com.jetapps.jettaskboard.carddetailscomponents.components.TimeItemRow
 import com.jetapps.jettaskboard.feature.card.R
-import com.jetapps.jettaskboard.theme.DefaultTaskBoardBGColor
-import com.jetapps.jettaskboard.theme.LabelOrange
+import com.jetapps.jettaskboard.model.BoardModel
+import com.jetapps.jettaskboard.model.ListModel
 import com.jetapps.jettaskboard.theme.SecondaryColor
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
@@ -54,12 +54,6 @@ fun CreateCardRoute(
     isExpandedScreen: Boolean,
     onCancelClick: () -> Unit
 ) {
-
-    LaunchedEffect(true){
-        viewModel.fetchBoards(1)
-        viewModel.fetchLists(null)
-    }
-
     Scaffold(
         topBar = {
             TopAppBar(
@@ -75,6 +69,7 @@ fun CreateCardRoute(
                 actions = {
                     IconButton(onClick = {
                         viewModel.submitCard()
+                        onCancelClick()
                     }) {
                         Icon(
                             Icons.Default.Check,
@@ -100,6 +95,7 @@ fun AdaptiveCreateCardContent(
     viewModel: CardViewModel
 ) {
     val navigator = rememberListDetailPaneScaffoldNavigator<String>()
+    val boardAndListData by viewModel.createCardStates.collectAsStateWithLifecycle()
 
     BackHandler(navigator.canNavigateBack()) {
         navigator.navigateBack()
@@ -113,7 +109,9 @@ fun AdaptiveCreateCardContent(
             AnimatedPane {
                 CardMainPane(
                     viewModel = viewModel,
-                    isExpanded = isExpandedScreen
+                    isExpanded = isExpandedScreen,
+                    boardMapList = boardAndListData.boards,
+                    listMapList = boardAndListData.lists
                 )
             }
         },
@@ -129,7 +127,9 @@ fun AdaptiveCreateCardContent(
 fun CardMainPane(
     modifier: Modifier = Modifier,
     isExpanded: Boolean = false,
-    viewModel: CardViewModel
+    viewModel: CardViewModel,
+    boardMapList: Map<Color, BoardModel>,
+    listMapList: Map<String, ListModel>
 ) {
     Column(
         modifier = modifier
@@ -137,26 +137,20 @@ fun CardMainPane(
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        val boardList = mapOf(
-            DefaultTaskBoardBGColor to "Praxis",
-            SecondaryColor to "Discord Clone",
-            LabelOrange to "Trello Workspace"
-        )
-
-        val visibilityList = mapOf(
-            "ToDo Items" to "",
-            "Doing" to "",
-            "Done" to ""
-        )
-
         CreateBoardDropDown(
             headingText = "Board",
-            contentMap = boardList
+            contentMap = boardMapList,
+            onBoardSelected = { boardModel ->
+                viewModel.setupSelectedBoard(boardModel)
+            }
         )
 
-        CreateFormDropDown(
+        CreateBoardListFormDropDown(
             headingText = "List",
-            contentMap = visibilityList
+            contentMap = listMapList,
+            onListSelected = { listModel ->
+                viewModel.setupSelectedList(listModel)
+            }
         )
 
         if (!isExpanded) {
@@ -174,7 +168,10 @@ fun CardDetailPane(
 }
 
 @Composable
-fun CardInfoBox(viewModel: CardViewModel) {
+fun CardInfoBox(
+    viewModel: CardViewModel,
+) {
+    // Todo(Niket) : Find a better way to pass the text values.
     var textCardName by remember { mutableStateOf(TextFieldValue("")) }
     var textDescription by remember { mutableStateOf(TextFieldValue("")) }
     val dialogState = rememberMaterialDialogState()
@@ -202,6 +199,7 @@ fun CardInfoBox(viewModel: CardViewModel) {
                     value = textCardName,
                     onValueChange = {
                         textCardName = it
+                        viewModel.setUpNewCardTitle(it.text)
                     },
                     label = { Text(text = "Card Name") },
                     colors = TextFieldDefaults.textFieldColors(
@@ -221,6 +219,7 @@ fun CardInfoBox(viewModel: CardViewModel) {
                     value = textDescription,
                     onValueChange = {
                         textDescription = it
+                        viewModel.setUpNewCardDescription(it.text)
                     },
                     label = { Text(text = "Description") },
                     colors = TextFieldDefaults.textFieldColors(

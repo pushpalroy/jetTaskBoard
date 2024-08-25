@@ -10,4 +10,8 @@ interface CardRepo {
     suspend fun fetchCards(
         boardId: String
     ): Flow<List<CardModel>>
+
+    suspend fun fetchCardDetails(
+        cardId : Long
+    ) : CardModel
 }

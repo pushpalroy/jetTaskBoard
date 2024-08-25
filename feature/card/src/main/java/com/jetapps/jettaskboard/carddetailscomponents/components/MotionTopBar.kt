@@ -21,6 +21,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
@@ -49,7 +50,8 @@ fun MotionTopBar(
     isExpandedScreen: Boolean,
     onCancelClick: () -> Unit,
     coverImageUrl: String?,
-    title: String?
+    title: String?,
+    updateCard: () -> Unit,
 ) {
     val context = LocalContext.current
     val motionScene = remember {
@@ -135,11 +137,12 @@ fun MotionTopBar(
             )
 
             Icon(
-                imageVector = Icons.Default.MoreVert,
-                contentDescription = "Open Menu",
+                imageVector = Icons.Default.Add,
+                contentDescription = "Add Card",
                 modifier = Modifier
                     .layoutId("more_icon")
                     .clickable {
+                        updateCard()
                     },
                 tint = Color.White
             )

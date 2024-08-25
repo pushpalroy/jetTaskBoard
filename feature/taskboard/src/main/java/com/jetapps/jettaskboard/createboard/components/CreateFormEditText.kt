@@ -38,7 +38,7 @@ fun CreateFormEditText(
                 onValueChanged(it.text)
             },
             placeholder = {
-                Text(text = "Board Name")
+                Text(text = hint)
             },
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = Color.Transparent,

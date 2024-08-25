@@ -12,5 +12,5 @@ interface DashboardRepo {
     suspend fun createCard(cardModel: CardModel)
     suspend fun createBoard(boardModel: BoardModel)
     suspend fun fetchAllLists() : List<ListModel>
-    suspend fun fetchListsFromRelatedBoard(boardId : Int) : List<ListModel>
+    suspend fun fetchListsFromRelatedBoard(boardId : Long) : List<ListModel>
 }

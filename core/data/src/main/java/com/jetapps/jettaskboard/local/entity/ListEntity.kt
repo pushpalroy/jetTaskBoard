@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 )
 data class ListEntity(
     @PrimaryKey(autoGenerate = true)
-    val listId: Int = 0,
+    val listId: Long = 0,
     val title: String,
-    val boardId: Int
+    val boardId: Long
 )

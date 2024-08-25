@@ -6,11 +6,13 @@ import com.jetapps.jettaskboard.local.source.DatabaseSource
 import com.jetapps.jettaskboard.mapper.BoardMapper
 import com.jetapps.jettaskboard.mapper.CardMapper
 import com.jetapps.jettaskboard.mapper.ListMapper
+import com.jetapps.jettaskboard.mapper.mapToDomain
 import com.jetapps.jettaskboard.model.BoardWithListAndCard
 import com.jetapps.jettaskboard.model.CardModel
 import com.jetapps.jettaskboard.model.ListModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.retry
 import javax.inject.Inject
 
 class BoardRepoImpl @Inject constructor(
@@ -34,24 +36,26 @@ class BoardRepoImpl @Inject constructor(
      * This task can be expensive as it loads lots of data once and Map each property
      * Need to explore more and check for better solution.
      */
-    override suspend fun getBoardDetails(boardId: Int): Flow<BoardWithListAndCard> {
+    override suspend fun getBoardDetails(boardId: Long): Flow<BoardWithListAndCard?> {
         return databaseSource.getBoard(boardId).map { boardWithLists ->
             Log.d("DAO_RELATION", "getBoardDetails: $boardWithLists")
-            BoardWithListAndCard(
-                boardId = boardWithLists.boardEntity.boardId,
-                boardTitle = boardWithLists.boardEntity.title,
-                isFav = boardWithLists.boardEntity.isFav == 1,
-                listModel = boardWithLists.boardList.map { listWithCards ->
-                    ListModel(
-                        listId = listWithCards.columnList.listId,
-                        title = listWithCards.columnList.title,
-                        cards = listWithCards.cardList.map { cardEntity ->
-                            cardMapper.mapToDomain(cardEntity)
-                        }.toMutableList(),
-                        boardId = listWithCards.columnList.boardId
-                    )
-                }
-            )
+            boardWithLists?.run {
+                BoardWithListAndCard(
+                    boardId = boardEntity?.boardId,
+                    boardTitle = boardEntity?.title,
+                    isFav = boardEntity?.isFav == 1,
+                    listModel = boardList.map { listWithCards ->
+                        ListModel(
+                            listId = listWithCards.columnList?.listId,
+                            title = listWithCards.columnList?.title,
+                            cards = listWithCards.cardList.map { cardEntity ->
+                                cardMapper.mapToDomain(cardEntity)
+                            }.toMutableList(),
+                            boardId = listWithCards.columnList?.boardId
+                        )
+                    }
+                )
+            }
         }
     }
 
@@ -64,7 +68,7 @@ class BoardRepoImpl @Inject constructor(
     }
 
     override suspend fun updateCard(cardModel: CardModel) {
-        databaseSource.updateCard(cardMapper.mapToData(cardModel))
+        databaseSource.updateCard(cardModel.mapToDomain())
     }
 
     override suspend fun deleteCard(cardModel: CardModel) {

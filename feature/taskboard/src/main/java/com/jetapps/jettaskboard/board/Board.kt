@@ -2,6 +2,7 @@ package com.jetapps.jettaskboard.board
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -16,23 +17,34 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
+import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons.Filled
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import com.jetapps.jettaskboard.vm.TaskBoardViewModel
 import com.jetapps.jettaskboard.components.TaskCard
 import com.jetapps.jettaskboard.draganddrop.DragAndDropState
@@ -45,12 +57,14 @@ import com.jetapps.jettaskboard.theme.SecondaryColor
 @Composable
 fun Board(
     modifier: Modifier = Modifier,
-    navigateToCreateCard: (String) -> Unit = {},
+    navigateToCreateCard: (boardId: Long, listId: Long, cardId: Long) -> Unit = { a, b, c -> },
     viewModel: TaskBoardViewModel,
-    isExpandedScreen: Boolean
+    isExpandedScreen: Boolean,
+    boardId: Long,
 ) {
     val boardState = remember { DragAndDropState(isExpandedScreen) }
     val boardList by viewModel.lists.collectAsState()
+    var showListDialogState by remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = boardState.movingCardData) {
         if (boardState.hasCardMoved()) {
@@ -60,6 +74,16 @@ fun Board(
                 newListId = boardState.movingCardData.second
             )
         }
+    }
+
+    if (showListDialogState) {
+        CreateListDialog(
+            onDismissRequest = { showListDialogState = false },
+            onConfirmRequest = { title ->
+                showListDialogState = false
+                viewModel.addNewList(title)
+            },
+        )
     }
 
     DragAndDropSurface(
@@ -81,14 +105,16 @@ fun Board(
                             list.listId?.let { validId ->
                                 viewModel.addNewCardInList(validId)
                             }
-                        }
+                        }, boardId = boardId
                     )
                 }
             }
             item {
                 AddNewListButton(
-                    viewModel = viewModel,
-                    isExpandedScreen = isExpandedScreen
+                    isExpandedScreen = isExpandedScreen,
+                    openListDialog = {
+                        showListDialogState = true
+                    }
                 )
             }
         }
@@ -99,9 +125,10 @@ fun Board(
 fun Lists(
     boardState: DragAndDropState,
     listModel: ListModel,
-    onTaskCardClick: (String) -> Unit,
+    onTaskCardClick: (boardId: Long, listId: Long, cardId: Long) -> Unit,
     onAddCardClick: () -> Unit,
-    isExpandedScreen: Boolean
+    isExpandedScreen: Boolean,
+    boardId: Long
 ) {
     DropSurface(
         modifier = Modifier
@@ -110,7 +137,7 @@ fun Lists(
                 color = Color(0xFF222222),
                 shape = RoundedCornerShape(2)
             ),
-        listId = listModel.listId ?: 0
+        listId = listModel.listId?.toInt() ?: 0
     ) { isInBound, _ ->
         Column(
             modifier = Modifier
@@ -121,14 +148,15 @@ fun Lists(
                 .padding(if (isExpandedScreen) 8.dp else 4.dp)
         ) {
             ListHeader(
-                name = listModel.title
+                name = listModel.title ?: ""
             )
             ListBody(
                 modifier = Modifier,
                 listModel = listModel,
                 onTaskCardClick = onTaskCardClick,
                 onAddCardClick = onAddCardClick,
-                isExpandedScreen = isExpandedScreen
+                isExpandedScreen = isExpandedScreen,
+                boardId = boardId
             )
         }
     }
@@ -139,24 +167,29 @@ fun Lists(
 fun ListBody(
     modifier: Modifier,
     listModel: ListModel,
-    onTaskCardClick: (String) -> Unit,
+    onTaskCardClick: (boardId: Long, listId: Long, cardId: Long) -> Unit,
     onAddCardClick: () -> Unit,
-    isExpandedScreen: Boolean
+    isExpandedScreen: Boolean,
+    boardId: Long,
 ) {
     LazyColumn(
         modifier = Modifier
     ) {
-        items(listModel.cards) { card ->
+        items(listModel.cards ?: emptyList()) { card ->
             DragSurface(
                 modifier = modifier
                     .fillMaxWidth()
                     .animateItemPlacement(),
-                cardId = card.id,
-                cardListId = card.listId ?: 0
+                cardId = card.id.toInt(),
+                cardListId = card.listId.toInt() ?: 0
             ) {
                 TaskCard(
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = { onTaskCardClick("1") },
+                    onClick = {
+                        onTaskCardClick(
+                            boardId, listModel.listId ?: 0, card.id
+                        )
+                    },
                     card = card,
                     isExpandedScreen = isExpandedScreen
                 )
@@ -214,8 +247,8 @@ fun ListFooter(
 
 @Composable
 fun AddNewListButton(
-    viewModel: TaskBoardViewModel,
-    isExpandedScreen: Boolean
+    isExpandedScreen: Boolean,
+    openListDialog: () -> Unit,
 ) {
     TextButton(
         modifier = Modifier
@@ -226,11 +259,86 @@ fun AddNewListButton(
             backgroundColor = Color(0xFF383838)
         ),
         contentPadding = PaddingValues(16.dp),
-        onClick = { viewModel.addNewList() }
+        onClick = openListDialog
     ) {
         Icon(imageVector = Filled.Add, contentDescription = "Add")
         Spacer(modifier = Modifier.width(8.dp))
         Text(modifier = Modifier.weight(1f), fontSize = 16.sp, text = "Add List")
+    }
+}
+
+@Composable
+fun CreateListDialog(
+    modifier: Modifier = Modifier,
+    onDismissRequest: () -> Unit,
+    onConfirmRequest: (String) -> Unit,
+) {
+    var listTitle by remember {
+        mutableStateOf<String>("")
+    }
+    Dialog(
+        onDismissRequest = onDismissRequest
+    ) {
+        Card(
+            modifier = modifier
+                .fillMaxWidth()
+                .height(375.dp)
+                .padding(16.dp),
+            shape = RoundedCornerShape(16.dp),
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colors.background),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Text(
+                    text = "Please Provide a name to your new list",
+                    modifier = Modifier.padding(16.dp),
+                    color = MaterialTheme.colors.onBackground
+                )
+
+                TextField(
+                    value = listTitle,
+                    onValueChange = {
+                        listTitle = it
+                    },
+                    textStyle = TextStyle(
+                        color = MaterialTheme.colors.onBackground,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center,
+                    )
+                )
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                ) {
+                    TextButton(
+                        onClick = { onDismissRequest() },
+                        modifier = Modifier.padding(8.dp),
+                    ) {
+                        Text(
+                            "Dismiss",
+                            modifier = Modifier.padding(16.dp),
+                            color = MaterialTheme.colors.onBackground
+                        )
+                    }
+                    TextButton(
+                        onClick = { onConfirmRequest(listTitle) },
+                        modifier = Modifier.padding(8.dp),
+                    ) {
+                        Text(
+                            "Confirm",
+                            modifier = Modifier.padding(16.dp),
+                            color = MaterialTheme.colors.onBackground
+                        )
+                    }
+                }
+            }
+        }
     }
 }
 

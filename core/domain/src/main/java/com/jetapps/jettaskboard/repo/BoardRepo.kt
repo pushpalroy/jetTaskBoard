@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 interface BoardRepo {
     suspend fun getLatestBackgroundImgUri(): Flow<String?>
     suspend fun updateBackgroundImgUri(string: String)
-    suspend fun getBoardDetails(boardId : Int) : Flow<BoardWithListAndCard>
+    suspend fun getBoardDetails(boardId : Long) : Flow<BoardWithListAndCard?>
     suspend fun createNewList(listModel: ListModel)
     suspend fun deleteList(listModel: ListModel)
     suspend fun updateCard(cardModel: CardModel)

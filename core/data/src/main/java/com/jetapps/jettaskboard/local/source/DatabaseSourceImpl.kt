@@ -1,5 +1,6 @@
 package com.jetapps.jettaskboard.local.source
 
+import com.jetapps.jettaskboard.local.dao.BoardDao
 import com.jetapps.jettaskboard.local.dao.CardDao
 import com.jetapps.jettaskboard.local.dao.DashboardDao
 import com.jetapps.jettaskboard.local.dao.LabelDao
@@ -17,6 +18,7 @@ import javax.inject.Inject
 
 class DatabaseSourceImpl @Inject constructor(
     private val dashboardDao: DashboardDao,
+    private val boardDao: BoardDao,
     private val cardDao: CardDao,
     private val listDao: ListDao,
     private val labelDao: LabelDao
@@ -26,8 +28,10 @@ class DatabaseSourceImpl @Inject constructor(
         dashboardDao.insertBoard(boardEntity)
     }
 
-    override suspend fun getBoard(boardId: Int): Flow<BoardWithLists> {
-        return dashboardDao.getBoardDetails(boardId)
+    override suspend fun getBoard(boardId: Long): Flow<BoardWithLists?> {
+        return withContext(Dispatchers.IO) {
+            boardDao.getBoardWithListsAndCards(boardId)
+        }
     }
 
     override suspend fun getBoards(): Flow<List<BoardEntity>> {
@@ -38,12 +42,14 @@ class DatabaseSourceImpl @Inject constructor(
         return dashboardDao.getAllLists()
     }
 
-    override suspend fun getAllListsRelatedToBoard(boardId: Int): List<ListEntity> {
+    override suspend fun getAllListsRelatedToBoard(boardId: Long): List<ListEntity> {
         return dashboardDao.getAllBoardRelatedLists(boardId)
     }
 
     override suspend fun updateCard(cardEntity: CardEntity) {
-        cardDao.updateCard(cardEntity)
+        withContext(Dispatchers.IO) {
+            cardDao.updateCard(cardEntity)
+        }
     }
 
     override suspend fun createCard(cardEntity: CardEntity) {
@@ -74,5 +80,7 @@ class DatabaseSourceImpl @Inject constructor(
         labelDao.deleteLabel(labelEntity)
     }
 
-
+    override suspend fun getCardDetails(cardId: Long): CardEntity {
+        return cardDao.fetchCardDetails(cardId)
+    }
 }

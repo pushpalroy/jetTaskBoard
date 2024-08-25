@@ -10,7 +10,7 @@ class BoardMapper @Inject constructor() : EntityMapper<BoardEntity, BoardModel> 
             boardId = entity.id ?: 0,
             title = entity.title,
             description = entity.title,
-            workSpaceId = entity.id ?: 0,
+            workSpaceId = entity.id?.toInt() ?: 0,
             isFav = 0
         )
     }
