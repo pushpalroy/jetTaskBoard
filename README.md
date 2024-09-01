@@ -1,5 +1,4 @@
-This repository is no longer maintained and has been migrated to Compose Multiplatform: [JetTaskBoardKMP](https://github.com/pushpalroy/JetTaskBoardKMP).
-All new updates and improvements are done in the JetTaskBoardKMP repo.
+A KMP version of this project is available here: [JetTaskBoardKMP](https://github.com/pushpalroy/JetTaskBoardKMP).
 
 ![](https://user-images.githubusercontent.com/110823088/195292319-a23c6bc7-ca92-4c11-8917-efe216d26c63.png)
 
@@ -7,14 +6,14 @@ All new updates and improvements are done in the JetTaskBoardKMP repo.
 
 ## 📋 JetTaskBoard - Android Trello clone
 
-  <p align="left"> A clone of Android Trello app with adaptive UI built using Jetpack compose. The application is responsive to adapt to a wide range of screen sizes. The demo is shown on a 13.5" inch Freeform emulator.</p>
+  <p> A clone of Android Trello app with adaptive UI built using Jetpack compose. The application is responsive to adapt to a wide range of screen sizes. The demo is shown on a 13.5" inch Freeform emulator.</p>
 
-  <p align="left">
+  <p>
       <a href = "https://developer.android.com/jetpack/androidx/versions/all-channel#february_23_2022">
-        <img src = "https://img.shields.io/badge/Jetpack%20Compose-1.4.2-blue.svg?color=blue&style=for-the-badge" />
+        <img src = "https://img.shields.io/badge/Jetpack%20Compose-1.5.15-blue.svg?color=blue&style=for-the-badge" />
       </a>
       <a href="https://kotlinlang.org/docs/releases.html">
-        <img src="https://img.shields.io/badge/Kotlin-1.8.10-blue.svg?color=blue&style=for-the-badge"/>
+        <img src="https://img.shields.io/badge/Kotlin-2.0.0-blue.svg?color=blue&style=for-the-badge"/>
       </a>
       <a href = "https://github.com/pushpalroy/jetTaskBoard/stargazers">
         <img src="https://img.shields.io/github/stars/pushpalroy/jetTaskBoard?color=green&style=for-the-badge" />
