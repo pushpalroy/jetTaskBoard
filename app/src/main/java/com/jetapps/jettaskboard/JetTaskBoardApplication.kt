@@ -10,8 +10,9 @@ class JetTaskBoardApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        if (BuildConfig.DEBUG) {
-            Timber.plant(DebugTree())
-        }
+        // Todo: Plant the Timber
+//        if (BuildConfig.DEBUG) {
+//            Timber.plant(DebugTree())
+//        }
     }
 }

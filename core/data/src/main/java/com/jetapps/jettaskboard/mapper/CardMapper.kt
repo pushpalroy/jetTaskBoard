@@ -4,11 +4,13 @@ import com.jetapps.jettaskboard.local.entity.CardEntity
 import com.jetapps.jettaskboard.model.CardModel
 import javax.inject.Inject
 
-class CardMapper @Inject constructor() : EntityMapper<CardModel, CardEntity> {
+class CardMapper @Inject constructor(
+    private val labelMapper: LabelMapper,
+) : EntityMapper<CardModel, CardEntity> {
 
     override fun mapToDomain(entity: CardEntity): CardModel {
         return CardModel(
-            entity.id,
+            entity.cardId,
             entity.title,
             entity.description,
             entity.coverImageUrl,
@@ -23,15 +25,35 @@ class CardMapper @Inject constructor() : EntityMapper<CardModel, CardEntity> {
 
     override fun mapToData(model: CardModel): CardEntity {
         return CardEntity(
-            model.id,
-            model.title,
-            model.description,
-            model.coverImageUrl,
-            model.boardId,
-            model.listId,
-            model.authorId,
-            model.startDate,
-            model.dueDate
+            title = model.title,
+            description = model.description,
+            coverImageUrl = model.coverImageUrl,
+            boardId = model.boardId,
+            listId = model.listId,
+            authorId = model.authorId,
+            startDate = model.startDate,
+            dueDate = model.dueDate
         )
     }
 }
+
+/**
+ * When creating a new Card, we don't want to pass the Id,
+ * But for updating the card we need Id
+ * Creating a extension function for updating the card and
+ * Mapper Class for new card creation.
+ */
+fun CardModel.mapToDomain(): CardEntity {
+    return CardEntity(
+        cardId = id,
+        title = title,
+        description = description,
+        coverImageUrl = coverImageUrl,
+        boardId = boardId,
+        listId = listId,
+        authorId = authorId,
+        startDate = startDate,
+        dueDate = dueDate
+    )
+}
+

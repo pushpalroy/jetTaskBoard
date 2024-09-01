@@ -8,8 +8,9 @@ import com.jetapps.jettaskboard.model.CardModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class CardRepoImpl(
+class CardRepoImpl @Inject constructor(
     private val cardDao: CardDao,
     private val entityMapper: EntityMapper<CardModel, CardEntity>,
     private val dispatcherProvider: CoroutineDispatcherProvider
@@ -26,6 +27,12 @@ class CardRepoImpl(
             cardDao.getAllCardsForBoard(boardId)
         }.mapLatest { cardEntityList ->
             cardEntityList.map { entityMapper.mapToDomain(it) }
+        }
+    }
+
+    override suspend fun fetchCardDetails(cardId: Long): CardModel {
+        return withContext(dispatcherProvider.io) {
+            entityMapper.mapToDomain(cardDao.fetchCardDetails(cardId))
         }
     }
 }

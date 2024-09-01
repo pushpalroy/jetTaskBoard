@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
     tableName = "memberTable"
 )
 data class MemberEntity(
-    @PrimaryKey val id: String,
+    @PrimaryKey val id: Int,
     @ColumnInfo(name = "member_name")
     val memberName: String,
     @ColumnInfo(name = "member_photo_url")

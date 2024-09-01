@@ -10,7 +10,11 @@ import androidx.compose.material.icons.filled.Clear
 import androidx.compose.runtime.Composable
 
 @Composable
-fun CreateBoardTopBar(title: String, onCancelClick: () -> Unit) {
+fun CreateBoardTopBar(
+    title: String,
+    onCancelClick: () -> Unit,
+    onCreateBoardClick: () -> Unit,
+) {
     TopAppBar(
         title = { Text(title) },
         navigationIcon = {
@@ -19,7 +23,7 @@ fun CreateBoardTopBar(title: String, onCancelClick: () -> Unit) {
             }
         },
         actions = {
-            IconButton(onClick = { /*TODO Goto Boards screen*/ }, enabled = false) {
+            IconButton(onClick = onCreateBoardClick, enabled = true) {
                 Icon(imageVector = Icons.Filled.Add, contentDescription = "Create board")
             }
         }

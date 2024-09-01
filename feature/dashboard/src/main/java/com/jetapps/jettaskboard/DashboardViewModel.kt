@@ -1,46 +1,62 @@
 package com.jetapps.jettaskboard
 
-import androidx.compose.runtime.mutableStateListOf
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.mutableStateListOf // ktlint-disable import-ordering
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jetapps.jettaskboard.model.Board
-import com.jetapps.jettaskboard.model.BoardListModel
-import com.jetapps.jettaskboard.util.BoardList
+import com.jetapps.jettaskboard.model.BoardModel
+import com.jetapps.jettaskboard.model.ProfileModel
+import com.jetapps.jettaskboard.usecase.dashboard.FetchAllBoardsUseCase
+import com.jetapps.jettaskboard.usecase.dashboard.FetchProfileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle
+    private val fetchAllBoardsUseCase: FetchAllBoardsUseCase,
+    private val fetchProfileUseCase: FetchProfileUseCase,
 ) : ViewModel() {
+
+    init {
+        fetchProfile()
+        getBoardListData()
+    }
 
     var toggleDrawerContent = mutableStateOf(true)
 
-    private val _listOfBoards: MutableList<Board> = mutableStateListOf()
-    val listOfBoards: List<Board> = _listOfBoards
+    private val _listOfBoards: MutableStateFlow<List<BoardModel>> = MutableStateFlow(emptyList())
+    val listOfBoards: StateFlow<List<BoardModel>> = _listOfBoards.asStateFlow()
+
+    private val _profileFlow: MutableStateFlow<ProfileModel?> = MutableStateFlow(null)
+    val profileFlow: StateFlow<ProfileModel?> = _profileFlow
 
     /**
      * A list of Boards to show on the dashboard
      */
-    fun getBoardListData() {
+    private fun getBoardListData() {
         viewModelScope.launch {
-            // Trigger repository requests in parallel
-            val boardDeferred = async { getFakeBoardList() }
-
-            // Wait for all requests to finish
-            val boardList = boardDeferred.await().successOr(BoardListModel())
-            if (_listOfBoards.isEmpty()) {
-                _listOfBoards.addAll(boardList.listOfBoards)
-            }
+            fetchAllBoardsUseCase.invoke()
+                .collect { boardList ->
+                    _listOfBoards.emit(
+                        boardList
+                    )
+                }
         }
     }
 
-    private fun getFakeBoardList(): Result<BoardListModel> {
-        return Result.Success(BoardList)
+    private fun fetchProfile() {
+        viewModelScope.launch {
+            val profile = fetchProfileUseCase.invoke()
+//            _profileFlow.emit(
+//                profile
+//            )
+        }
     }
 }

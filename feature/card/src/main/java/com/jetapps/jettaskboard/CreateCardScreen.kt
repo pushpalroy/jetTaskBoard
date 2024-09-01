@@ -1,6 +1,6 @@
 package com.jetapps.jettaskboard
 
-import android.app.Activity
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,6 +21,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
+import androidx.compose.material3.adaptive.layout.AnimatedPane
+import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
+import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,22 +33,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
-import com.google.accompanist.adaptive.TwoPane
-import com.google.accompanist.adaptive.calculateDisplayFeatures
-import com.jetapps.jettaskboard.carddetailscomponents.ItemRow
-import com.jetapps.jettaskboard.carddetailscomponents.TimeItemRow
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.jetapps.jettaskboard.carddetailscomponents.components.ItemRow
+import com.jetapps.jettaskboard.carddetailscomponents.components.TimeItemRow
 import com.jetapps.jettaskboard.feature.card.R
-import com.jetapps.jettaskboard.theme.DefaultTaskBoardBGColor
-import com.jetapps.jettaskboard.theme.LabelOrange
+import com.jetapps.jettaskboard.model.BoardModel
+import com.jetapps.jettaskboard.model.ListModel
 import com.jetapps.jettaskboard.theme.SecondaryColor
 import com.vanpra.composematerialdialogs.MaterialDialog
-import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 
 @Composable
@@ -67,7 +67,10 @@ fun CreateCardRoute(
                 },
                 title = { Text(text = "New Card") },
                 actions = {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = {
+                        viewModel.submitCard()
+                        onCancelClick()
+                    }) {
                         Icon(
                             Icons.Default.Check,
                             contentDescription = ""
@@ -77,102 +80,98 @@ fun CreateCardRoute(
             )
         }
     ) {
-        AdaptiveCreateCardContent(isExpandedScreen, viewModel)
+        AdaptiveCreateCardContent(
+            modifier = modifier.padding(it),
+            isExpandedScreen, viewModel
+        )
     }
 }
 
+@OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 fun AdaptiveCreateCardContent(
+    modifier: Modifier,
     isExpandedScreen: Boolean,
     viewModel: CardViewModel
 ) {
-    if (isExpandedScreen.not()) {
-        CreateCardContent(viewModel)
-    } else {
-        CreateCardTwoPaneContent(viewModel)
+    val navigator = rememberListDetailPaneScaffoldNavigator<String>()
+    val boardAndListData by viewModel.createCardStates.collectAsStateWithLifecycle()
+
+    BackHandler(navigator.canNavigateBack()) {
+        navigator.navigateBack()
     }
-}
 
-@Composable
-fun CreateCardContent(viewModel: CardViewModel) {
-    Column(
-        modifier = Modifier
-            .background(MaterialTheme.colors.background)
-            .fillMaxSize()
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(16.dp)
-        ) {
-            val boardList = mapOf(
-                DefaultTaskBoardBGColor to "Praxis",
-                SecondaryColor to "Discord Clone",
-                LabelOrange to "Trello Workspace"
-            )
-
-            val visibilityList = mapOf(
-                "ToDo Items" to "",
-                "Doing" to "",
-                "Done" to ""
-            )
-
-            CreateBoardDropDown(
-                headingText = "Board",
-                contentMap = boardList
-            )
-
-            CreateFormDropDown(
-                headingText = "List",
-                contentMap = visibilityList
-            )
-        }
-
-        CardInfoBox(viewModel)
-    }
-}
-
-@Composable
-fun CreateCardTwoPaneContent(viewModel: CardViewModel) {
-    val context = LocalContext.current
-    TwoPane(
-        first = {
-            Column(
-                modifier = Modifier
-                    .padding(16.dp)
-            ) {
-                val boardList = mapOf(
-                    DefaultTaskBoardBGColor to "Praxis",
-                    SecondaryColor to "Discord Clone",
-                    LabelOrange to "Trello Workspace"
-                )
-                val visibilityList = mapOf(
-                    "ToDo Items" to "",
-                    "Doing" to "",
-                    "Done" to ""
-                )
-                CreateBoardDropDown(
-                    headingText = "Board",
-                    contentMap = boardList
-                )
-                CreateFormDropDown(
-                    headingText = "List",
-                    contentMap = visibilityList
+    ListDetailPaneScaffold(
+        modifier = modifier,
+        directive = navigator.scaffoldDirective,
+        value = navigator.scaffoldValue,
+        listPane = {
+            AnimatedPane {
+                CardMainPane(
+                    viewModel = viewModel,
+                    isExpanded = isExpandedScreen,
+                    boardMapList = boardAndListData.boards,
+                    listMapList = boardAndListData.lists
                 )
             }
         },
-        second = {
-            CardInfoBox(viewModel)
+        detailPane = {
+            AnimatedPane {
+                CardDetailPane(viewModel = viewModel)
+            }
         },
-        strategy = { density, layoutDirection, layoutCoordinates ->
-            HorizontalTwoPaneStrategy(splitFraction = .5f)
-                .calculateSplitResult(density, layoutDirection, layoutCoordinates)
-        },
-        displayFeatures = calculateDisplayFeatures(activity = context as Activity)
     )
 }
 
 @Composable
-fun CardInfoBox(viewModel: CardViewModel) {
+fun CardMainPane(
+    modifier: Modifier = Modifier,
+    isExpanded: Boolean = false,
+    viewModel: CardViewModel,
+    boardMapList: Map<Color, BoardModel>,
+    listMapList: Map<String, ListModel>
+) {
+    Column(
+        modifier = modifier
+            .background(MaterialTheme.colors.background)
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        CreateBoardDropDown(
+            headingText = "Board",
+            contentMap = boardMapList,
+            onBoardSelected = { boardModel ->
+                viewModel.setupSelectedBoard(boardModel)
+            }
+        )
+
+        CreateBoardListFormDropDown(
+            headingText = "List",
+            contentMap = listMapList,
+            onListSelected = { listModel ->
+                viewModel.setupSelectedList(listModel)
+            }
+        )
+
+        if (!isExpanded) {
+            CardInfoBox(viewModel)
+        }
+    }
+}
+
+@Composable
+fun CardDetailPane(
+    modifier: Modifier = Modifier,
+    viewModel: CardViewModel
+) {
+    CardInfoBox(viewModel)
+}
+
+@Composable
+fun CardInfoBox(
+    viewModel: CardViewModel,
+) {
+    // Todo(Niket) : Find a better way to pass the text values.
     var textCardName by remember { mutableStateOf(TextFieldValue("")) }
     var textDescription by remember { mutableStateOf(TextFieldValue("")) }
     val dialogState = rememberMaterialDialogState()
@@ -200,6 +199,7 @@ fun CardInfoBox(viewModel: CardViewModel) {
                     value = textCardName,
                     onValueChange = {
                         textCardName = it
+                        viewModel.setUpNewCardTitle(it.text)
                     },
                     label = { Text(text = "Card Name") },
                     colors = TextFieldDefaults.textFieldColors(
@@ -219,6 +219,7 @@ fun CardInfoBox(viewModel: CardViewModel) {
                     value = textDescription,
                     onValueChange = {
                         textDescription = it
+                        viewModel.setUpNewCardDescription(it.text)
                     },
                     label = { Text(text = "Description") },
                     colors = TextFieldDefaults.textFieldColors(
@@ -255,17 +256,18 @@ fun CardInfoBox(viewModel: CardViewModel) {
                             negativeButton("Cancel")
                         }
                     ) {
-                        datepicker {
-                            // Do something with the date
-                            if (viewModel.isTopText.value) viewModel.startDateText.value =
-                                "Starts on ${it.dayOfMonth} ${
-                                (it.month).toString().lowercase()
-                                }, ${it.year}"
-                            if (viewModel.isBottomText.value) viewModel.dueDateText.value =
-                                "Due on ${it.dayOfMonth} ${
-                                (it.month).toString().lowercase()
-                                }, ${it.year}"
-                        }
+                        // Todo(Niket): Implement the material official date-picker
+//                        datepicker {
+//                            // Do something with the date
+//                            if (viewModel.isTopText.value) viewModel.startDateText.value =
+//                                "Starts on ${it.dayOfMonth} ${
+//                                    (it.month).toString().lowercase()
+//                                }, ${it.year}"
+//                            if (viewModel.isBottomText.value) viewModel.dueDateText.value =
+//                                "Due on ${it.dayOfMonth} ${
+//                                    (it.month).toString().lowercase()
+//                                }, ${it.year}"
+//                        }
                     }
                 }
 

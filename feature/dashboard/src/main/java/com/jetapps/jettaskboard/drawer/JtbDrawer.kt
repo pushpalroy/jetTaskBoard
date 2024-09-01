@@ -37,8 +37,6 @@ import com.jetapps.jettaskboard.theme.drawer_dark_surface
 fun JtbDrawer(
     modifier: Modifier,
     viewModel: DashboardViewModel,
-    isExpandedScreen: Boolean = false,
-    isMenuClickedInExpandedMode: Boolean = false
 ) {
     val scrollState = rememberScrollState()
 
@@ -48,23 +46,10 @@ fun JtbDrawer(
             .fillMaxHeight()
             .background(color = drawer_dark_surface)
     ) {
-        if (isExpandedScreen.not()) {
-            OpenDrawerInExpandedMode(
-                modifier = Modifier,
-                viewModel = viewModel
-            )
-        } else {
-            if (isMenuClickedInExpandedMode.not()) {
-                OpenDrawerInExpandedMode(
-                    modifier = Modifier,
-                    viewModel = viewModel
-                )
-            } else {
-                ClosedDrawerInExpandedMode(
-                    Modifier.align(Alignment.Center)
-                )
-            }
-        }
+        OpenDrawerInExpandedMode(
+            modifier = Modifier,
+            viewModel = viewModel
+        )
     }
 }
 

@@ -8,7 +8,8 @@ import androidx.room.PrimaryKey
     tableName = "labelTable"
 )
 data class LabelEntity(
-    @PrimaryKey val id: String,
+    @PrimaryKey
+    val id: Int,
     @ColumnInfo(name = "label_name")
     val labelName: String,
     @ColumnInfo(name = "label_color")

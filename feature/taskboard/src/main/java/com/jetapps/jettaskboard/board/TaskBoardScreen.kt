@@ -28,6 +28,7 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -58,10 +59,11 @@ fun TaskBoardRoute(
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
     isExpandedScreen: Boolean,
-    navigateToCreateCard: (String) -> Unit = {},
+    navigateToCreateCard: (boardId: Long, listId: Long, cardId: Long) -> Unit,
     navigateToChangeBackgroundScreen: (String) -> Unit = {},
     backgroundColor: Color = MaterialTheme.colors.surface,
-    viewModel: TaskBoardViewModel = hiltViewModel()
+    viewModel: TaskBoardViewModel = hiltViewModel(),
+    boardId: Long? = 0
 ) {
     val expandedScreenState = viewModel.drawerScreenState.value
     val scaffoldState = rememberScaffoldState()
@@ -77,7 +79,7 @@ fun TaskBoardRoute(
             TopAppBar(
                 isExpandedScreen = isExpandedScreen,
                 onBackClick = onBackClick,
-                title = viewModel.boardInfo.value.second,
+                title = viewModel.boardTitle,
                 navigateToChangeBackgroundScreen = { passedString ->
                     navigateToChangeBackgroundScreen(passedString)
                 },
@@ -143,7 +145,8 @@ fun TaskBoardRoute(
                         modifier = Modifier.fillMaxSize(),
                         navigateToCreateCard = navigateToCreateCard,
                         viewModel = viewModel,
-                        isExpandedScreen = isExpandedScreen
+                        isExpandedScreen = isExpandedScreen,
+                        boardId = boardId ?: 0
                     )
                 }
 
@@ -176,6 +179,7 @@ fun TaskBoardRoute(
                                         }
                                     )
                                 }
+
                                 ExpandedBoardDrawerState.CHANGE_BACKGROUND_SCREEN_STATE -> {
                                     ChangeBoardBackgroundRoute(
                                         onBackClick = {
@@ -185,12 +189,15 @@ fun TaskBoardRoute(
                                         }
                                     )
                                 }
+
                                 ExpandedBoardDrawerState.FILTER_SCREEN_STATE -> {
                                     // Do Nothing
                                 }
+
                                 ExpandedBoardDrawerState.AUTOMATION_SCREEN_STATE -> {
                                     // Do Nothing
                                 }
+
                                 ExpandedBoardDrawerState.POWER_UP_SCREEN_STATE -> {
                                     // Do Nothing
                                 }

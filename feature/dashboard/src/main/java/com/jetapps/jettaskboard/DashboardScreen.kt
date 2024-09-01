@@ -1,39 +1,48 @@
 package com.jetapps.jettaskboard
 
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.SpringSpec
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.foundation.layout.Column
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.DrawerState
 import androidx.compose.material.DrawerValue
 import androidx.compose.material.FabPosition
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.NavigationRail
+import androidx.compose.material.NavigationRailItem
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.material.rememberDrawerState
 import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
+import androidx.compose.material3.adaptive.layout.AnimatedPane
+import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
+import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffoldLayout
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.window.core.layout.WindowWidthSizeClass
 import com.google.accompanist.insets.ui.Scaffold
 import com.jetapps.jettaskboard.component.DashboardAppBar
+import com.jetapps.jettaskboard.component.NavigationTrailItems
 import com.jetapps.jettaskboard.component.multifab.FabIcon
 import com.jetapps.jettaskboard.component.multifab.FabOption
 import com.jetapps.jettaskboard.component.multifab.MultiFabItem
@@ -48,123 +57,158 @@ fun DashboardRoute(
     modifier: Modifier = Modifier,
     viewModel: DashboardViewModel = hiltViewModel(),
     navigateToTaskBoard: (String) -> Unit = {},
-    navigateToCreateCard: (String) -> Unit = {},
-    navigateToCreateBoard: (String) -> Unit = {},
+    navigateToCreateCard: () -> Unit = {},
+    navigateToCreateBoard: () -> Unit = {},
     navigateToSearchScreen: (String) -> Unit = {},
     isExpandedScreen: Boolean
 ) {
-    var isMenuClickedInExpandedMode by remember { mutableStateOf(false) }
+    val scaffoldState = rememberSizeAwareScaffoldState(isExpandedScreen)
+    val adaptiveInfo = currentWindowAdaptiveInfo()
+    val scope = rememberCoroutineScope()
+    var selectedItemIndex by remember { mutableIntStateOf(0) }
 
-    LaunchedEffect(Unit) {
-        viewModel.apply {
-            getBoardListData()
+
+    val customNavSuiteType = with(adaptiveInfo) {
+        if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.EXPANDED) {
+            NavigationSuiteType.NavigationRail
+        } else {
+            NavigationSuiteType.None
         }
     }
+
+
+    // Todo(Niket) : Write a custom Nav Drawer to provide pixel perfect animations
+//    val permanentNavDrawerWidth by animateDpAsState(
+//        targetValue = if (scaffoldState.drawerState.isClosed) 0.dp else 320.dp,
+//        animationSpec = SpringSpec(
+//            dampingRatio = 0.5f,
+//            stiffness = Spring.StiffnessHigh
+//        ), label = "nav_drawer_width"
+//    )
 
     Surface(
         modifier = modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
     ) {
-        val scaffoldState = rememberSizeAwareScaffoldState(isExpandedScreen)
-        val scope = rememberCoroutineScope()
-
-        Scaffold(
-            scaffoldState = scaffoldState,
-            modifier = Modifier,
-            topBar = {
-                DashboardAppBar(
-                    isExpandedScreen = isExpandedScreen,
-                    onMenuIconClick = {
-                        scope.launch {
-                            if (isExpandedScreen.not()) {
-                                scaffoldState.drawerState.open()
-                            } else {
-                                isMenuClickedInExpandedMode = isMenuClickedInExpandedMode.not()
-                            }
+        NavigationSuiteScaffoldLayout(
+            layoutType = customNavSuiteType,
+            navigationSuite = {
+                if (customNavSuiteType == NavigationSuiteType.NavigationRail) {
+                    NavigationRail {
+                        Spacer(Modifier.weight(1f))
+                        NavigationTrailItems.entries.forEachIndexed { index, navigationTrailItems ->
+                            NavigationRailItem(
+                                selected = index == selectedItemIndex,
+                                onClick = {
+                                    selectedItemIndex = index
+                                },
+                                icon = {
+                                    Icon(
+                                        imageVector = navigationTrailItems.icon,
+                                        contentDescription = navigationTrailItems.title
+                                    )
+                                },
+                                label = {
+                                    Text(text = navigationTrailItems.title)
+                                }
+                            )
                         }
-                    },
-                    onSearchIconClicked = {
-                        navigateToSearchScreen("")
-                    },
-                    onNotificationIconClicked = {}
-                )
+                        Spacer(Modifier.weight(1f))
+                    }
+                }
             },
-            // Gestures are enabled only on smaller and medium screens
-            drawerGesturesEnabled = isExpandedScreen.not(),
-            drawerShape = JtbDrawerShape(),
-            drawerContent = {
-                // Modal drawer is available only on smaller and medium screens
-                if (isExpandedScreen.not()) {
-                    JtbDrawer(
-                        modifier = Modifier.fillMaxSize(),
+            content = {
+                Scaffold(
+                    scaffoldState = scaffoldState,
+                    modifier = Modifier,
+                    topBar = {
+                        DashboardAppBar(
+                            onMenuIconClick = {
+                                scope.launch {
+                                    scaffoldState.drawerState.open()
+                                }
+                            },
+                            onSearchIconClicked = {
+                                navigateToSearchScreen("")
+                            },
+                            onNotificationIconClicked = {}
+                        )
+                    },
+                    drawerGesturesEnabled = true,
+                    drawerShape = JtbDrawerShape(),
+                    drawerContent = {
+                        JtbDrawer(
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .fillMaxWidth(),
+                            viewModel = viewModel,
+                        )
+                    },
+                    floatingActionButtonPosition = FabPosition.End,
+                    floatingActionButton = {
+                        MultiFab(
+                            navigateToCreateCard,
+                            navigateToCreateBoard
+                        )
+                    }
+                ) { scaffoldPadding ->
+                    AdaptiveDashboardContent(
                         viewModel = viewModel,
-                        isExpandedScreen = isExpandedScreen
+                        isExpandedScreen = isExpandedScreen,
+                        contentPadding = scaffoldPadding,
+                        navigateToTaskBoard = navigateToTaskBoard,
+                        createBoard = navigateToCreateBoard,
+                        createCard = navigateToCreateCard
                     )
                 }
             },
-            floatingActionButtonPosition = FabPosition.End,
-            floatingActionButton = {
-                MultiFab(
-                    navigateToCreateCard,
-                    navigateToCreateBoard
-                )
-            }
-        ) { scaffoldPadding ->
-            val permanentNavDrawerWidth by animateDpAsState(
-                targetValue = if (isMenuClickedInExpandedMode) 80.dp else 320.dp,
-                animationSpec = SpringSpec(
-                    dampingRatio = 0.5f,
-                    stiffness = Spring.StiffnessLow
-                )
-            )
-            Row(Modifier.fillMaxSize()) {
-                // Show permanent drawer only for large screens
-                if (isExpandedScreen) {
-                    Column(
-                        Modifier.width(permanentNavDrawerWidth)
-                    ) {
-                        Spacer(modifier = Modifier.height(56.dp))
-                        JtbDrawer(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .fillMaxHeight(),
-                            viewModel = viewModel,
-                            isExpandedScreen = true,
-                            isMenuClickedInExpandedMode = isMenuClickedInExpandedMode
-                        )
-                    }
-                }
-                AdaptiveDashboardContent(
-                    viewModel = viewModel,
-                    isExpandedScreen = isExpandedScreen,
-                    contentPadding = scaffoldPadding,
-                    navigateToTaskBoard = navigateToTaskBoard
-                )
-            }
-        }
+        )
     }
 }
 
+@OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 fun AdaptiveDashboardContent(
     isExpandedScreen: Boolean,
     contentPadding: PaddingValues,
     viewModel: DashboardViewModel,
-    navigateToTaskBoard: (String) -> Unit = {}
+    navigateToTaskBoard: (String) -> Unit = {},
+    createBoard: () -> Unit,
+    createCard: () -> Unit,
 ) {
-    if (isExpandedScreen.not()) {
-        DashboardSinglePaneContent(
-            paddingValues = contentPadding,
-            viewModel = viewModel,
-            navigateToTaskBoard = navigateToTaskBoard
-        )
-    } else {
-        DashboardTwoPaneContent(
-            paddingValues = contentPadding,
-            viewModel = viewModel,
-            navigateToTaskBoard = navigateToTaskBoard
-        )
+    //Todo(Niket): Write a detail blog on PaneScaffold Api
+//    val navigator = rememberSupportingPaneScaffoldNavigator<String>()
+    val navigator = rememberListDetailPaneScaffoldNavigator<String>()
+    val boardList by viewModel.listOfBoards.collectAsStateWithLifecycle()
+
+    BackHandler(navigator.canNavigateBack()) {
+        navigator.navigateBack()
     }
+
+    ListDetailPaneScaffold(
+        modifier = Modifier.padding(contentPadding),
+        directive = navigator.scaffoldDirective,
+        value = navigator.scaffoldValue,
+        listPane = {
+            AnimatedPane {
+                DashboardMainPaneContent(
+                    isExpanded = isExpandedScreen,
+                    navigateToTaskBoard = navigateToTaskBoard,
+                    boardList = boardList,
+                    createBoard = createBoard
+                )
+            }
+        },
+        detailPane = {
+            AnimatedPane {
+                DashboardDetailPane(
+                    navigateToTaskBoard = navigateToTaskBoard,
+                    boardList,
+                    createCard
+                )
+            }
+        },
+    )
 }
 
 @Composable
@@ -189,8 +233,8 @@ private fun rememberSizeAwareScaffoldState(
 
 @Composable
 private fun MultiFab(
-    navigateToCreateCard: (String) -> Unit = {},
-    navigateToCreateBoard: (String) -> Unit = {}
+    navigateToCreateCard: () -> Unit = {},
+    navigateToCreateBoard: () -> Unit = {}
 ) {
     MultiFloatingActionButton(
         fabIcon = FabIcon(
@@ -215,9 +259,9 @@ private fun MultiFab(
         ),
         onFabItemClicked = { item ->
             if (item.id == 1) {
-                navigateToCreateBoard("")
+                navigateToCreateBoard()
             } else {
-                navigateToCreateCard("")
+                navigateToCreateCard()
             }
         }
     )

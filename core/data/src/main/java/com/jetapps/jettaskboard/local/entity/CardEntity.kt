@@ -6,31 +6,16 @@ import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "cardTable"
-    // foreignKeys = [
-    //   ForeignKey(
-    //     entity = BoardEntity::class,
-    //     parentColumns = ["id"],
-    //     childColumns = ["board_id"],
-    //     onDelete = ForeignKey.CASCADE
-    //   ),
-    //   ForeignKey(
-    //     entity = ListEntity::class,
-    //     parentColumns = ["id"],
-    //     childColumns = ["list_id"],
-    //     onDelete = ForeignKey.CASCADE
-    //   )
-    // ]
 )
 data class CardEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int,
+    @PrimaryKey(autoGenerate = true)
+    val cardId: Long = 0,
     val title: String,
     val description: String?,
     @ColumnInfo(name = "column_image_url")
     val coverImageUrl: String?,
-    @ColumnInfo(name = "board_id")
-    val boardId: String?,
-    @ColumnInfo(name = "list_id")
-    val listId: Int?,
+    val boardId: Long,
+    val listId: Long,
     @ColumnInfo(name = "author_id")
     val authorId: String?,
     @ColumnInfo(name = "start_date")

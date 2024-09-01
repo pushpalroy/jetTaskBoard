@@ -8,6 +8,7 @@ import retrofit2.http.POST
 import retrofit2.http.Query
 
 const val UNSPLASH_BASE_URL = "https://api.unsplash.com/"
+// TODO : Update and hide the key
 const val CLIENT_ID = "vJKXBk2ks9uUNHLhSRitTTZ8DIOg05ZofrqJCBkEgL8"
 
 const val GET_RANDOM_PHOTO_LIST = "photos/random"
